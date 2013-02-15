@@ -1,3 +1,5 @@
+package FrequencyCounter;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -52,6 +54,8 @@ public class FrequencyCounter
 					break;
 				}
 			}
+
+			System.out.println(holder.size());
 
 			ArrayList<String> sorter = new ArrayList<String>(holder.keySet());
 
