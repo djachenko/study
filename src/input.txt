@@ -1,0 +1,5 @@
+INIT = LogoWorld.Init
+MOVE = LogoWorld.Move
+DRAW = LogoWorld.Draw
+WARD = LogoWorld.Ward
+TELEPORT = LogoWorld.Teleport
