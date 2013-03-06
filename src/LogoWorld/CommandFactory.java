@@ -12,9 +12,12 @@ public class CommandFactory
 
 	CommandFactory(String configName)
 	{
+		props = new Properties();
+
 		try (InputStream configFile = ClassLoader.getSystemResourceAsStream(configName))
 		{
 			props.load(configFile);
+			props.list(System.out);
 		}
 		catch (IOException excptn)
 		{
@@ -26,7 +29,7 @@ public class CommandFactory
 	{
 		try
 		{
-			Class currentCommand = Class.forName(name);
+			Class currentCommand = Class.forName(props.getProperty(name));
 
 			commands.put(name, currentCommand);
 		}
@@ -39,7 +42,7 @@ public class CommandFactory
 
 	public Command get(String name)
 	{
-		if (!commands.containsValue(name))
+		if (!commands.containsKey(name))
 		{
 			set(name);
 		}
@@ -48,12 +51,7 @@ public class CommandFactory
 		{
 			return commands.get(name).newInstance();
 		}
-		catch (InstantiationException e)
-		{
-			System.out.println("Something happened while command instantiantion " + e.getLocalizedMessage());
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException e)
 		{
 			System.out.println("Something happened while command instantiantion " + e.getLocalizedMessage());
 			e.printStackTrace();

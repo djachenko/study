@@ -2,5 +2,5 @@ package LogoWorld;
 
 interface Command
 {
-	void run(String[] args);
+	void run(Drawer AI, String[] args);
 }

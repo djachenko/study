@@ -2,51 +2,65 @@ package LogoWorld;
 
 public class Drawer
 {
-	private boolean [][] field;
+	private boolean[][] field;
 	private int x;
 	private int y;
+	private boolean state;
 
-	Drawer(int width, int height, int x, int y)
+	Drawer()
+	{
+	}
+
+	public void init(int width, int height, int x, int y)
 	{
 		field = new boolean[height][];
 
-		for(int i = 0; i < x; i++)
+		for (int i = 0; i < x; i++)
 		{
 			field[i] = new boolean[width];
 		}
 
 		this.x = x;
 		this.y = y;
+		state = false;
 	}
 
-	public void set()
+	public void setState(boolean state)
 	{
-		field[x][y] = true;
+		this.state = state;
 	}
 
-	public void unset()
+	public void setCell()
 	{
-		field[x][y] = false;
+		field[x][y] = this.state;
 	}
-
 
 	public void move(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		this.x = (x + field[0].length) % field[0].length;
+		this.y = (y + field.length) % field.length;
+	}
+
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
 	}
 
 	public void draw()
 	{
-		for (int i = 0; i < field.length; i++)
+		for (boolean[] line : field)
 		{
-			for (int j = 0; j < field[i].length; j++)
+			for (boolean cell : line)
 			{
-				if (field[i][j])
+				if (cell)
 				{
 					System.out.print(' ');
-				}
-				else
+				} else
 				{
 					System.out.print('X');
 				}
