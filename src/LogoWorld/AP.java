@@ -51,22 +51,18 @@ public class AP
 		return y;
 	}
 
-	public void draw()
+	public boolean getCell(int x, int y)
 	{
-		for (boolean[] line : field)
-		{
-			for (boolean cell : line)
-			{
-				if (cell)
-				{
-					System.out.print(' ');
-				} else
-				{
-					System.out.print('X');
-				}
-			}
+		return field[x][y];
+	}
 
-			System.out.println();
-		}
+	public int getWidth()
+	{
+		return field[0].length;
+	}
+
+	public int getHeight()
+	{
+		return field.length;
 	}
 }

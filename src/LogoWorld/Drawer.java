@@ -2,4 +2,22 @@ package LogoWorld;
 
 public class Drawer
 {
+	public void draw(AP ap)
+	{
+		for (int i = 0; i < ap.getHeight(); i++)
+		{
+			for (int j = 0; j < ap.getWidth(); j++)
+			{
+				if (ap.getCell(i, j))
+				{
+					System.out.print(' ');
+				} else
+				{
+					System.out.print('X');
+				}
+			}
+
+			System.out.println();
+		}
+	}
 }
