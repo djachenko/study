@@ -13,16 +13,21 @@ public class AP
 
 	public void init(int width, int height, int x, int y)
 	{
-		field = new boolean[height][];
+		field = new boolean[height][width];
 
-		for (int i = 0; i < x; i++)
+		for (boolean[] line : field)
 		{
-			field[i] = new boolean[width];
+			for (int i = 0; i < line.length; i++)
+			{
+				line[i] = false;
+			}
 		}
 
 		this.x = x;
 		this.y = y;
 		state = false;
+
+		System.out.println("inited with " + field.length + ' ' + field[0].length);
 	}
 
 	public void setState(boolean state)
@@ -32,7 +37,7 @@ public class AP
 
 	public void setCell()
 	{
-		field[x][y] = this.state;
+		field[y][x] = this.state;
 	}
 
 	public void move(int x, int y)

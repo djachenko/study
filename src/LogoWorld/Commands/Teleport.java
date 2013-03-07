@@ -1,15 +1,15 @@
 package LogoWorld.Commands;
 
-import LogoWorld.Drawer;
+import LogoWorld.AP;
 
 public class Teleport implements Command
 {
 	@Override
-	public void run(Drawer AI, String[] args)
+	public void run(AP ap, String[] args)
 	{
         try
         {
-			AI.move(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+			ap.move(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         }
         catch (NumberFormatException e)
         {

@@ -1,8 +1,8 @@
 package LogoWorld.Commands;
 
-import LogoWorld.Drawer;
+import LogoWorld.AP;
 
 public interface Command
 {
-	void run(Drawer AI, String[] args);
+	void run(AP ap, String[] args);
 }

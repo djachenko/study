@@ -1,11 +1,11 @@
 package LogoWorld.Commands;
 
-import LogoWorld.Drawer;
+import LogoWorld.AP;
 
 public class Init implements Command
 {
     @Override
-	public void run(Drawer AI, String[] args)
+	public void run(AP ap, String[] args)
 	{
 		Integer[] intArgs = new Integer[args.length];
 
@@ -22,6 +22,6 @@ public class Init implements Command
 			}
 		}
 
-		AI.init(intArgs[0], intArgs[1], intArgs[2], intArgs[3]);
+		ap.init(intArgs[0], intArgs[1], intArgs[2], intArgs[3]);
 	}
 }

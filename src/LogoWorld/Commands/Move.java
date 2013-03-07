@@ -1,13 +1,13 @@
 package LogoWorld.Commands;
 
-import LogoWorld.Drawer;
+import LogoWorld.AP;
 
 public class Move implements Command
 {
 	enum Direction{L, R, U, D}
 
 	@Override
-	public void run(Drawer AI, String[] args)
+	public void run(AP ap, String[] args)
 	{
 		Direction dir = Direction.valueOf(args[0]);
 
@@ -16,22 +16,22 @@ public class Move implements Command
 			switch (dir)
 			{
 				case L:
-					AI.move(AI.getX() - 1, AI.getY());
+					ap.move(ap.getX() - 1, ap.getY());
 					break;
 				case R:
-					AI.move(AI.getX() + 1, AI.getY());
+					ap.move(ap.getX() + 1, ap.getY());
 					break;
 				case U:
-					AI.move(AI.getX(), AI.getY() + 1);
+					ap.move(ap.getX(), ap.getY() - 1);
 					break;
 				case D:
-					AI.move(AI.getX(), AI.getY() - 1);
+					ap.move(ap.getX(), ap.getY() + 1);
 					break;
 				default:
 					System.out.println("WTF?");
 			}
 
-			AI.setCell();
+			ap.setCell();
 		}
 	}
 }

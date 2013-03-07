@@ -9,12 +9,13 @@ import java.util.Properties;
 
 public class CommandFactory
 {
-	Properties props;
-	HashMap<String, Class<Command>> commands;
+	private Properties props;
+	private HashMap<String, Class<Command>> commands;
 
 	CommandFactory(String configName)
 	{
 		props = new Properties();
+		commands = new HashMap<>();
 
 		try (InputStream configFile = ClassLoader.getSystemResourceAsStream(configName))
 		{
@@ -33,7 +34,10 @@ public class CommandFactory
 		{
 			Class currentCommand = Class.forName(props.getProperty(name));
 
-			commands.put(name, currentCommand);
+			if (Command.class.isAssignableFrom(currentCommand))
+			{
+				commands.put(name, currentCommand);
+			}
 		}
 		catch (ClassNotFoundException e)
 		{

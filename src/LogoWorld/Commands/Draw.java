@@ -1,12 +1,12 @@
 package LogoWorld.Commands;
 
-import LogoWorld.Drawer;
+import LogoWorld.AP;
 
 public class Draw implements Command
 {
 	@Override
-	public void run(Drawer AI, String[] args)
+	public void run(AP ap, String[] args)
 	{
-		AI.setState(true);
+		ap.setState(true);
 	}
 }
