@@ -1,4 +1,6 @@
-package LogoWorld;
+package LogoWorld.Commands;
+
+import LogoWorld.Drawer;
 
 public class Teleport implements Command
 {

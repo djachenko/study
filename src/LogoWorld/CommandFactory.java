@@ -1,5 +1,7 @@
 package LogoWorld;
 
+import LogoWorld.Commands.Command;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
