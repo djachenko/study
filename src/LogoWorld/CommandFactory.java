@@ -1,6 +1,7 @@
 package LogoWorld;
 
 import LogoWorld.Commands.Command;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +12,8 @@ public class CommandFactory
 {
 	private Properties props;
 	private HashMap<String, Class<Command>> commands;
+
+	private static Logger logger = Logger.getLogger(CommandFactory.class.getName());
 
 	CommandFactory(String configName)
 	{
@@ -26,6 +29,8 @@ public class CommandFactory
 		{
 			System.err.println("Error while opening config file: " + excptn.getLocalizedMessage());
 		}
+
+		System.out.println("Logger: " + logger.getName());
 	}
 
 	private void set(String name)

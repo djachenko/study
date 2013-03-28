@@ -1,3 +1,4 @@
+/*
 package lof4jTest;
 
 import org.apache.log4j.*;
@@ -21,3 +22,4 @@ public class Test
 		logger.error("Error!", new Exception("An exception"));
 	}
 }
+*/
