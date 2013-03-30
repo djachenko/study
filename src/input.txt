@@ -1,5 +1,5 @@
-INIT = LogoWorld.Commands.Init
-MOVE = LogoWorld.Commands.Move
-DRAW = LogoWorld.Commands.Draw
-WARD = LogoWorld.Commands.Ward
-TELEPORT = LogoWorld.Commands.Teleport
+INIT = logoworld.commands.Init
+MOVE = logoworld.commands.Move
+DRAW = logoworld.commands.Draw
+WARD = logoworld.commands.Ward
+TELEPORT = logoworld.commands.Teleport
