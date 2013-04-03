@@ -1,15 +1,14 @@
 package logoworld;
 
 import logoworld.commands.Command;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
-
 public class LogoWord
 {
-	static Logger logger = Logger.getLogger(LogoWord.class);
+	private static Logger logger = Logger.getLogger(LogoWord.class);
 
 	public static void main(String[] args) throws IOException
 	{
@@ -23,14 +22,14 @@ public class LogoWord
 
 			Command currentCommand = factory.get(current[0]);
 
-			for (String i : current)
+			try
 			{
-				System.out.print('\"' + i + "\" ");
+				currentCommand.run(field, Arrays.copyOfRange(current, 1, current.length));
 			}
-
-			System.out.println();
-
-			currentCommand.run(field, Arrays.copyOfRange(current, 1, current.length));
+			catch (BadCommandException e)
+			{
+				e.printStackTrace();
+			}
 
 			Drawer.draw(field);
 		}

@@ -11,7 +11,7 @@ public class Parser
 	private Scanner input = null;
 	private static Logger logger = Logger.getLogger(Parser.class);
 
-	Parser(String inputName)
+	public Parser(String inputName)
 	{
 		try
 		{

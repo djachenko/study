@@ -56,8 +56,12 @@ public class CommandFactory
 
 	public Command get(String name)
 	{
+		logger.info("Command " + name + " requested.");
+
 		if (!commands.containsKey(name))
 		{
+			logger.info("Command " + name + " not loaded");
+
 			set(name);
 		}
 
@@ -67,7 +71,7 @@ public class CommandFactory
 		}
 		catch (InstantiationException | IllegalAccessException e)
 		{
-			System.out.println("Something happened while command instantiantion " + e.getLocalizedMessage());
+			logger.error("Something happened while command instantiantion " + e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 

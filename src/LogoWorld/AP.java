@@ -11,7 +11,7 @@ public class AP
 
 	private static Logger logger = Logger.getLogger(AP.class);
 
-	AP()
+	public AP()
 	{
 	}
 
