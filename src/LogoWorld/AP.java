@@ -1,11 +1,15 @@
 package logoworld;
 
+import org.apache.log4j.Logger;
+
 public class AP
 {
 	private boolean[][] field;
 	private int x;
 	private int y;
 	private boolean state;
+
+	private static Logger logger = Logger.getLogger(AP.class);
 
 	AP()
 	{
@@ -27,7 +31,7 @@ public class AP
 		this.y = y;
 		state = false;
 
-		System.out.println("inited with " + field.length + ' ' + field[0].length);
+		logger.info("AI inited with heigth of " + field.length + " and width of " + field[0].length);
 	}
 
 	public void setState(boolean state)
@@ -44,6 +48,8 @@ public class AP
 	{
 		this.x = (x + field[0].length) % field[0].length;
 		this.y = (y + field.length) % field.length;
+
+		logger.info("AI moved to (" + this.x + ';' + this.y + ')');
 	}
 
 	public int getX()

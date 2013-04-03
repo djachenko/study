@@ -13,7 +13,7 @@ public class CommandFactory
 	private Properties props;
 	private HashMap<String, Class<Command>> commands;
 
-	private static Logger logger = Logger.getLogger(CommandFactory.class.getName());
+	private static Logger logger = Logger.getLogger(CommandFactory.class);
 
 	CommandFactory(String configName)
 	{
