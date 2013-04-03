@@ -1,6 +1,6 @@
-package LogoWorld.Commands;
+package logoworld.commands;
 
-import LogoWorld.AP;
+import logoworld.AP;
 
 public interface Command
 {

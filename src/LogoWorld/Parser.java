@@ -1,4 +1,4 @@
-package LogoWorld;
+package logoworld;
 
 import java.io.File;
 import java.io.FileNotFoundException;

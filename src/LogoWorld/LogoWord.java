@@ -1,11 +1,10 @@
-package LogoWorld;
+package logoworld;
 
-import LogoWorld.Commands.Command;
+import logoworld.commands.Command;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 public class LogoWord
@@ -17,11 +16,6 @@ public class LogoWord
 		CommandFactory factory = new CommandFactory("input.txt");
 		Parser parser = new Parser(args[0]);
 		AP field = new AP();
-
-		BasicConfigurator.configure();
-
-		logger.info("Hello world!");
-		logger.error("Error!", new Exception("An exception"));
 
 		for ( ; parser.ready(); )
 		{

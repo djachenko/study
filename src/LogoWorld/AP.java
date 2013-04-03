@@ -1,4 +1,4 @@
-package LogoWorld;
+package logoworld;
 
 public class AP
 {

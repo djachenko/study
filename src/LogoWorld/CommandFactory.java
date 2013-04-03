@@ -1,6 +1,6 @@
-package LogoWorld;
+package logoworld;
 
-import LogoWorld.Commands.Command;
+import logoworld.commands.Command;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -23,14 +23,15 @@ public class CommandFactory
 		try (InputStream configFile = ClassLoader.getSystemResourceAsStream(configName))
 		{
 			props.load(configFile);
-			props.list(System.out);
 		}
 		catch (IOException excptn)
 		{
 			System.err.println("Error while opening config file: " + excptn.getLocalizedMessage());
+
+			logger.fatal("Error while configuring factory", new Throwable("Error while configuring factory", excptn));
 		}
 
-		System.out.println("Logger: " + logger.getName());
+		logger.info("Factory successfully configured");
 	}
 
 	private void set(String name)
@@ -39,14 +40,16 @@ public class CommandFactory
 		{
 			Class currentCommand = Class.forName(props.getProperty(name));
 
-			if (Command.class.isAssignableFrom(currentCommand))
+			if (Command.class.isAssignableFrom(currentCommand))//if this command can be cast to logoworld.Command
 			{
-				commands.put(name, currentCommand);
+				commands.put(name, currentCommand);//then add to map
+
+				logger.info("Command class\"" + name + "\" loaded.");
 			}
 		}
 		catch (ClassNotFoundException e)
 		{
-			System.err.println("An exception flew when class " + name + " getting");
+			logger.error("Unable to load class \"" + name + '\"');
 			e.printStackTrace();
 		}
 	}
