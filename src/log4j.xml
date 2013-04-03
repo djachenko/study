@@ -5,10 +5,10 @@
 	<appender name="file" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="FactoryLog.txt" />
 		<param name="MaxFileSize" value="100kb" />
-		<layout class="org.apache.log4j.EnhancedPatternLayout">
-			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%t] %-5p %c %x:%n\t%m%n" />
-		</layout>
 		<param name="maxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.EnhancedPatternLayout">
+			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss} [%t] %-5p %c : %m%n" />
+		</layout>
 	</appender>
 	
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
@@ -17,9 +17,9 @@
 		</layout>
 	</appender>
 	
-	<logger name="logoworld.CommandFactory">
+	<root>
 		<level value="DEBUG" />
 		<appender-ref ref="file" />
 		<appender-ref ref="console" />
-	</logger>
+	</root>
 </log4j:configuration>
