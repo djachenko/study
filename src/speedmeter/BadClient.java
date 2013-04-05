@@ -7,11 +7,11 @@ import java.net.UnknownHostException;
 
 public class BadClient 
 {
-	private static final int BUFFERSIZE = 16*1024 * 1024;
+	private static final int BUFFERSIZE = 1024 * 1024;
 
 	public static void main(String[] args)
 	{
-		try (Socket socket = new Socket("10.4.0.36",7653))
+		try (Socket socket = new Socket("192.168.1.7",7653))
 		{
 			OutputStream output = socket.getOutputStream();
 

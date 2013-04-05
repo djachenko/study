@@ -20,7 +20,7 @@ public class Sender
 				return;
 			}
 
-			Socket socket = new Socket("localhost", 7686);
+			Socket socket = new Socket("192.168.1.7", 7686);
 
 			OutputStream outputStream = socket.getOutputStream();
 

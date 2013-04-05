@@ -43,16 +43,6 @@ public class Receiver
 				return;
             }
 
-			if (receivingFile.getUsableSpace() < size)
-			{
-				System.err.println("Not enough disc quota. Cancelling");
-
-				out.write(new Boolean(false).toString());
-				out.flush();
-
-				return;
-			}
-
 			out.write(new Boolean(true).toString());
 			out.flush();
 
