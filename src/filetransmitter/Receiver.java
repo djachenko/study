@@ -3,6 +3,7 @@ package filetransmitter;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Receiver
 {
@@ -14,21 +15,68 @@ public class Receiver
 
 			Socket incoming = socket.accept();
 
-			incoming.getInputStream().read(new byte[1024]);
+			String name;
+			long size;
 
-			System.out.println("got");
+			InputStream inputStream = incoming.getInputStream();
 
-			System.out.println("other: " + incoming.getPort());
-
-			BufferedReader fileInfoReader = new BufferedReader(new InputStreamReader(incoming.getInputStream()));
-
-			System.out.println("Reading from " + incoming.getLocalPort());
-
-			for ( ; ; )
 			{
-				String str = fileInfoReader.readLine();
+				Scanner in = new Scanner(inputStream);
 
-				System.out.println("read: " + str);
+				name = in.nextLine();
+				size = in.nextLong();
+
+				System.out.println(name + ' ' + size);
+			}
+
+			File receivingFile = new File(name);
+
+			PrintWriter out = new PrintWriter(incoming.getOutputStream());
+
+			if (receivingFile.exists())
+			{
+				System.out.println("Receiving file exists. Cancelling.");
+
+				out.write(new Boolean(false).toString());
+				out.flush();
+
+				return;
+            }
+
+			if (receivingFile.getUsableSpace() < size)
+			{
+				System.err.println("Not enough disc quota. Cancelling");
+
+				out.write(new Boolean(false).toString());
+				out.flush();
+
+				return;
+			}
+
+			out.write(new Boolean(true).toString());
+			out.flush();
+
+			receivingFile.createNewFile();
+			FileOutputStream fileOutput = new FileOutputStream(receivingFile);
+
+			byte [] buffer = new byte[1024];
+
+			for (int i = 0; i < size; )
+			{
+				int read = inputStream.read(buffer);
+
+				if (read == -1)
+				{
+					System.err.println("Sender closed connection. Cancelling");
+
+					receivingFile.delete();
+
+					return;
+				}
+
+				i += read;
+
+				fileOutput.write(buffer);
 			}
 		}
 		catch (IOException e)

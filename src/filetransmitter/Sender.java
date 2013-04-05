@@ -11,29 +11,42 @@ public class Sender
 	{
 		try
 		{
+			File sendingFile = new File(args[0]);
+
+			if (!sendingFile.exists())
+			{
+				System.err.println("Unable to send non-existing file");
+
+				return;
+			}
+
 			Socket socket = new Socket("localhost", 7686);
 
-			PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+			OutputStream outputStream = socket.getOutputStream();
 
-			System.out.println("Speaking " + socket.isConnected() + ' ' + socket.getPort() + ' ' + socket.getLocalPort());
-
-			//socket.getOutputStream().write(new byte[1024]);
-
-			System.out.println("sent");
-
-			return;
-			                     /*
-			BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-
-			for ( ; ; )
 			{
-				System.out.print("> ");
+				PrintWriter out = new PrintWriter(outputStream);
 
-				String str = stdin.readLine();
+				out.println(sendingFile.getName());
+				out.println(sendingFile.length());
 
-				System.out.println("sending " + str);
-				writer.println(str);
-			}                      */
+				out.flush();
+			}
+
+			byte [] buffer = new byte[1024];
+
+			FileInputStream input = new FileInputStream(sendingFile);
+
+			while (input.available() > 0)
+			{
+				input.read(buffer);
+
+				outputStream.write(buffer);
+			}
+
+			outputStream.flush();
+
+			System.out.println("Successfully sent");
 		}
 		catch (IOException e)
 		{
