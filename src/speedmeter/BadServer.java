@@ -2,7 +2,6 @@ package speedmeter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -60,6 +59,8 @@ class BadServerThread implements Runnable
 				while (size < buffer.length && received != -1)
 				{
 					received = input.read(buffer, size, buffer.length - size);
+
+					size += received;
 				}
 
 				ends[i] = System.currentTimeMillis();
