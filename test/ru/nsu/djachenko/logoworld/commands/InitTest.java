@@ -1,6 +1,6 @@
-package logoworld.commands;
+package ru.nsu.djachenko.logoworld.commands;
 
-import logoworld.AP;
+import ru.nsu.djachenko.logoworld.AP;
 import org.junit.Assert;
 import org.junit.Test;
 

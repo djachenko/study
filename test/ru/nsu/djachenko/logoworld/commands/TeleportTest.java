@@ -1,7 +1,7 @@
-package logoworld.commands;
+package ru.nsu.djachenko.logoworld.commands;
 
-import logoworld.AP;
-import logoworld.BadCommandException;
+import ru.nsu.djachenko.logoworld.AP;
+import ru.nsu.djachenko.logoworld.BadCommandException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
