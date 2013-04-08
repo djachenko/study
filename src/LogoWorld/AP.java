@@ -9,27 +9,19 @@ public class AP
 	private int y;
 	private boolean state;
 
-	private static Logger logger = Logger.getLogger(AP.class);
+	private static final Logger logger = Logger.getLogger(AP.class);
 
 	public AP()
 	{
+
 	}
 
 	public void init(int width, int height, int x, int y)
 	{
 		field = new boolean[height][width];
 
-		for (boolean[] line : field)
-		{
-			for (int i = 0; i < line.length; i++)
-			{
-				line[i] = false;
-			}
-		}
-
 		this.x = x;
 		this.y = y;
-		state = false;
 
 		logger.info("AI inited with heigth of " + field.length + " and width of " + field[0].length);
 	}

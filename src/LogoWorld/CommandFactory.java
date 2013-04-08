@@ -6,12 +6,13 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class CommandFactory
 {
 	private Properties props;
-	private HashMap<String, Class<Command>> commands;
+	private Map<String, Class<Command>> commands;
 
 	private static Logger logger = Logger.getLogger(CommandFactory.class);
 
@@ -28,7 +29,8 @@ public class CommandFactory
 		{
 			System.err.println("Error while opening config file: " + excptn.getLocalizedMessage());
 
-			logger.fatal("Error while configuring factory", new Throwable("Error while configuring factory", excptn));
+			logger.fatal("Error while configuring factory", excptn);
+			throw new RuntimeException(excptn);
 		}
 
 		logger.info("Factory successfully configured");

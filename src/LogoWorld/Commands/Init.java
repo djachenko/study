@@ -15,14 +15,14 @@ public class Init implements Command
 
 		for ( String i : args )
 		{
-			arguments.append(i + ' ');
+			arguments.append(i).append(' ');
 		}
 
 		logger.info("Command \"Init\" ran with arguments: " + arguments);
 
 		if (args.length < 4)
 		{
-			throw new BadCommandException("Not enough arguments");
+			throw new BadCommandException("Not enough arguments " + args.length);
 		}
 
 		if (args.length > 4)
