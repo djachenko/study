@@ -1,15 +1,51 @@
 package logoworld.commands;
 
 import logoworld.AP;
+import logoworld.BadCommandException;
+import org.apache.log4j.Logger;
 
 public class Move implements Command
 {
 	enum Direction{L, R, U, D}
 
+	private static Logger logger = Logger.getLogger(Init.class);
+
+	private static final int argsExpectedNumber = 2;
+
 	@Override
-	public void run(AP ap, String[] args)
+	public void run(AP ap, String[] args) throws BadCommandException
 	{
-		Direction dir = Direction.valueOf(args[0]);
+		StringBuilder arguments = new StringBuilder();
+
+		for ( String i : args )
+		{
+			arguments.append(i + ' ');
+		}
+
+		logger.info("Command \"Move\" ran with arguments: " + arguments);
+
+		if (args.length < argsExpectedNumber)
+		{
+			throw new BadCommandException("Not enough arguments");
+		}
+
+		if (args.length > argsExpectedNumber)
+		{
+			throw new BadCommandException("Too many arguments");
+		}
+
+		Direction dir;
+
+		try
+		{
+			dir = Direction.valueOf(args[0]);
+		}
+		catch (IllegalArgumentException e)
+		{
+			logger.error("Wrong direction argument \"" + args[0] + "\" in command \"Move\"");
+
+			throw new BadCommandException("Wrong direction argument \"" + args[0] + "\" in command \"Move\"");
+		}
 
 		for (int i = 0; i < Integer.parseInt(args[1]); i++)
 		{
@@ -28,7 +64,7 @@ public class Move implements Command
 					ap.move(ap.getX(), ap.getY() + 1);
 					break;
 				default:
-					System.out.println("WTF?");
+					logger.error("WTF?");
 			}
 
 			ap.setCell();

@@ -27,7 +27,7 @@ public class DrawTest
 
 		try
 		{
-			new Draw().run(ap, new String[1]);
+			new Draw().run(ap, new String[]{});
 		}
 		catch (BadCommandException e)
 		{

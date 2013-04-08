@@ -19,19 +19,22 @@ public class TeleportTest
 	}
 
 	@Test
-	private void testTeleport()
+	public void testTeleport()
 	{
 		try
 		{
 			new Draw().run(ap, new String[]{});
 
-			new Teleport().run(ap, new String[]{"0", "1"};
+			new Teleport().run(ap, new String[]{"0", "1"});
+
 			ap.setCell();
 
 			for (int i = 0; i < ap.getHeight(); i++)
 			{
 				for (int j = 0; j < ap.getWidth(); j++)
 				{
+					System.out.println(i + ", " + j + ": " + ap.getCell(i,j));
+
 					if ( i == 0 && j == 1 )
 					{
 						Assert.assertEquals(true, ap.getCell(i,j));
@@ -41,24 +44,43 @@ public class TeleportTest
 						Assert.assertEquals(false, ap.getCell(i,j));
 					}
 				}
+			}
 
-				new Teleport().run(ap, new String[]{"0", "1"};
-				ap.setCell();
+			new Teleport().run(ap, new String[]{"1", "0"});
+			ap.setCell();
 
-				for (int i = 0; i < ap.getHeight(); i++)
+			for (int i = 0; i < ap.getHeight(); i++)
+			{
+				for (int j = 0; j < ap.getWidth(); j++)
 				{
-					for (int j = 0; j < ap.getWidth(); j++)
+					if ( i == 0 && j == 1 || i == 1 && j == 0 )
 					{
-						if ( i == 0 && j == 1 )
-						{
-							Assert.assertEquals(true, ap.getCell(i,j));
-						}
-						else
-						{
-							Assert.assertEquals(false, ap.getCell(i,j));
-						}
+						Assert.assertEquals(true, ap.getCell(i,j));
 					}
-				}}
+					else
+					{
+						Assert.assertEquals(false, ap.getCell(i,j));
+					}
+				}
+			}
+
+			new Teleport().run(ap, new String[]{"1", "0"});
+			ap.setCell();
+
+			for (int i = 0; i < ap.getHeight(); i++)
+			{
+				for (int j = 0; j < ap.getWidth(); j++)
+				{
+					if ( i == 0 && j == 1 || i == 1 && j == 0 )
+					{
+						Assert.assertEquals(true, ap.getCell(i,j));
+					}
+					else
+					{
+						Assert.assertEquals(false, ap.getCell(i,j));
+					}
+				}
+			}
 		}
 		catch (BadCommandException e)
 		{

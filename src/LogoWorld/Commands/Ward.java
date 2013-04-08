@@ -13,14 +13,7 @@ public class Ward implements Command
 	@Override
 	public void run(AP ap, String[] args) throws BadCommandException
 	{
-		StringBuilder arguments = new StringBuilder();
-
-		for ( String i : args )
-		{
-			arguments.append(i + ' ');
-		}
-
-		logger.info("Command \"Teleport\" ran with arguments: " + arguments);
+		logger.info("Command \"Ward\" ran");
 
 		if (args.length < argsExpectedNumber)
 		{

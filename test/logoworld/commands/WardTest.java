@@ -23,7 +23,7 @@ public class WardTest
 	{
 		try
 		{
-			new Draw().run(ap, new String[1]);
+			new Draw().run(ap, new String[]{});
 		}
 		catch (BadCommandException e)
 		{
@@ -36,7 +36,7 @@ public class WardTest
 
 		try
 		{
-			new Ward().run(ap, new String[1]);
+			new Ward().run(ap, new String[]{});
 		}
 		catch (BadCommandException e)
 		{

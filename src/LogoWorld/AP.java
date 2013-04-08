@@ -54,9 +54,14 @@ public class AP
 		return y;
 	}
 
+	public boolean getState()
+	{
+		return state;
+	}
+
 	public boolean getCell(int x, int y)
 	{
-		return field[x][y];
+		return field[y][x];
 	}
 
 	public int getWidth()
