@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Sender
 {
@@ -31,6 +32,19 @@ public class Sender
 				out.println(sendingFile.length());
 
 				out.flush();
+			}
+
+			Scanner answerReader = new Scanner(socket.getInputStream());
+
+			String answerString = answerReader.nextLine();
+
+			System.out.println(answerString);
+
+			Boolean answer = new Boolean(answerString);
+
+			if (!answer)
+			{
+				return;
 			}
 
 			byte [] buffer = new byte[1024];

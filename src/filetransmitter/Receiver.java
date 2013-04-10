@@ -13,8 +13,29 @@ public class Receiver
 		{
 			ServerSocket socket = new ServerSocket(7686);
 
-			Socket incoming = socket.accept();
+			new ReceiverThread(socket.accept()).start();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+}
 
+class ReceiverThread extends Thread
+{
+	Socket incoming = null;
+
+	public ReceiverThread(Socket socket)
+	{
+		incoming = socket;
+	}
+
+	@Override
+	public void run()
+	{
+		try
+		{
 			String name;
 			long size;
 

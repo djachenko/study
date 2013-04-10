@@ -41,8 +41,6 @@ class BadServerThread implements Runnable
 	{
 		try
 		{
-			System.out.println("ServerThread started");
-
 			InputStream input =  socket.getInputStream();
 
 			byte [] buffer = new byte[BUFFERSIZE];
@@ -56,19 +54,21 @@ class BadServerThread implements Runnable
 
 				starts[i] = System.currentTimeMillis();
 
-				while (size < buffer.length && received != -1)
+				while (size < buffer.length)
 				{
 					received = input.read(buffer, size, buffer.length - size);
+
+					if (received == -1)
+					{
+						System.err.println("Client closed connection.");
+
+						return;
+					}
 
 					size += received;
 				}
 
 				ends[i] = System.currentTimeMillis();
-
-				if (size == -1)
-				{
-					break;
-				}
 			}
 
 			double averageTime = 0;
