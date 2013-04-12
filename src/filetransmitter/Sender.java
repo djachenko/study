@@ -34,9 +34,9 @@ public class Sender
 				out.flush();
 			}
 
-			Scanner answerReader = new Scanner(socket.getInputStream());
+			BufferedReader answerReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-			String answerString = answerReader.nextLine();
+			String answerString = answerReader.readLine();
 
 			System.out.println(answerString);
 

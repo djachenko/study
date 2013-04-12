@@ -42,10 +42,10 @@ class ReceiverThread extends Thread
 			InputStream inputStream = incoming.getInputStream();
 
 			{
-				Scanner in = new Scanner(inputStream);
+				BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
 
-				name = in.nextLine();
-				size = in.nextLong();
+				name = in.readLine();
+				size = Long.parseLong(in.readLine());
 
 				System.out.println(name + ' ' + size);
 			}
