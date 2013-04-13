@@ -58,13 +58,13 @@ class ReceiverThread extends Thread
 			{
 				System.out.println("Receiving file exists. Cancelling.");
 
-				out.write(new Boolean(false).toString());
+				out.write(Boolean.FALSE.toString());
 				out.flush();
 
 				return;
             }
 
-			out.write(new Boolean(true).toString());
+			out.write(Boolean.TRUE.toString());
 			out.flush();
 
 			receivingFile.createNewFile();
