@@ -1,20 +1,9 @@
 package ru.nsu.djachenko.pusher;
 
-public class Pusher
+public class Pusher extends Block//толькатель - это просто управляемый блок. Или нет - вопрос в обработке коллизий
 {
-	private Field field = null;
-	private int x = -1;
-	private int y = -1;
-
-	public Pusher(Field iField, int iX, int iY)
+	Pusher(Field iField, int iX, int iY)
 	{
-		this.field = iField;
-		this.x = iX;
-		this.y = iY;
-	}
-
-	public void moveLeft()
-	{
-
+		super(iField, iX, iY);
 	}
 }
