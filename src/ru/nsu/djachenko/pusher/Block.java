@@ -1,57 +1,60 @@
 package ru.nsu.djachenko.pusher;
 
+import ru.nsu.djachenko.pusher.exceptions.PusherException;
+
 public class Block
 {
-	private Field field = null;
+	protected World world = null;//MUST BE PRIVATE
 	private int x = -1;
 	private int y = -1;
 
-	public Block(Field iField, int iX, int iY)
+	public Block(World iWorld, int iX, int iY)
 	{
-		this.field = iField;
+		this.world = iWorld;
 		this.x = iX;
 		this.y = iY;
 	}
 
-	public void moveLeft()
+	public void moveLeft() throws PusherException
 	{
-		if (field.getCell(x - 1, y) == Field.States.FLOOR)
+		if (world.getCell(x - 1, y) == Field.States.FLOOR)
 		{
 			x--;
 		}
 	}
 
-	public void moveRight()
+	public void moveRight() throws PusherException
 	{
-		switch (field.getCell(x + 1, y))
+		if (world.getCell(x - 1, y) == Field.States.FLOOR)
 		{
-			case FLOOR:
-			{
-				x++;
-
-				break;
-			}
-			case BLOCK:
-			{
-
-			}
+			x++;
 		}
 	}
 
-	public void moveUp()
+	public void moveUp() throws PusherException
 	{
-		if (field.getCell(x, y + 1) == Field.States.FLOOR)
+		if (world.getCell(x, y + 1) == Field.States.FLOOR)
 		{
 			y++;
 		}
 	}
 
-	public void moveDown()
+	public void moveDown() throws PusherException
 	{
-		if (field.getCell(x, y - 1) == Field.States.FLOOR)
+		if (world.getCell(x, y - 1) == Field.States.FLOOR)
 		{
 			y--;
 		}
+	}
+
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
 	}
 
 /*
