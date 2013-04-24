@@ -1,5 +1,7 @@
 package ru.nsu.djachenko.pusher;
 
+import ru.nsu.djachenko.pusher.cells.Block;
+import ru.nsu.djachenko.pusher.cells.Pusher;
 import ru.nsu.djachenko.pusher.exceptions.PusherException;
 
 import java.io.IOException;
@@ -74,23 +76,16 @@ public class World
 		}
 	}
 
-	public void movePusherLeft()
+	public void movePusher(Direction dir)
 	{
-		pusher.moveLeft();
+		try
+		{
+			pusher.move(dir);
+		}
 	}
 
-	public void movePusherRight()
+	public boolean ableToMove(int x, int y, Direction direction)
 	{
-		pusher.moveRight();
-	}
 
-	public void movePusherDown()
-	{
-		pusher.moveDown();
-	}
-
-	public void movePusherUp()
-	{
-		pusher.moveUp();
 	}
 }

@@ -1,22 +1,15 @@
 package ru.nsu.djachenko.pusher;
 
-import ru.nsu.djachenko.pusher.exceptions.PusherException;
+
+import ru.nsu.djachenko.pusher.cells.Cell;
+import ru.nsu.djachenko.pusher.cells.Floor;
 
 import java.io.*;
 import java.util.Scanner;
 
 public class Field
 {
-	public enum States
-	{
-		WALL,
-		FLOOR,
-		PUSHER,
-		BLOCK,
-		POINT
-	}
-
-	private States [][] field = null;
+	private Cell[][] field = null;
 
 	public Field()
 	{
@@ -24,7 +17,7 @@ public class Field
 
 	public Field(int x, int y)
 	{
-		field = new States[y][x];
+		field = new Cell[y][x];
 	}
 
 	public void init(String configFile) throws IOException
@@ -37,7 +30,7 @@ public class Field
 			int width = tempScanner.nextInt();
 			int height = tempScanner.nextInt();
 
-			field = new States[height][width];
+			field = new Cell[height][width];
 		}
 
 		int x = 0;
@@ -49,45 +42,8 @@ public class Field
 			{
 				case -1:
 					break readLoop;
-				case 'x':
-					field[y][x] = States.WALL;
-					break;
-				case '.':
-					field[y][x] = States.FLOOR;
-					break;
-				case 't':
-					field[y][x] = States.PUSHER;
-					break;
-				case '*':
-					field[y][x] = States.BLOCK;
-					break;
-				case '&':
-					field[y][x] = States.POINT;
-					break;
-				default:
-					break;
 			}
 		}
-	}
-
-	public States getCell(int x, int y) throws PusherException
-	{
-		if (x < 0 || x > this.getWidth() || y < 0 || y > this.getHeight())
-		{
-			throw new PusherException("Index out of field bounds");
-		}
-
-		return field[y][x];
-	}
-
-	public void setCell(int x, int y, States state) throws PusherException//maybe delete?
-	{
-		if (x < 0 || x > this.getWidth() || y < 0 || y > this.getHeight())
-		{
-			throw new PusherException("Index out of field bounds");
-		}
-
-		field[y][x] = state;
 	}
 
 	public int getWidth()
@@ -111,11 +67,11 @@ public class Field
 	{
 		int result = 0;
 
-		for (States[] i : field)
+		for (Cell[] i : field)
 		{
-			for (States j : i)
+			for (Cell j : i)
 			{
-				if (j == States.BLOCK)
+				if (j == Cell.BLOCK)
 				{
 					result++;
 				}
@@ -123,5 +79,18 @@ public class Field
 		}
 
 		return result;
+	}
+
+	public boolean ableToMove(int x, int y, Direction dir, int strength)
+	{
+		return field[ x + dir.getDx() ][ y + dir.getDy() ].ableToMove(dir, strength);
+	}
+
+	public void move(int x, int y, Direction dir)
+	{
+		field[ x + dir.getDx() ][ y + dir.getDy() ].move();
+		field[ x + dir.getDx() ][ y + dir.getDy() ] = field[x][y];
+
+		field[x][y] = new Floor();
 	}
 }
