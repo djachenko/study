@@ -3,9 +3,9 @@ package ru.nsu.djachenko.pusher.cells;
 import ru.nsu.djachenko.pusher.Direction;
 import ru.nsu.djachenko.pusher.Field;
 
-public class Floor extends Cell
+public class Point extends Cell
 {
-	public Floor(Field field, int x, int y)
+	public Point(Field field, int x, int y)
 	{
 		super(0, field, x, y);
 	}

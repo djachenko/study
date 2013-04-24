@@ -1,7 +1,5 @@
-package ru.nsu.djachenko.pusher;
+/*package ru.nsu.djachenko.pusher;
 
-import ru.nsu.djachenko.pusher.cells.Block;
-import ru.nsu.djachenko.pusher.cells.Pusher;
 import ru.nsu.djachenko.pusher.exceptions.PusherException;
 
 import java.io.IOException;
@@ -11,7 +9,6 @@ import static ru.nsu.djachenko.pusher.Field.States.BLOCK;
 public class World
 {
 	private Pusher pusher = null;
-	private Block[] blocks = null;
 	private Field field = null;
 
 	World(String configFile) throws IOException
@@ -89,3 +86,4 @@ public class World
 
 	}
 }
+                                  */

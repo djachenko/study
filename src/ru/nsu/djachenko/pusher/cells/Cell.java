@@ -27,25 +27,10 @@ public abstract class Cell
 	{
 		if (ableToMove(dir, strength))
 		{
-			field.move(x, y, dir);
+			field.move(x, y, dir, strength);
 
 			x += dir.getDx();
 			y += dir.getDy();
 		}
-	}
-
-	public int getX()
-	{
-		return x;
-	}
-
-	public int getY()
-	{
-		return y;
-	}
-
-	public int getWeight()
-	{
-		return weight;
 	}
 }
