@@ -3,7 +3,6 @@ package filetransmitter;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Receiver
 {
@@ -46,8 +45,6 @@ class ReceiverThread extends Thread
 
 				name = in.readLine();
 				size = Long.parseLong(in.readLine());
-
-				System.out.println(name + ' ' + size);
 			}
 
 			File receivingFile = new File(name);
@@ -63,31 +60,32 @@ class ReceiverThread extends Thread
 
 				return;
             }
-
-			out.write(Boolean.TRUE.toString());
-			out.flush();
-
-			receivingFile.createNewFile();
-			FileOutputStream fileOutput = new FileOutputStream(receivingFile);
-
-			byte [] buffer = new byte[1024];
-
-			for (int i = 0; i < size; )
+			else
 			{
-				int read = inputStream.read(buffer);
+				out.write(Boolean.TRUE.toString());
+				out.flush();
 
-				if (read == -1)
+				FileOutputStream fileOutput = new FileOutputStream(receivingFile);
+
+				byte [] buffer = new byte[1024];
+
+				for (int i = 0; i < size; )
 				{
-					System.err.println("Sender closed connection. Cancelling");
+					int read = inputStream.read(buffer);
 
-					receivingFile.delete();
+					if (read == -1)
+					{
+						System.err.println("Sender closed connection. Cancelling");
 
-					return;
+						receivingFile.delete();
+
+						return;
+					}
+
+					i += read;
+
+					fileOutput.write(buffer, 0, read);
 				}
-
-				i += read;
-
-				fileOutput.write(buffer);
 			}
 		}
 		catch (IOException e)

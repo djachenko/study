@@ -1,1 +1,0 @@
-It's file for testing file transmitter

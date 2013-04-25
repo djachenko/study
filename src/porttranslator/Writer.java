@@ -31,8 +31,11 @@ public class Writer extends Thread
 					break;
 				}
 
-				to.write(buffer);
+				to.write(buffer, 0, read);
 			}
+
+			from.close();
+			to.close();
 		}
 		catch (IOException e)
 		{

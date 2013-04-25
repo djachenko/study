@@ -1,10 +1,7 @@
 package filetransmitter;
 
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Sender
 {
@@ -34,33 +31,27 @@ public class Sender
 				out.flush();
 			}
 
-			BufferedReader answerReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-			String answerString = answerReader.readLine();
-
-			System.out.println(answerString);
-
-			Boolean answer = new Boolean(answerString);
+			Boolean answer = new Boolean(new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine());
 
 			if (!answer)
 			{
 				return;
 			}
-
-			byte [] buffer = new byte[1024];
-
-			FileInputStream input = new FileInputStream(sendingFile);
-
-			while (input.available() > 0)
+			else
 			{
-				input.read(buffer);
+				byte [] buffer = new byte[1024];
 
-				outputStream.write(buffer);
+				FileInputStream input = new FileInputStream(sendingFile);
+
+				while (input.available() > 0)
+				{
+					int read = input.read(buffer);
+
+					outputStream.write(buffer, 0, read);
+				}
+
+				outputStream.flush();
 			}
-
-			outputStream.flush();
-
-			System.out.println("Successfully sent");
 		}
 		catch (IOException e)
 		{

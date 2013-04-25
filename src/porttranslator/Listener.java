@@ -16,6 +16,9 @@ public class Listener extends Thread
 		try
 		{
 			socket = new ServerSocket(localPort);
+
+			System.out.println("Listener port is " + socket.getLocalPort());
+
 			this.address = address;
 			this.port = port;
 		}
@@ -35,6 +38,10 @@ public class Listener extends Thread
 
 			new Writer(incoming.getInputStream(), outcoming.getOutputStream()).start();
 			new Writer(outcoming.getInputStream(), incoming.getOutputStream()).start();
+
+			incoming.close();
+			outcoming.close();
+			socket.close();
 		}
 		catch (IOException e)
 		{
