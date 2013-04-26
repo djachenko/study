@@ -17,6 +17,16 @@ public class POP3Client
 
 	private static final int DEFAULT_PORT = 110;
 
+	public boolean isDebug()
+	{
+		return debug;
+	}
+
+	public void setDebug(boolean debug)
+	{
+		this.debug = debug;
+	}
+
 	class Message
 	{
 		private final Map<String, List<String>> headers;
