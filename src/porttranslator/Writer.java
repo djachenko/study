@@ -33,9 +33,6 @@ public class Writer extends Thread
 
 				to.write(buffer, 0, read);
 			}
-
-			from.close();
-			to.close();
 		}
 		catch (IOException e)
 		{

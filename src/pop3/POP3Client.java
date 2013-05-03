@@ -99,14 +99,16 @@ public class POP3Client
 			return new Message(headers, bodyBuilder.toString());
 		}
 
-		public List<Message> getMessages() throws IOException {
-			int numOfMessages = getNumberOfNewMessages();
-			List<Message> messageList = new ArrayList<Message>();
-			for (int i = 1; i <= numOfMessages; i++) {
-				messageList.add(getMessage(i));
-			}
-			return messageList;
+
+	}
+
+	public List<Message> getMessages() throws IOException {
+		int numOfMessages = getNumberOfNewMessages();
+		List<Message> messageList = new ArrayList<Message>();
+		for (int i = 1; i <= numOfMessages; i++) {
+			messageList.add(getMessage(i));
 		}
+		return messageList;
 	}
 
 	public void connect(String host, int port) throws IOException
@@ -156,7 +158,13 @@ public class POP3Client
 		}
 
 		if (response.startsWith("-ERR"))
+		{
 			throw new RuntimeException("Server has returned an error: " + response.replaceFirst("-ERR ", ""));
+		}
+		else
+		{
+
+		}
 
 		return response;
 	}
@@ -192,6 +200,8 @@ public class POP3Client
 		return Integer.parseInt(values[1]);
 	}
 
+
+
 	public static void main(String[] args) throws IOException
 	{
 		POP3Client client = new POP3Client();
@@ -208,3 +218,4 @@ public class POP3Client
 		client.disconnect();
 	}
 }
+/**/

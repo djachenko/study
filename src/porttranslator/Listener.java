@@ -31,21 +31,28 @@ public class Listener extends Thread
 	@Override
 	public void run()
 	{
-		try
+		try(Socket incoming = socket.accept();)
 		{
-			Socket incoming = socket.accept();
-			Socket outcoming = new Socket(address, port);
-
-			new Writer(incoming.getInputStream(), outcoming.getOutputStream()).start();
-			new Writer(outcoming.getInputStream(), incoming.getOutputStream()).start();
-
-			incoming.close();
-			outcoming.close();
-			socket.close();
+			try (Socket outcoming = new Socket(address, port))
+			{
+				new Writer(incoming.getInputStream(), outcoming.getOutputStream()).start();
+				new Writer(outcoming.getInputStream(), incoming.getOutputStream()).start();
+			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+        	try
+			{
+				socket.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }
