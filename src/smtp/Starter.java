@@ -12,12 +12,11 @@ public class Starter
 		{
 			while (true)
 			{
+				System.out.print("Enter server address:\n> ");
+               	String serverName = reader.readLine();
+
 				try
 				{
-					System.out.print("Enter server address:\n> ");
-
-					String serverName = reader.readLine();
-
 					client.connect(serverName);
 
 					break;
@@ -30,15 +29,32 @@ public class Starter
 
 			while (true)
 			{
+				System.out.print("Enter username:\n> ");
+               	String username = reader.readLine();
+
+				System.out.print("Enter password:\n> ");
+               	String password = reader.readLine();
+
 				try
 				{
-					System.out.print("Enter your e-mail:\n> ");
+					client.login(username, password);
 
-					String email = reader.readLine();
+					break;
+				}
+				catch (MySMTPException e)
+				{
+					System.out.println("Server returned an logging outor: " + e.getLocalizedMessage());
+				}
+			}
 
-					client.sendCommand("MAIL FROM <" + email + '>');
+			while (true)
+			{
+				System.out.print("Enter your e-mail:\n> ");
+				String email = reader.readLine();
 
-					System.out.println("Connection established...");
+				try
+				{
+					System.out.println(client.sendCommand("MAIL FROM: <" + email + '>'));
 
 					break;
 				}
@@ -49,32 +65,63 @@ public class Starter
 			}
 
 			System.out.print("Enter number of recipients:\n> ");
-
 			int number = Integer.parseInt(reader.readLine());
 
-			for (int i = 0; i < number; i++)
+			for (int i = 1; i <= number; i++)
 			{
 				System.out.print("Enter email of recepient #" + i + ": ");
+                String email = reader.readLine();
 
-				String email = reader.readLine();
-
-				client.sendCommand("RCPT TO:<" + email + '>');
+				try
+				{
+					client.sendCommand("RCPT TO:<" + email + '>');
+				}
+				catch (MySMTPException e)
+				{
+					System.out.println("Server returned an error: " + e.getLocalizedMessage());
+					System.out.println("This recipient isn't valid and will be skipped.");
+				}
 			}
 
+
 			System.out.print("Enter your message (only one line allowed):\n> ");
+			StringBuilder message = new StringBuilder();
 
-			String message = reader.readLine();
+			while (true)
+			{
+				message.append(reader.readLine());
 
-			client.sendCommand("DATA");
+				if (!reader.ready())
+				{
+					break;
+				}
+			}
 
-			client.sendCommand(message + "\n.");
-			
-			client.logout();
+			try
+			{
+				client.sendCommand("DATA");
+				client.sendCommand(message + "\n.");
+			}
+			catch (MySMTPException e)
+			{
+				System.out.println("Server returned sending error: " + e.getLocalizedMessage());
+			}
+
+			try
+			{
+				client.logout();
+			}
+			catch (MySMTPException e)
+			{
+				System.out.println("Server returned logging out error: " + e.getLocalizedMessage());
+			}
+
 			client.disconnect();
 			
 			System.out.println("Goodbye!");
 		}
-		catch(Exception e)
+
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}

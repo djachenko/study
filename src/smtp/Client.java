@@ -1,9 +1,12 @@
 package smtp;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Client
 {
@@ -21,6 +24,8 @@ public class Client
 		
 		reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+		sendCommand("EHLO localhost");
 		
 		return readAnswer();
 	}
@@ -30,7 +35,7 @@ public class Client
 		return connect(host, DEFAULT_PORT);
 	}
 	
-	public void disconnect() throws IOException, MySMTPException
+	public void disconnect() throws IOException
 	{
 		if (socket != null && socket.isConnected())
 		{
@@ -53,16 +58,33 @@ public class Client
 	
 	String readAnswer() throws MySMTPException, IOException
 	{
-		String[] answer = reader.readLine().split(" ", 2);
-		
-		if (answer[0].charAt(0) == '5')
+		StringBuilder answer = new StringBuilder();
+
+		while (true)
 		{
-			throw new MySMTPException("Server has returned an error: " + answer[1]);
+			answer.append(reader.readLine());
+
+			if (!reader.ready())
+			{
+				break;
+			}
+		}
+
+		if (answer.charAt(0) == '5')
+		{
+			throw new MySMTPException("Server has returned an error: " + answer);
 		}
 		else
 		{
-			return answer[1];
+			return String.valueOf(answer);
 		}
+	}
+
+	void login(String username, String password) throws IOException, MySMTPException
+	{
+		sendCommand("AUTH LOGIN");
+		sendCommand(Base64.encode(username.getBytes()));
+		sendCommand(Base64.encode(password.getBytes()));
 	}
 
 	void logout() throws MySMTPException, IOException
