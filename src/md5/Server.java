@@ -1,67 +1,81 @@
 package md5;
 
-import com.sun.javafx.scene.EnteredExitedHandler;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-class ClientHandler extends Thread
+public class Server extends Thread
 {
-	private Socket socket;
+	private String string;
+	private List<int[]> tasks;
+	private static final int numberOfHandlers = 15;
 
-	public ClientHandler(Socket socket)
+	public Server(String string)
 	{
-		this.socket = socket;
+		this.string = string;
+
+		tasks = Collections.synchronizedList(new LinkedList<int[]>());
+
+		int variationsCount = (int)Math.pow(string.length(), 4);
+
+		int mod = (int)(variationsCount % numberOfHandlers);
+		int div = variationsCount / numberOfHandlers;
+
+		for (int i = 0; i < numberOfHandlers; i++)
+		{
+			tasks.add(new int[]{div * i, div * (i + 1)});
+		}
+
+		if (mod > 0)
+		{
+			tasks.add(new int[]{div * numberOfHandlers, variationsCount});
+		}
 	}
 
 	@Override
 	public void run()
 	{
-		if (!Server.isFinished())
+		try
 		{
+			byte [] hash = MessageDigest.getInstance("MD5").digest(string.getBytes());
+			List<String> results = Collections.synchronizedList(new LinkedList<String>());
 
+			try (ServerSocket socket = new ServerSocket(7854))
+			{
+				while (results.isEmpty())
+				{
+					new ClientHandler(socket.accept(), hash, string.length(), tasks, results).start();
+					System.out.println("Handler started");
+				}
+
+				System.out.println("Is " + results.remove(0) + " your string?");
+			}
 		}
-	}
-}
-
-public class Server
-{
-	private static boolean finished = false;
-	private static int start = 0;
-
-	public static in
-
-	public static boolean isFinished()
-	{
-		return finished;
+		catch (IOException | NoSuchAlgorithmException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args)
 	{
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)))
 		{
-			System.out.print("Enter your string, please:\n> ");
-
+			System.out.print("Enter string for encoding:\n> ");
 			String string = reader.readLine();
 
-			byte[] hash = MessageDigest.getInstance("MD5").digest(string.getBytes());
-			int length = string.length();
+			Server server = new Server(string);
 
-			try (ServerSocket socket = new ServerSocket(7846))
-			{
-				new
-			}
+			server.start();
+			server.join();
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		catch (NoSuchAlgorithmException e)
+		catch (IOException | InterruptedException e)
 		{
 			e.printStackTrace();
 		}
