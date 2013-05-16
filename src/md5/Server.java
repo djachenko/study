@@ -24,7 +24,7 @@ public class Server extends Thread
 
 		int variationsCount = (int)Math.pow(string.length(), 4);
 
-		int mod = (int)(variationsCount % numberOfHandlers);
+		int mod = variationsCount % numberOfHandlers;
 		int div = variationsCount / numberOfHandlers;
 
 		for (int i = 0; i < numberOfHandlers; i++)

@@ -3,7 +3,6 @@ package porttranslator;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class TestListener
 {
@@ -30,10 +29,6 @@ public class TestListener
 					out.flush();
 				}
 			}
-		}
-		catch (UnknownHostException e)
-		{
-			e.printStackTrace();
 		}
 		catch (IOException e)
 		{

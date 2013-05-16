@@ -26,7 +26,7 @@ public class DiscretCounter
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 		socket.receive(receivePacket);
 
-		ArrayList<InetAddress> holder = new ArrayList<InetAddress>();
+		ArrayList<InetAddress> holder = new ArrayList<>();
 
 		sendData = "ILIVE".getBytes();
 		sendPacket.setData(sendData);

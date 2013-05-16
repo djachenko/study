@@ -31,13 +31,10 @@ public class Listener extends Thread
 	@Override
 	public void run()
 	{
-		try(Socket incoming = socket.accept();)
+		try(Socket incoming = socket.accept(); Socket outcoming = new Socket(address, port))
 		{
-			try (Socket outcoming = new Socket(address, port))
-			{
-				new Writer(incoming.getInputStream(), outcoming.getOutputStream()).start();
-				new Writer(outcoming.getInputStream(), incoming.getOutputStream()).start();
-			}
+			new Writer(incoming.getInputStream(), outcoming.getOutputStream()).start();
+			new Writer(outcoming.getInputStream(), incoming.getOutputStream()).start();
 		}
 		catch (IOException e)
 		{

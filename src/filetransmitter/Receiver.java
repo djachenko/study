@@ -57,8 +57,6 @@ class ReceiverThread extends Thread
 
 				out.write(Boolean.FALSE.toString());
 				out.flush();
-
-				return;
             }
 			else
 			{

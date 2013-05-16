@@ -31,13 +31,9 @@ public class Sender
 				out.flush();
 			}
 
-			Boolean answer = new Boolean(new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine());
+			Boolean answer = Boolean.valueOf(new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine());
 
-			if (!answer)
-			{
-				return;
-			}
-			else
+			if (answer)
 			{
 				byte [] buffer = new byte[1024];
 

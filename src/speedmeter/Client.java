@@ -3,7 +3,6 @@ package speedmeter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client
@@ -75,10 +74,6 @@ public class Client
 			System.out.println("Transfer time: " + averageTime + " milliseconds");
 			System.out.println("Speed: " + speed + " bytes/millisecond");
 			System.out.println("Speed: " + speed / 1024 * 1000 + " Kbytes/second");
-		}
-		catch (UnknownHostException e)
-		{
-			e.printStackTrace();
 		}
 		catch (IOException e)
 		{

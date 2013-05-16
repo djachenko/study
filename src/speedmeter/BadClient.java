@@ -3,7 +3,6 @@ package speedmeter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class BadClient 
 {
@@ -21,10 +20,6 @@ public class BadClient
 			{
 				output.write(buffer);
 			}
-		}
-		catch (UnknownHostException e)
-		{
-			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
