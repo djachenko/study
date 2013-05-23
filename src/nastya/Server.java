@@ -1,11 +1,11 @@
-package speedmeter;
+package nastya;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class BadServer 
+public class Server
 {
 	public static void main(String[] args)
 	{
@@ -15,7 +15,7 @@ public class BadServer
 
 			while (true)
 			{
-				new Thread(new BadServerThread(socket.accept())).start();
+				new Thread(new ServerThread(socket.accept())).start();
 			}
 		}
 		catch (IOException e)
@@ -25,13 +25,13 @@ public class BadServer
 	}
 }
 
-class BadServerThread implements Runnable
+class ServerThread implements Runnable
 {
 	private Socket socket = null;
 	private static final int BUFFERSIZE = 16*1024 * 1024;
 	private static final int TRIES = 25;
 
-	public BadServerThread(Socket incoming)
+	public ServerThread(Socket incoming)
 	{
 		socket = incoming;
 	}

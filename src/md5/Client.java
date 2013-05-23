@@ -50,22 +50,25 @@ public class Client extends Thread
 						int end = Integer.parseInt(reader.readLine());
 
 						System.out.println("Start: " + start);
-						System.out.println("End: " + start);
+						System.out.println("End: " + end);
 
 						for (int code = start; code < end; code++)
 						{
 							String temp = codeToString(code, length);
 
-							//MD5Counter.update(temp.getBytes());
 							byte [] temphash = MD5Counter.digest(temp.getBytes());
 
 							System.out.println(code + " " + temp + ' ' + hash + ' ' + temphash);
 
 							if (Arrays.equals(hash, temphash))
 							{
+								System.out.println("success");
+								
 								writer.println("SUCCESS");
 								writer.println(temp);
 								writer.flush();
+								
+								System.out.println("flush");
 
 								return;
 							}
@@ -86,12 +89,7 @@ public class Client extends Thread
 	{
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)))
 		{
-			while (true)
-			{
-				new Client().start();
-
-				reader.readLine();
-            }
+			new Client().start();
 		}
 		catch (IOException e)
 		{

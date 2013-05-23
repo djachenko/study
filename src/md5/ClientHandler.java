@@ -14,14 +14,16 @@ public class ClientHandler extends Thread
 	private int length;
 	private List<int[]> tasks;
 	private List<String> results;
+	private int id;
 
-	public ClientHandler(Socket socket, byte [] hash, int length, List<int[]> tasks, List<String> results)
+	public ClientHandler(Socket socket, byte [] hash, int length, List<int[]> tasks, List<String> results, int id)
 	{
 		this.socket = socket;
 		this.hash = hash;
 		this.length = length;
 		this.tasks = tasks;
 		this.results = results;
+		this.id = id;
 	}
 
 	@Override
@@ -32,8 +34,9 @@ public class ClientHandler extends Thread
 		{
 			writer.println(length);
 			writer.println(new String(hash));
+			writer.flush();
 
-			for ( ; ;)
+			for ( ; ; )
 			{
 				int [] task;
 
@@ -51,7 +54,12 @@ public class ClientHandler extends Thread
 
 				if (task == null)
 				{
+					System.out.println("Client send stop " + id);
+					
 					writer.println("STOP");
+					writer.flush();
+					
+					socket.close();
 
 					return;
 				}
@@ -68,10 +76,16 @@ public class ClientHandler extends Thread
 					{
 						case "SUCCESS":
 							String result = reader.readLine();
+							
+							//System.out.println("Is " + result + " your string?");
 
+							writer.println("STOP");
+							
 							tasks.clear();
 							results.add(result);
 
+							socket.close();
+							
 							return;
 						case "UNSUCCESS":
 							break;

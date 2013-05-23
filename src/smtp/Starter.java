@@ -17,7 +17,7 @@ public class Starter
 
 				try
 				{
-					client.connect(serverName);
+					client.connect(serverName, 2525);
 
 					break;
 				}
