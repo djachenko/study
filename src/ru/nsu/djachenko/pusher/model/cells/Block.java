@@ -1,12 +1,18 @@
-package ru.nsu.djachenko.pusher.cells;
+package ru.nsu.djachenko.pusher.model.cells;
 
-import ru.nsu.djachenko.pusher.Field;
+import ru.nsu.djachenko.pusher.model.Field;
 
 public class Block extends Cell
 {
 	public Block(Field field, int x, int y)
 	{
 		super(1, field, x, y);
+	}
+
+	@Override
+	public boolean isBlock()
+	{
+		return true;
 	}
 }
 

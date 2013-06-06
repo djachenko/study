@@ -1,7 +1,7 @@
-package ru.nsu.djachenko.pusher.cells;
+package ru.nsu.djachenko.pusher.model.cells;
 
-import ru.nsu.djachenko.pusher.Direction;
-import ru.nsu.djachenko.pusher.Field;
+import ru.nsu.djachenko.pusher.model.Direction;
+import ru.nsu.djachenko.pusher.model.Field;
 
 public class Floor extends Cell
 {

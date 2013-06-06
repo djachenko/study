@@ -1,7 +1,7 @@
-package ru.nsu.djachenko.pusher.cells;
+package ru.nsu.djachenko.pusher.model.cells;
 
-import ru.nsu.djachenko.pusher.Direction;
-import ru.nsu.djachenko.pusher.Field;
+import ru.nsu.djachenko.pusher.model.Direction;
+import ru.nsu.djachenko.pusher.model.Field;
 
 public abstract class Cell
 {
@@ -9,6 +9,8 @@ public abstract class Cell
 	private Field field;
 	private int x;
 	private int y;
+
+	private boolean onPoint = false;
 
 	public Cell(int weight, Field field, int x, int y)
 	{
@@ -20,7 +22,7 @@ public abstract class Cell
 
 	public boolean ableToMove(Direction dir, int strength)
 	{
-		return field.ableToMove(x, y, dir, strength - weight);
+		return strength >= weight && field.ableToMove(x, y, dir, strength - weight);
 	}
 
 	public void move(Direction dir, int strength)
@@ -31,6 +33,26 @@ public abstract class Cell
 
 			x += dir.getDx();
 			y += dir.getDy();
+
+			synchronized (this)
+			{
+				notifyAll();
+			}
 		}
+	}
+
+	public void setOnPoint(boolean value)
+	{
+		onPoint = value;
+	}
+
+	public boolean isOnPoint()
+	{
+		return onPoint;
+	}
+
+	public boolean isBlock()
+	{
+		return false;
 	}
 }
