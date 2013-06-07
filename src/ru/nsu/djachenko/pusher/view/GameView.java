@@ -66,10 +66,22 @@ public class GameView extends JFrame
 
 		levelView = new LevelView(level, transfer);
 
-		add(levelView, BorderLayout.CENTER);
+		JPanel panel;
+
+		if (true)
+		{
+			panel = levelView;
+		}
+		else
+		{
+			panel = new HelloScreen();
+		}
+
+		add(panel);
+
+		pack();
 
 		setTitle("Pusher");
-		setSize(750, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 

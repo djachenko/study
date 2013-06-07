@@ -5,6 +5,7 @@ import ru.nsu.djachenko.pusher.model.Transfer;
 import ru.nsu.djachenko.pusher.model.cells.Cell;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,9 @@ public class LevelView extends JPanel
 		int dy;
 	}
 
+	private int width;
+	private int height;
+
 	public LevelView(Level origin, Transfer transfer)
 	{
 		this.origin = origin;
@@ -32,6 +36,9 @@ public class LevelView extends JPanel
 		this.offsets = new HashMap<>();
 
 		setLayout(null);
+
+		height = CellView.GRIDSIZE * origin.height();
+		width = CellView.GRIDSIZE * origin.width();
 
 		for (int j = 0; j < origin.height(); j++)
 		{
@@ -75,6 +82,8 @@ public class LevelView extends JPanel
 				}
 			}
 		}
+
+		setPreferredSize(new Dimension(width, height));
 	}
 
 	public void run()

@@ -64,4 +64,9 @@ public class Level extends Field implements Runnable
 	{
 		pusher.move(dir);
 	}
+
+	public boolean isActive()
+	{
+		return active;
+	}
 }

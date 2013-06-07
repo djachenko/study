@@ -24,22 +24,24 @@ public class Controller extends KeyAdapter
 				case KeyEvent.VK_LEFT:
 					System.out.println("left");
 					transfer.setDirection(Direction.LEFT);
+					transfer.notify();
 					break;
 				case KeyEvent.VK_RIGHT:
 					System.out.println("right");
 					transfer.setDirection(Direction.RIGHT);
+					transfer.notify();
 					break;
 				case KeyEvent.VK_DOWN:
 					System.out.println("down");
 					transfer.setDirection(Direction.DOWN);
+					transfer.notify();
 					break;
 				case KeyEvent.VK_UP:
 					System.out.println("up");
 					transfer.setDirection(Direction.UP);
+					transfer.notify();
 					break;
 			}
-
-			transfer.notify();
 		}
 	}
 }
