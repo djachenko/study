@@ -4,19 +4,18 @@ import ru.nsu.djachenko.pusher.model.cells.Pusher;
 
 import java.io.IOException;
 
-public class Level extends Thread
+public class Level extends Field implements Runnable
 {
-	private Field field;
 	private Pusher pusher;
 	private boolean active;
 	Transfer lock;
 
 	public Level(String levelFile, Transfer lock) throws IOException
 	{
-		field = new Field();
-		field.init(levelFile);
+		super();
+		init(levelFile);
 
-		pusher = field.getPusher();
+		pusher = getPusher();
 
 		this.lock = lock;
 	}
@@ -27,7 +26,7 @@ public class Level extends Thread
 
 		active = true;
 
-		field.print();
+		print();
 
 		while (active)
 		{
@@ -39,14 +38,20 @@ public class Level extends Thread
 				}
 
 				movePusher(lock.getDirection());
-				field.print();
+
+				synchronized (this)
+				{
+					notify();
+				}
+
+				print();
 			}
 			catch (InterruptedException e)
 			{
 				e.printStackTrace();
 			}
 
-			if (field.blocksNotOnPoints() == 0)
+			if (blocksNotOnPoints() == 0)
 			{
 				active = false;
 			}

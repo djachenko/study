@@ -9,7 +9,7 @@ public class Pusher extends Cell//толкатель - это просто уп�
 
     public Pusher(Field field, int x, int y)
 	{
-		super(0, field, x, y);
+		super(Type.PUSHER, field, x, y);
 	}
 
 	public void move(Direction dir)

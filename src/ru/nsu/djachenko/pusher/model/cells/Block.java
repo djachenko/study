@@ -6,7 +6,7 @@ public class Block extends Cell
 {
 	public Block(Field field, int x, int y)
 	{
-		super(1, field, x, y);
+		super(Type.BLOCK, field, x, y);
 	}
 
 	@Override

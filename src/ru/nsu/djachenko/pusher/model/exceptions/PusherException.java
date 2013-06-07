@@ -1,4 +1,4 @@
-package ru.nsu.djachenko.pusher.exceptions;
+package ru.nsu.djachenko.pusher.model.exceptions;
 
 public class PusherException extends Exception
 {

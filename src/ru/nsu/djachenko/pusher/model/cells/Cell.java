@@ -12,9 +12,30 @@ public abstract class Cell
 
 	private boolean onPoint = false;
 
-	public Cell(int weight, Field field, int x, int y)
+	public enum Type
 	{
-		this.weight = weight;
+		BLOCK('*', 1),
+		PUSHER('t', 0),
+		POINT('&', -1),
+		WALL('x', -1),
+		FLOOR('.', -1);
+
+		public final char representation;
+		public final int weight;
+
+		private Type(char x, int weight)
+		{
+			representation = x;
+			this.weight = weight;
+		}
+	}
+
+	public final Type type;
+
+	public Cell(Type type, Field field, int x, int y)
+	{
+		this.type = type;
+		weight = type.weight;
 		this.field = field;
 		this.x = x;
 		this.y = y;
@@ -22,7 +43,7 @@ public abstract class Cell
 
 	public boolean ableToMove(Direction dir, int strength)
 	{
-		return strength >= weight && field.ableToMove(x, y, dir, strength - weight);
+		return weight != -1 && strength >= weight && field.ableToMove(x, y, dir, strength - weight);//movable and enough mana
 	}
 
 	public void move(Direction dir, int strength)
@@ -54,5 +75,15 @@ public abstract class Cell
 	public boolean isBlock()
 	{
 		return false;
+	}
+
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
 	}
 }

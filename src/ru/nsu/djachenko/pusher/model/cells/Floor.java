@@ -7,7 +7,7 @@ public class Floor extends Cell
 {
 	public Floor(Field field, int x, int y)
 	{
-		super(0, field, x, y);
+		super(Type.FLOOR, field, x, y);
 	}
 
 	@Override

@@ -7,7 +7,7 @@ public class Point extends Cell
 {
 	public Point(Field field, int x, int y)
 	{
-		super(0, field, x, y);
+		super(Type.POINT, field, x, y);
 		super.setOnPoint(true);
 	}
 

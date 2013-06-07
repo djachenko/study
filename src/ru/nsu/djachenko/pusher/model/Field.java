@@ -1,5 +1,8 @@
 package ru.nsu.djachenko.pusher.model;
 
+import ru.nsu.djachenko.pusher.model.cells.Cell;
+import ru.nsu.djachenko.pusher.model.cells.Pusher;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,36 +98,22 @@ public class Field
 		field[ y + dir.getDy() ][ x + dir.getDx() ].setOnPoint(isPoint);
 	}
 
-	public char getCell(int x, int y)
+	public Cell getCell(int x, int y)
 	{
-		switch (field[y][x].getClass().getSimpleName())
-		{
-			case "Wall":
-				return 'x';
-			case "Floor":
-				return '.';
-			case "Pusher":
-				return 't';
-			case "Block":
-				return '*';
-			case "Point":
-				return '&';
-		}
-
-		return 0;
+		return field[y][x];
 	}
 
-	public ru.nsu.djachenko.pusher.model.cells.Pusher getPusher()
+	public Pusher getPusher()
 	{
 		return pusher;
 	}
 
-	public int getHeight()
+	public int height()
 	{
 		return field.length;
 	}
 
-	public int getWidth()
+	public int width()
 	{
 		return field[0].length;
 	}
@@ -151,11 +140,11 @@ public class Field
 	{
 		StringBuilder temp = new StringBuilder();
 
-		for (int j = 0; j < getHeight(); j++)
+		for (int j = 0; j < height(); j++)
 		{
-			for (int i = 0; i < getWidth(); i++)
+			for (int i = 0; i < width(); i++)
 			{
-				temp.append(getCell(i, j));
+				temp.append(getCell(i, j).type.representation);
 			}
 
 			temp.append('\n');
