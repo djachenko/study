@@ -22,6 +22,7 @@ public class Pusher
 			"level7.pshr",
 			"level8.pshr",
 			"level9.pshr"};
+	private String path = "levels/";
 
 	public Pusher()
 	{
@@ -37,7 +38,7 @@ public class Pusher
 
 			for (int i = 0; i < levels.length; i++)
 			{
-				levels[i] = new Level(i, levelNames[i], directionTransfer);
+				levels[i] = new Level(i, path + levelNames[i], directionTransfer);
 			}
 
 			new Thread(new GameView(levels, directionTransfer, numberTransfer)).start();//launch graphics
@@ -62,7 +63,7 @@ public class Pusher
 
 				Level level = levels[index];
 
-				levels[index] = new Level(index, levelNames[index], directionTransfer);
+				levels[index] = new Level(index, path + levelNames[index], directionTransfer);
 
 				level.run();
 			}

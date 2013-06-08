@@ -33,7 +33,7 @@ public class RecordTable
 	}
 
 	private Entry[] table;
-	private String fileName = new String("records.txt");
+	private String fileName = "records.txt";
 
 	public static RecordTable getInstance()
 	{
