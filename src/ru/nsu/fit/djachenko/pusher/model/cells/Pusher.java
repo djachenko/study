@@ -14,7 +14,6 @@ public class Pusher extends Cell//толкатель - это просто уп�
 
 	public void move(Direction dir)
 	{
-		System.out.println("pusher.move");
 		super.move(dir, strength);
 	}
 }

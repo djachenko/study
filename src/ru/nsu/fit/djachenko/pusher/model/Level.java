@@ -33,8 +33,6 @@ public class Level extends Field
 
 		active = true;
 
-		print();
-
 		while (active)
 		{
 			try
