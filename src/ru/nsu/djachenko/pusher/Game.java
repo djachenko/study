@@ -12,7 +12,16 @@ public class Game
 	private final DirectionTransfer directionTransfer;//to tell model where to move
 	private final NumberTransfer numberTransfer;//to choose level to start
 
-	private String [] levelNames = {"first.pshr", "second.pshr"};
+	private String [] levelNames = {"level0.pshr",
+			"level1.pshr",
+			"level2.pshr",
+			"level3.pshr",
+			"level4.pshr",
+			"level5.pshr",
+			"level6.pshr",
+			"level7.pshr",
+			"level8.pshr",
+			"level9.pshr"};
 
 	public Game()
 	{
@@ -28,7 +37,7 @@ public class Game
 
 			for (int i = 0; i < levels.length; i++)
 			{
-				levels[i] = new Level(levelNames[i], directionTransfer);
+				levels[i] = new Level(i, levelNames[i], directionTransfer);
 			}
 
 			new Thread(new GameView(levels, directionTransfer, numberTransfer)).start();//launch graphics
@@ -53,7 +62,7 @@ public class Game
 
 				Level level = levels[index];
 
-				levels[index] = new Level(levelNames[index], directionTransfer);
+				levels[index] = new Level(index, levelNames[index], directionTransfer);
 
 				level.run();
 			}

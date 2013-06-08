@@ -9,8 +9,11 @@ public class Level extends Field
 	private Pusher pusher;
 	private boolean active;
 	private final DirectionTransfer directionTransfer;
+	private long time;
+	private int count;
+	public final int id;
 
-	public Level(String levelFile, DirectionTransfer directionTransfer) throws IOException
+	public Level(int id, String levelFile, DirectionTransfer directionTransfer) throws IOException
 	{
 		super();
 
@@ -19,6 +22,9 @@ public class Level extends Field
 		pusher = getPusher();
 
 		this.directionTransfer = directionTransfer;
+		this.time = 0;
+		this.count = 0;
+		this.id = id;
 	}
 
 	public void run()
@@ -39,6 +45,7 @@ public class Level extends Field
 				}
 
 				movePusher(directionTransfer.getDirection());
+				count++;
 
 				synchronized (this)
 				{
@@ -57,6 +64,18 @@ public class Level extends Field
 		}
 
 		long end = System.currentTimeMillis();
+
+		time = end - start;
+	}
+
+	public long getTime()
+	{
+		return time;
+	}
+
+	public int getCount()
+	{
+		return count;
 	}
 
 	public void stop()

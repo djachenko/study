@@ -1,9 +1,6 @@
 package ru.nsu.djachenko.pusher.view;
 
-import ru.nsu.djachenko.pusher.model.Controller;
-import ru.nsu.djachenko.pusher.model.DirectionTransfer;
-import ru.nsu.djachenko.pusher.model.Level;
-import ru.nsu.djachenko.pusher.model.NumberTransfer;
+import ru.nsu.djachenko.pusher.model.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -38,15 +35,43 @@ public class GameView extends JFrame implements Runnable
 
 	public void initUI()
 	{
-		JMenuBar programMenu = new JMenuBar();
+		final JMenuBar programMenu = new JMenuBar();
 
 		JMenu game = new JMenu("Game");
 		{
 			JMenuItem scores = new JMenuItem("Scores");
-			JMenuItem reset = new JMenuItem("Reset the game");
-			JMenuItem exit = new JMenuItem("Exit");
+			{
+				scores.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						new RecordTableView().setVisible(true);
+					}
+				});
+			}
 
-			exit.addActionListener(new ActionListener()
+			JMenuItem reset = new JMenuItem("Reset the game");
+			{
+				reset.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						if(JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(programMenu, "Are you sure to clear record table?", "Confirmation", JOptionPane.OK_CANCEL_OPTION))
+						{
+							for (int i = 0; i < RecordTable.getInstance().size(); i++)
+							{
+								RecordTable.getInstance().clear(i);
+							}
+						}
+					}
+				});
+			}
+
+			JMenuItem exit = new JMenuItem("Exit");
+			{
+				exit.addActionListener(new ActionListener()
 			{
 				@Override
 				public void actionPerformed(ActionEvent e)
@@ -54,6 +79,7 @@ public class GameView extends JFrame implements Runnable
 					System.exit(0);
 				}
 			});
+			}
 
 			game.add(scores);
 			game.add(reset);
@@ -63,7 +89,28 @@ public class GameView extends JFrame implements Runnable
 		JMenu help = new JMenu("Help");
 		{
 			JMenuItem view = new JMenuItem("View help");
+			{
+				view.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						HelpView.getInstance().setVisible(true);
+					}
+				});
+			}
+
 			JMenuItem about = new JMenuItem("About");
+			{
+				about.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						AboutView.getInstance().setVisible(true);
+					}
+				});
+			}
 
 			help.add(view);
 			help.add(about);

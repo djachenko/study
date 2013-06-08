@@ -1,6 +1,7 @@
 package ru.nsu.djachenko.pusher.view;
 
 import ru.nsu.djachenko.pusher.model.Level;
+import ru.nsu.djachenko.pusher.model.RecordTable;
 import ru.nsu.djachenko.pusher.model.cells.Cell;
 
 import javax.swing.*;
@@ -115,15 +116,20 @@ public class LevelView extends JPanel
 			{
 				for (ActiveCellView cell : cells)
 				{
-					cell.setLocation(cell.getX() + offsets.get(cell).dx, cell.getY() + offsets.get(cell).dy);
+					cell.setLocation(cell.getX() + offsets.get(cell).dx, cell.getY() + offsets.get(cell).dy);//move
 					setComponentZOrder(cell, cell.type.order);
 				}
 			}
 
 			for (ActiveCellView cell : cells)
 			{
-				cell.moveCell(offsets.get(cell).dx, offsets.get(cell).dy);
+				cell.moveCell(offsets.get(cell).dx, offsets.get(cell).dy);//update coordinates
 			}
+		}
+
+		if (RecordTable.getInstance().getEntry(origin.id).time == 0 || origin.getTime() < RecordTable.getInstance().getEntry(origin.id).time)
+		{
+			new ChampionView(origin.id, origin.getTime(), origin.getCount()).setVisible(true);
 		}
 	}
 }
