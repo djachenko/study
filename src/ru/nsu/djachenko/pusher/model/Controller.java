@@ -5,11 +5,11 @@ import java.awt.event.KeyEvent;
 
 public class Controller extends KeyAdapter
 {
-	private Transfer transfer;
+	private final DirectionTransfer directionTransfer;
 
-	public Controller(Transfer transfer)
+	public Controller(DirectionTransfer directionTransfer)
 	{
-		this.transfer = transfer;
+		this.directionTransfer = directionTransfer;
 	}
 
 	@Override
@@ -17,29 +17,25 @@ public class Controller extends KeyAdapter
 	{
 		int key = e.getKeyCode();
 
-		synchronized (transfer)
+		synchronized (directionTransfer)
 		{
 			switch (key)
 			{
 				case KeyEvent.VK_LEFT:
-					System.out.println("left");
-					transfer.setDirection(Direction.LEFT);
-					transfer.notify();
+					directionTransfer.setDirection(Direction.LEFT);
+					directionTransfer.notifyAll();
 					break;
 				case KeyEvent.VK_RIGHT:
-					System.out.println("right");
-					transfer.setDirection(Direction.RIGHT);
-					transfer.notify();
+					directionTransfer.setDirection(Direction.RIGHT);
+					directionTransfer.notifyAll();
 					break;
 				case KeyEvent.VK_DOWN:
-					System.out.println("down");
-					transfer.setDirection(Direction.DOWN);
-					transfer.notify();
+					directionTransfer.setDirection(Direction.DOWN);
+					directionTransfer.notifyAll();
 					break;
 				case KeyEvent.VK_UP:
-					System.out.println("up");
-					transfer.setDirection(Direction.UP);
-					transfer.notify();
+					directionTransfer.setDirection(Direction.UP);
+					directionTransfer.notifyAll();
 					break;
 			}
 		}

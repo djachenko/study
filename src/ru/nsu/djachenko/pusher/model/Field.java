@@ -11,7 +11,6 @@ public class Field
 {
 	private ru.nsu.djachenko.pusher.model.cells.Cell[][] field = null;
 	private ru.nsu.djachenko.pusher.model.cells.Pusher pusher;
-	private List<ru.nsu.djachenko.pusher.model.cells.Block> blocks;
 
 	public Field()
 	{
@@ -23,7 +22,6 @@ public class Field
 		{
 			List<ru.nsu.djachenko.pusher.model.cells.Cell[]> column = new ArrayList();
 			ArrayList<ru.nsu.djachenko.pusher.model.cells.Cell> line = new ArrayList<>();
-			blocks = new ArrayList<>();
 
 			int x = 0;
 			int y = 0;
@@ -50,7 +48,6 @@ public class Field
 						break;
 					case '*':
 						ru.nsu.djachenko.pusher.model.cells.Block block = new ru.nsu.djachenko.pusher.model.cells.Block(this, x, y);
-						blocks.add(block);
 						line.add(block);
 						x++;
 						break;
@@ -118,7 +115,7 @@ public class Field
 		return field[0].length;
 	}
 
-	public int blocksNotOnPoints()
+	public int freePoints()
 	{
 		int count = 0;
 

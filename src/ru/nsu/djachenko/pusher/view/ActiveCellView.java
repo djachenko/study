@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ActiveCellView extends CellView
 {
-	private Cell origin;
+	private final Cell origin;
 	private int x;
 	private int y;
 

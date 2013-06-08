@@ -1,7 +1,6 @@
 package ru.nsu.djachenko.pusher.view;
 
 import ru.nsu.djachenko.pusher.model.Level;
-import ru.nsu.djachenko.pusher.model.Transfer;
 import ru.nsu.djachenko.pusher.model.cells.Cell;
 
 import javax.swing.*;
@@ -12,8 +11,7 @@ import java.util.Set;
 
 public class LevelView extends JPanel
 {
-	private Level origin;
-	private Transfer transfer;
+	private final Level origin;
 
 	private Map<Cell, ActiveCellView> activeCells;
 	private Map<ActiveCellView, D> offsets;
@@ -24,21 +22,22 @@ public class LevelView extends JPanel
 		int dy;
 	}
 
-	private int width;
-	private int height;
-
-	public LevelView(Level origin, Transfer transfer)
+	public LevelView(Level origin)
 	{
 		this.origin = origin;
-		this.transfer = transfer;
 
 		this.activeCells = new HashMap<>();
 		this.offsets = new HashMap<>();
 
+		initUI();
+	}
+
+	public void initUI()
+	{
 		setLayout(null);
 
-		height = CellView.GRIDSIZE * origin.height();
-		width = CellView.GRIDSIZE * origin.width();
+		int height = CellView.GRIDSIZE * origin.height();
+		int width = CellView.GRIDSIZE * origin.width();
 
 		for (int j = 0; j < origin.height(); j++)
 		{
@@ -88,7 +87,7 @@ public class LevelView extends JPanel
 
 	public void run()
 	{
-		while (true)
+		while (origin.isActive())
 		{
 			synchronized (origin)
 			{

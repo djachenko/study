@@ -4,20 +4,21 @@ import ru.nsu.djachenko.pusher.model.cells.Pusher;
 
 import java.io.IOException;
 
-public class Level extends Field implements Runnable
+public class Level extends Field
 {
 	private Pusher pusher;
 	private boolean active;
-	Transfer lock;
+	private final DirectionTransfer directionTransfer;
 
-	public Level(String levelFile, Transfer lock) throws IOException
+	public Level(String levelFile, DirectionTransfer directionTransfer) throws IOException
 	{
 		super();
+
 		init(levelFile);
 
 		pusher = getPusher();
 
-		this.lock = lock;
+		this.directionTransfer = directionTransfer;
 	}
 
 	public void run()
@@ -32,32 +33,35 @@ public class Level extends Field implements Runnable
 		{
 			try
 			{
-				synchronized (lock)
+				synchronized (directionTransfer)
 				{
-					lock.wait();
+					directionTransfer.wait();
 				}
 
-				movePusher(lock.getDirection());
+				movePusher(directionTransfer.getDirection());
 
 				synchronized (this)
 				{
-					notify();
+					notify();//tell view to update
 				}
-
-				print();
 			}
 			catch (InterruptedException e)
 			{
 				e.printStackTrace();
 			}
 
-			if (blocksNotOnPoints() == 0)
+			if (freePoints() == 0)
 			{
 				active = false;
 			}
 		}
 
 		long end = System.currentTimeMillis();
+	}
+
+	public void stop()
+	{
+		active = false;
 	}
 
 	public void movePusher(Direction dir)

@@ -1,35 +1,62 @@
 package ru.nsu.djachenko.pusher;
 
-import ru.nsu.djachenko.pusher.model.Controller;
+import ru.nsu.djachenko.pusher.model.DirectionTransfer;
 import ru.nsu.djachenko.pusher.model.Level;
-import ru.nsu.djachenko.pusher.model.Transfer;
+import ru.nsu.djachenko.pusher.model.NumberTransfer;
 import ru.nsu.djachenko.pusher.view.GameView;
 
-import javax.swing.*;
 import java.io.IOException;
 
-public class Game extends JFrame
+public class Game
 {
-	Transfer transfer;
+	private final DirectionTransfer directionTransfer;//to tell model where to move
+	private final NumberTransfer numberTransfer;//to choose level to start
+
+	private String [] levelNames = {"first.pshr", "second.pshr"};
 
 	public Game()
 	{
-		transfer = new Transfer();
-
-		addKeyListener(new Controller(transfer));
+		directionTransfer = new DirectionTransfer();
+		numberTransfer = new NumberTransfer();
 	}
 
 	public void run()
 	{
 		try
 		{
-			Level level = new Level("first.pshr", transfer);
+			Level[] levels = new Level[levelNames.length];
 
-			new Thread(level).start();
+			for (int i = 0; i < levels.length; i++)
+			{
+				levels[i] = new Level(levelNames[i], directionTransfer);
+			}
 
-			GameView game = new GameView(level, transfer);
-			game.setVisible(true);
-			game.run();
+			new Thread(new GameView(levels, directionTransfer, numberTransfer)).start();//launch graphics
+
+			int index = 0;
+
+			while (true)
+			{
+				synchronized (numberTransfer)
+				{
+					try
+					{
+						numberTransfer.wait();
+
+						index = numberTransfer.getNumber();
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
+
+				Level level = levels[index];
+
+				levels[index] = new Level(levelNames[index], directionTransfer);
+
+				level.run();
+			}
 		}
 		catch (IOException e)
 		{
@@ -39,7 +66,6 @@ public class Game extends JFrame
 
 	public static void main(String[] args)
 	{
-		Game game = new Game();
-		game.run();
+		new Game().run();
 	}
 }

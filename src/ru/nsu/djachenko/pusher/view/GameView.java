@@ -1,33 +1,43 @@
 package ru.nsu.djachenko.pusher.view;
 
 import ru.nsu.djachenko.pusher.model.Controller;
+import ru.nsu.djachenko.pusher.model.DirectionTransfer;
 import ru.nsu.djachenko.pusher.model.Level;
-import ru.nsu.djachenko.pusher.model.Transfer;
+import ru.nsu.djachenko.pusher.model.NumberTransfer;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameView extends JFrame
+public class GameView extends JFrame implements Runnable
 {
-	private Transfer transfer;
-	private Level level;
+	private DirectionTransfer directionTransfer;
+	private final NumberTransfer numberTransfer;
+	private Level[] levels;
 
-	private LevelView levelView;
+	private LevelView[] levelViews;
+	private GreetingScreen greetingScreen;
 
-	public GameView(Level level, Transfer transfer)
+	public GameView(Level[] levels, DirectionTransfer directionTransfer, NumberTransfer numberTransfer)
 	{
-		this.level = level;
-		this.transfer = transfer;
+		this.levels = levels;
+		this.directionTransfer = directionTransfer;
+		this.numberTransfer = numberTransfer;
+
+		levelViews = new LevelView[levels.length];
+
+		for (int i = 0; i < levelViews.length; i++)
+		{
+			levelViews[i] = new LevelView(levels[i]);
+		}
+
+		greetingScreen = new GreetingScreen(numberTransfer, levels.length);
 
 		initUI();
 	}
 
 	public void initUI()
 	{
-		setLayout(new BorderLayout());
-
 		JMenuBar programMenu = new JMenuBar();
 
 		JMenu game = new JMenu("Game");
@@ -64,32 +74,50 @@ public class GameView extends JFrame
 
 		setJMenuBar(programMenu);
 
-		levelView = new LevelView(level, transfer);
-
-		JPanel panel;
-
-		if (true)
-		{
-			panel = levelView;
-		}
-		else
-		{
-			panel = new HelloScreen();
-		}
-
-		add(panel);
-
-		pack();
 
 		setTitle("Pusher");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		addKeyListener(new Controller(transfer));
+		addKeyListener(new Controller(directionTransfer));
+
+		setVisible(true);
 	}
 
 	public void run()
 	{
-		levelView.run();
+		while (true)
+		{
+			add(greetingScreen);
+			pack();
+
+			synchronized (numberTransfer)
+			{
+				try
+				{
+					numberTransfer.wait();
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+
+			startLevel(numberTransfer.getNumber());
+		}
+	}
+
+	public void startLevel(int index)
+	{
+		remove(greetingScreen);
+
+		add(levelViews[index]);
+		pack();
+
+		levelViews[index].run();
+
+		remove(levelViews[index]);
+
+		levelViews[index] = new LevelView(levels[index]);
 	}
 }

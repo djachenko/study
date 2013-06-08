@@ -1,6 +1,6 @@
 package ru.nsu.djachenko.pusher.model;
 
-public class Transfer
+public class DirectionTransfer
 {
 	private Direction direction;
 
