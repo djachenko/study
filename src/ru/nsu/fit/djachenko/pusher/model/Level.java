@@ -42,6 +42,11 @@ public class Level extends Field
 					directionTransfer.wait();
 				}
 
+				if (!active)
+				{
+					return;
+				}
+
 				movePusher(directionTransfer.getDirection());
 				count++;
 
@@ -79,6 +84,11 @@ public class Level extends Field
 	public void stop()
 	{
 		active = false;
+
+		synchronized (this)
+		{
+			notifyAll();
+		}
 	}
 
 	public void movePusher(Direction dir)

@@ -110,6 +110,11 @@ public class LevelView extends JPanel
 				}
 			}
 
+			if (!origin.isActive())
+			{
+				return;
+			}
+
 			for (Map.Entry<Cell, ActiveCellView> i : activeCells.entrySet())
 			{
 				ActiveCellView active = i.getValue();
@@ -139,5 +144,10 @@ public class LevelView extends JPanel
 		{
 			new ChampionView(origin.id, origin.getTime(), origin.getCount()).setVisible(true);
 		}
+	}
+
+	public void stop()
+	{
+		origin.stop();
 	}
 }

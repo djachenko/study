@@ -154,14 +154,48 @@ public class GameView extends JFrame implements Runnable
 		}
 	}
 
-	public void startLevel(int index)
+	public void startLevel(final int index)
 	{
+		JMenu game = getJMenuBar().getMenu(0);
+
+		JMenuItem reset = game.getItem(1);
+		JMenuItem exit = game.getItem(2);
+
+		game.remove(reset);
+		game.remove(exit);
+
+		JMenuItem mainMenu = new JMenuItem("Main menu");
+		{
+			mainMenu.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					levelViews[index].stop();
+
+					synchronized (directionTransfer)
+					{
+						directionTransfer.notifyAll();
+					}
+				}
+			});
+		}
+
+		game.add(mainMenu);
+		game.add(exit);
+
 		remove(greetingScreen);
 
 		add(levelViews[index]);
 		pack();
 
 		levelViews[index].run();
+
+		game.remove(mainMenu);
+		game.remove(exit);
+
+		game.add(reset);
+		game.add(exit);
 
 		remove(levelViews[index]);
 
