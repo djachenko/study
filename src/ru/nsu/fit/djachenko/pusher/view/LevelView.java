@@ -75,7 +75,15 @@ public class LevelView extends JPanel
 						ActiveCellView activeCell = new ActiveCellView(originCell, type);
 
 						add(activeCell);
-						setComponentZOrder(activeCell, type.order);
+
+						if (type != null)
+						{
+							setComponentZOrder(activeCell, type.order);
+						}
+						else
+						{
+							setComponentZOrder(activeCell, 0);
+						}
 
 						activeCells.put(originCell, activeCell);
 						offsets.put(activeCell, new D());
