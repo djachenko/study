@@ -1,4 +1,4 @@
-package ru.nsu.djachenko.pusher.model;
+package ru.nsu.fit.djachenko.pusher.model;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

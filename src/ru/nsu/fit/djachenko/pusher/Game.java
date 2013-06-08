@@ -1,9 +1,9 @@
-package ru.nsu.djachenko.pusher;
+package ru.nsu.fit.djachenko.pusher;
 
-import ru.nsu.djachenko.pusher.model.DirectionTransfer;
-import ru.nsu.djachenko.pusher.model.Level;
-import ru.nsu.djachenko.pusher.model.NumberTransfer;
-import ru.nsu.djachenko.pusher.view.GameView;
+import ru.nsu.fit.djachenko.pusher.model.DirectionTransfer;
+import ru.nsu.fit.djachenko.pusher.model.Level;
+import ru.nsu.fit.djachenko.pusher.model.NumberTransfer;
+import ru.nsu.fit.djachenko.pusher.view.GameView;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
-package ru.nsu.djachenko.pusher.model;
+package ru.nsu.fit.djachenko.pusher.model;
 
-import ru.nsu.djachenko.pusher.model.cells.Cell;
-import ru.nsu.djachenko.pusher.model.cells.Pusher;
+import ru.nsu.fit.djachenko.pusher.model.cells.Cell;
+import ru.nsu.fit.djachenko.pusher.model.cells.Pusher;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Field
 {
-	private ru.nsu.djachenko.pusher.model.cells.Cell[][] field = null;
-	private ru.nsu.djachenko.pusher.model.cells.Pusher pusher;
+	private ru.nsu.fit.djachenko.pusher.model.cells.Cell[][] field = null;
+	private ru.nsu.fit.djachenko.pusher.model.cells.Pusher pusher;
 
 	public Field()
 	{
@@ -20,8 +20,8 @@ public class Field
 	{
 		try(BufferedReader reader = new BufferedReader(new FileReader(configFile)))
 		{
-			List<ru.nsu.djachenko.pusher.model.cells.Cell[]> column = new ArrayList();
-			ArrayList<ru.nsu.djachenko.pusher.model.cells.Cell> line = new ArrayList<>();
+			List<ru.nsu.fit.djachenko.pusher.model.cells.Cell[]> column = new ArrayList();
+			ArrayList<ru.nsu.fit.djachenko.pusher.model.cells.Cell> line = new ArrayList<>();
 
 			int x = 0;
 			int y = 0;
@@ -31,32 +31,32 @@ public class Field
 				switch (reader.read())
 				{
 					case -1:
-						column.add(line.toArray(new ru.nsu.djachenko.pusher.model.cells.Cell[line.size()]));
+						column.add(line.toArray(new ru.nsu.fit.djachenko.pusher.model.cells.Cell[line.size()]));
 						break readLoop;
 					case 'x':
-						line.add(new ru.nsu.djachenko.pusher.model.cells.Wall(this, x, y));
+						line.add(new ru.nsu.fit.djachenko.pusher.model.cells.Wall(this, x, y));
 						x++;
 						break;
 					case '.':
-						line.add(new ru.nsu.djachenko.pusher.model.cells.Floor(this, x, y));
+						line.add(new ru.nsu.fit.djachenko.pusher.model.cells.Floor(this, x, y));
 						x++;
 						break;
 					case 't':
-						pusher = new ru.nsu.djachenko.pusher.model.cells.Pusher(this, x, y);
+						pusher = new ru.nsu.fit.djachenko.pusher.model.cells.Pusher(this, x, y);
 						line.add(pusher);
 						x++;
 						break;
 					case '*':
-						ru.nsu.djachenko.pusher.model.cells.Block block = new ru.nsu.djachenko.pusher.model.cells.Block(this, x, y);
+						ru.nsu.fit.djachenko.pusher.model.cells.Block block = new ru.nsu.fit.djachenko.pusher.model.cells.Block(this, x, y);
 						line.add(block);
 						x++;
 						break;
 					case '&':
-						line.add(new ru.nsu.djachenko.pusher.model.cells.Point(this, x, y));
+						line.add(new ru.nsu.fit.djachenko.pusher.model.cells.Point(this, x, y));
 						x++;
 						break;
 					case '\n':
-						column.add(line.toArray(new ru.nsu.djachenko.pusher.model.cells.Cell[line.size()]));
+						column.add(line.toArray(new ru.nsu.fit.djachenko.pusher.model.cells.Cell[line.size()]));
 						line = new ArrayList<>();
 
 						x = 0;
@@ -67,7 +67,7 @@ public class Field
 				}
 			}
 
-			field = column.toArray(new ru.nsu.djachenko.pusher.model.cells.Cell[column.size()][]);
+			field = column.toArray(new ru.nsu.fit.djachenko.pusher.model.cells.Cell[column.size()][]);
 		}
 	}
 
@@ -85,11 +85,11 @@ public class Field
 
 		if (field[y][x].isOnPoint())
 		{
-			field[y][x] = new ru.nsu.djachenko.pusher.model.cells.Point(this, x, y);
+			field[y][x] = new ru.nsu.fit.djachenko.pusher.model.cells.Point(this, x, y);
 		}
 		else
 		{
-			field[y][x] = new ru.nsu.djachenko.pusher.model.cells.Floor(this, x, y);
+			field[y][x] = new ru.nsu.fit.djachenko.pusher.model.cells.Floor(this, x, y);
 		}
 
 		field[ y + dir.getDy() ][ x + dir.getDx() ].setOnPoint(isPoint);
@@ -119,9 +119,9 @@ public class Field
 	{
 		int count = 0;
 
-		for (ru.nsu.djachenko.pusher.model.cells.Cell[] row : field)
+		for (ru.nsu.fit.djachenko.pusher.model.cells.Cell[] row : field)
 		{
-			for (ru.nsu.djachenko.pusher.model.cells.Cell cell : row)
+			for (ru.nsu.fit.djachenko.pusher.model.cells.Cell cell : row)
 			{
 				if (cell.isOnPoint() && !cell.isBlock())
 				{

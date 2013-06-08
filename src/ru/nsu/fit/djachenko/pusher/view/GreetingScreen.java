@@ -1,6 +1,6 @@
-package ru.nsu.djachenko.pusher.view;
+package ru.nsu.fit.djachenko.pusher.view;
 
-import ru.nsu.djachenko.pusher.model.NumberTransfer;
+import ru.nsu.fit.djachenko.pusher.model.NumberTransfer;
 
 import javax.swing.*;
 import java.awt.*;

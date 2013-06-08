@@ -1,6 +1,6 @@
-package ru.nsu.djachenko.pusher.view;
+package ru.nsu.fit.djachenko.pusher.view;
 
-import ru.nsu.djachenko.pusher.model.RecordTable;
+import ru.nsu.fit.djachenko.pusher.model.RecordTable;
 
 import javax.swing.*;
 import java.awt.*;

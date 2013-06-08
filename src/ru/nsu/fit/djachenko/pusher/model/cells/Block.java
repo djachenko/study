@@ -1,6 +1,6 @@
-package ru.nsu.djachenko.pusher.model.cells;
+package ru.nsu.fit.djachenko.pusher.model.cells;
 
-import ru.nsu.djachenko.pusher.model.Field;
+import ru.nsu.fit.djachenko.pusher.model.Field;
 
 public class Block extends Cell
 {

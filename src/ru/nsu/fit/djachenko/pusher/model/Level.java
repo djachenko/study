@@ -1,6 +1,6 @@
-package ru.nsu.djachenko.pusher.model;
+package ru.nsu.fit.djachenko.pusher.model;
 
-import ru.nsu.djachenko.pusher.model.cells.Pusher;
+import ru.nsu.fit.djachenko.pusher.model.cells.Pusher;
 
 import java.io.IOException;
 

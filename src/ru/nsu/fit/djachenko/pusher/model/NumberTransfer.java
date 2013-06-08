@@ -1,4 +1,4 @@
-package ru.nsu.djachenko.pusher.model;
+package ru.nsu.fit.djachenko.pusher.model;
 
 public class NumberTransfer
 {

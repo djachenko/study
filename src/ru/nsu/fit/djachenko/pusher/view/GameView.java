@@ -1,6 +1,6 @@
-package ru.nsu.djachenko.pusher.view;
+package ru.nsu.fit.djachenko.pusher.view;
 
-import ru.nsu.djachenko.pusher.model.*;
+import ru.nsu.fit.djachenko.pusher.model.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

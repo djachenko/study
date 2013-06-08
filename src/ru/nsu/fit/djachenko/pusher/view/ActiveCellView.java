@@ -1,9 +1,6 @@
-package ru.nsu.djachenko.pusher.view;
+package ru.nsu.fit.djachenko.pusher.view;
 
-import ru.nsu.djachenko.pusher.model.cells.Cell;
-
-import javax.swing.*;
-import java.awt.*;
+import ru.nsu.fit.djachenko.pusher.model.cells.Cell;
 
 public class ActiveCellView extends CellView
 {

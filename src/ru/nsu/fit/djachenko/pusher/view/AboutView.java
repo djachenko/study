@@ -1,4 +1,4 @@
-package ru.nsu.djachenko.pusher.view;
+package ru.nsu.fit.djachenko.pusher.view;
 
 import javax.swing.*;
 import java.awt.*;
