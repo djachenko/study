@@ -3,7 +3,7 @@ package ru.nsu.fit.djachenko.pusher.model.cells;
 import ru.nsu.fit.djachenko.pusher.model.Direction;
 import ru.nsu.fit.djachenko.pusher.model.Field;
 
-public class Pusher extends Cell//толкатель - это просто управляемый блок. Или нет - вопрос в обработке коллизий
+public class Pusher extends Cell
 {
 	int strength = 1;
 

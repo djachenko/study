@@ -7,7 +7,7 @@ import ru.nsu.fit.djachenko.pusher.view.GameView;
 
 import java.io.IOException;
 
-public class Game
+public class Pusher
 {
 	private final DirectionTransfer directionTransfer;//to tell model where to move
 	private final NumberTransfer numberTransfer;//to choose level to start
@@ -23,7 +23,7 @@ public class Game
 			"level8.pshr",
 			"level9.pshr"};
 
-	public Game()
+	public Pusher()
 	{
 		directionTransfer = new DirectionTransfer();
 		numberTransfer = new NumberTransfer();
@@ -75,6 +75,6 @@ public class Game
 
 	public static void main(String[] args)
 	{
-		new Game().run();
+		new Pusher().run();
 	}
 }
