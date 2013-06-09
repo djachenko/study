@@ -31,10 +31,21 @@ public class Level extends Field
 	{
 		long start = System.currentTimeMillis();
 
-		active = true;
-
-		while (active)
+		synchronized (this)
 		{
+			active = true;
+		}
+
+		while (true)
+		{
+			synchronized (this)
+			{
+				if (!active)
+				{
+					break;
+				}
+			}
+
 			try
 			{
 				synchronized (directionTransfer)
@@ -83,10 +94,9 @@ public class Level extends Field
 
 	public void stop()
 	{
-		active = false;
-
 		synchronized (this)
 		{
+			active = false;
 			notifyAll();
 		}
 	}
@@ -98,6 +108,9 @@ public class Level extends Field
 
 	public boolean isActive()
 	{
-		return active;
+		synchronized (this)
+		{
+			return active;
+		}
 	}
 }

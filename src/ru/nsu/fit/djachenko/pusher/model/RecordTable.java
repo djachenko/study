@@ -22,14 +22,6 @@ public class RecordTable
 			time = Long.parseLong(splitted[2]);
 			count = Integer.parseInt(splitted[3]);
 		}
-
-		Entry(int level, String name, long time, int count)
-		{
-			this.level = level;
-			this.name = name;
-			this.count = count;
-			this.time = time;
-		}
 	}
 
 	private Entry[] table;
@@ -68,10 +60,6 @@ public class RecordTable
 			{
 				table[i] = new Entry(reader.readLine());
 			}
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
