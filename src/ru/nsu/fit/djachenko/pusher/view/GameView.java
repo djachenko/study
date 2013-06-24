@@ -1,39 +1,51 @@
 package ru.nsu.fit.djachenko.pusher.view;
 
-import ru.nsu.fit.djachenko.pusher.model.*;
+import ru.nsu.fit.djachenko.pusher.Game;
+import ru.nsu.fit.djachenko.pusher.model.Controller;
+import ru.nsu.fit.djachenko.pusher.model.DirectionTransfer;
+import ru.nsu.fit.djachenko.pusher.model.RecordTable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameView extends JFrame implements Runnable
+public class GameView extends JFrame
 {
-	private DirectionTransfer directionTransfer;
-	private final NumberTransfer numberTransfer;
-	private Level[] levels;
+	private Game origin;
 
-	private LevelView[] levelViews;
+	private Timer timer;
+	private final int delay = 100;
+
 	private GreetingScreen greetingScreen;
+	private LevelView currentlevelView;
 
-	public GameView(Level[] levels, DirectionTransfer directionTransfer, NumberTransfer numberTransfer)
+	private JMenuItem reset;
+
+	private boolean active;
+
+	public GameView(Game origin)
 	{
-		this.levels = levels;
-		this.directionTransfer = directionTransfer;
-		this.numberTransfer = numberTransfer;
+		this.origin = origin;
 
-		levelViews = new LevelView[levels.length];
+		greetingScreen = new GreetingScreen(origin.getNumberTransfer(), Game.countLevels());
 
-		for (int i = 0; i < levelViews.length; i++)
+		timer = new Timer(delay, new ActionListener()
 		{
-			levelViews[i] = new LevelView(levels[i]);
-		}
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				iteration();
+			}
+		});
 
-		greetingScreen = new GreetingScreen(numberTransfer, levels.length);
+		initUI(origin.getDirectionTransfer());
 
-		initUI();
+		timer.start();
+
+		active = false;
 	}
 
-	public void initUI()
+	public void initUI(DirectionTransfer directionTransfer)
 	{
 		final JMenuBar programMenu = new JMenuBar();
 
@@ -51,14 +63,17 @@ public class GameView extends JFrame implements Runnable
 				});
 			}
 
-			JMenuItem reset = new JMenuItem("Reset the game");
+			reset = new JMenuItem("Reset the game");
 			{
 				reset.addActionListener(new ActionListener()
 				{
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
-						if(JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(programMenu, "Are you sure to clear record table?", "Confirmation", JOptionPane.OK_CANCEL_OPTION))
+						if(JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(programMenu,
+								"Are you sure to clear record table?",
+								"Confirmation",
+								JOptionPane.OK_CANCEL_OPTION))
 						{
 							for (int i = 0; i < RecordTable.getInstance().size(); i++)
 							{
@@ -121,44 +136,22 @@ public class GameView extends JFrame implements Runnable
 
 		setJMenuBar(programMenu);
 
+		add(greetingScreen);
+		pack();
 
 		setTitle("Pusher");
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		addKeyListener(new Controller(directionTransfer));
 
 		setVisible(true);
 	}
 
-	public void run()
-	{
-		while (true)
-		{
-			add(greetingScreen);
-			pack();
-
-			synchronized (numberTransfer)
-			{
-				try
-				{
-					numberTransfer.wait();
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
-
-			startLevel(numberTransfer.getNumber());
-		}
-	}
-
-	public void startLevel(final int index)
+	public void startLevel()
 	{
 		JMenu game = getJMenuBar().getMenu(0);
 
-		JMenuItem reset = game.getItem(1);
 		JMenuItem exit = game.getItem(2);
 
 		game.remove(reset);
@@ -171,12 +164,7 @@ public class GameView extends JFrame implements Runnable
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					levelViews[index].stop();
-
-					synchronized (directionTransfer)
-					{
-						directionTransfer.notifyAll();
-					}
+					origin.stop();
 				}
 			});
 		}
@@ -186,10 +174,21 @@ public class GameView extends JFrame implements Runnable
 
 		remove(greetingScreen);
 
-		add(levelViews[index]);
+		currentlevelView = new LevelView(origin.getCurrentLevel());
+
+		add(currentlevelView);
 		pack();
 
-		levelViews[index].run();
+		active = true;
+		currentlevelView.start();
+	}
+
+	public void stopLevel()
+	{
+		JMenu game = getJMenuBar().getMenu(0);
+
+		JMenuItem mainMenu = game.getItem(1);
+		JMenuItem exit = game.getItem(2);
 
 		game.remove(mainMenu);
 		game.remove(exit);
@@ -197,8 +196,27 @@ public class GameView extends JFrame implements Runnable
 		game.add(reset);
 		game.add(exit);
 
-		remove(levelViews[index]);
+		currentlevelView.stop();
+		active = false;
 
-		levelViews[index] = new LevelView(levels[index]);
+		remove(currentlevelView);
+
+		add(greetingScreen);
+		pack();
+	}
+
+	public void iteration()
+	{
+		if (origin.isActive() != this.active)
+		{
+			if (!origin.isActive())
+			{
+				stopLevel();
+			}
+			else
+			{
+				startLevel();
+			}
+		}
 	}
 }

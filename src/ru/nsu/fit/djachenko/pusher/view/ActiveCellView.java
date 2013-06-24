@@ -11,7 +11,6 @@ public class ActiveCellView extends CellView
 	public ActiveCellView(Cell origin, Type type)
 	{
 		super(type, origin.getX(), origin.getY());
-		//setBorder(BorderFactory.createLineBorder(Type.FLOOR.color, 10));
 
 		this.origin = origin;
 		this.x = origin.getX();

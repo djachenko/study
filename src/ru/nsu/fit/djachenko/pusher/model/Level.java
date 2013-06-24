@@ -8,8 +8,10 @@ public class Level extends Field
 {
 	private Pusher pusher;
 	private boolean active;
+
 	private final DirectionTransfer directionTransfer;
 	private long time;
+
 	private int count;
 	public final int id;
 

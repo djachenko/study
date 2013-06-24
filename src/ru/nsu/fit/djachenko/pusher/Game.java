@@ -7,12 +7,12 @@ import ru.nsu.fit.djachenko.pusher.view.GameView;
 
 import java.io.IOException;
 
-public class Pusher
+public class Game
 {
 	private final DirectionTransfer directionTransfer;//to tell model where to move
 	private final NumberTransfer numberTransfer;//to choose level to start
 
-	private String [] levelNames = {"level0.pshr",
+	private static String [] levelNames = {"level0.pshr",
 			"level1.pshr",
 			"level2.pshr",
 			"level3.pshr",
@@ -22,9 +22,13 @@ public class Pusher
 			"level7.pshr",
 			"level8.pshr",
 			"level9.pshr"};
-	private String path = "levels/";
+	private static String path = "levels/";
 
-	public Pusher()
+	private boolean active = false;
+
+	private Level currentLevel = null;
+
+	public Game()
 	{
 		directionTransfer = new DirectionTransfer();
 		numberTransfer = new NumberTransfer();
@@ -32,19 +36,10 @@ public class Pusher
 
 	public void run()
 	{
+		int index = 0;
+
 		try
 		{
-			Level[] levels = new Level[levelNames.length];
-
-			for (int i = 0; i < levels.length; i++)
-			{
-				levels[i] = new Level(i, path + levelNames[i], directionTransfer);
-			}
-
-			new Thread(new GameView(levels, directionTransfer, numberTransfer)).start();//launch graphics
-
-			int index = 0;
-
 			while (true)
 			{
 				synchronized (numberTransfer)
@@ -61,11 +56,13 @@ public class Pusher
 					}
 				}
 
-				Level level = levels[index];
+				currentLevel = new Level(index, path + levelNames[index], directionTransfer);
 
-				levels[index] = new Level(index, path + levelNames[index], directionTransfer);
-
-				level.run();
+				active = true;
+				System.out.println("start");
+				currentLevel.run();
+				System.out.println("end");
+				active = false;
 			}
 		}
 		catch (IOException e)
@@ -74,8 +71,42 @@ public class Pusher
 		}
 	}
 
+	public boolean isActive()
+	{
+		return active;
+	}
+
+	public Level getCurrentLevel()
+	{
+		return currentLevel;
+	}
+
+	public static int countLevels()
+	{
+		return levelNames.length;
+	}
+
+	public void stop()
+	{
+		currentLevel.stop();
+	}
+
+	public DirectionTransfer getDirectionTransfer()
+	{
+		return directionTransfer;
+	}
+
+	public NumberTransfer getNumberTransfer()
+	{
+		return numberTransfer;
+	}
+
 	public static void main(String[] args)
 	{
-		new Pusher().run();
+		Game game = new Game();
+
+		new GameView(game);
+
+		game.run();
 	}
 }

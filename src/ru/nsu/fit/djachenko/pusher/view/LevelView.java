@@ -5,10 +5,11 @@ import ru.nsu.fit.djachenko.pusher.model.RecordTable;
 import ru.nsu.fit.djachenko.pusher.model.cells.Cell;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
 
 public class LevelView extends JPanel
 {
@@ -16,6 +17,9 @@ public class LevelView extends JPanel
 
 	private Map<Cell, ActiveCellView> activeCells;
 	private Map<ActiveCellView, D> offsets;
+
+	private Timer timer;
+	private final int delay = 10;
 
 	class D
 	{
@@ -29,6 +33,15 @@ public class LevelView extends JPanel
 
 		this.activeCells = new HashMap<>();
 		this.offsets = new HashMap<>();
+
+		timer = new Timer(delay, new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				iteration();
+			}
+		});
 
 		initUI();
 	}
@@ -44,7 +57,7 @@ public class LevelView extends JPanel
 		{
 			for (int i = 0; i < origin.width(); i++)
 			{
-				Cell originCell = origin.getCell(i,j);
+				Cell originCell = origin.getCell(i, j);
 
 				switch (originCell.type)
 				{
@@ -94,60 +107,46 @@ public class LevelView extends JPanel
 		setPreferredSize(new Dimension(width, height));
 	}
 
-	public void run()
+
+	public void iteration()
 	{
-		while (origin.isActive())
+		for (Map.Entry<Cell, ActiveCellView> i : activeCells.entrySet())
 		{
-			synchronized (origin)
-			{
-				try
-				{
-					origin.wait();
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
+			ActiveCellView active = i.getValue();
 
-			if (!origin.isActive())
-			{
-				return;
-			}
+			offsets.get(active).dx = i.getKey().getX() - active.X();
+			offsets.get(active).dy = i.getKey().getY() - active.Y();
+		}
 
-			for (Map.Entry<Cell, ActiveCellView> i : activeCells.entrySet())
-			{
-				ActiveCellView active = i.getValue();
+		Set<ActiveCellView> cells = offsets.keySet();
 
-				offsets.get(active).dx = i.getKey().getX() - active.X();
-				offsets.get(active).dy = i.getKey().getY() - active.Y();
-			}
-
-			Set<ActiveCellView> cells = offsets.keySet();
-
-			for (int i = 0; i < CellView.GRIDSIZE; i++)
-			{
-				for (ActiveCellView cell : cells)
-				{
-					cell.setLocation(cell.getX() + offsets.get(cell).dx, cell.getY() + offsets.get(cell).dy);//move
-					setComponentZOrder(cell, cell.type.order);
-				}
-			}
-
+		for (int i = 0; i < CellView.GRIDSIZE; i++)
+		{
 			for (ActiveCellView cell : cells)
 			{
-				cell.moveCell(offsets.get(cell).dx, offsets.get(cell).dy);//update coordinates
+				cell.setLocation(cell.getX() + offsets.get(cell).dx, cell.getY() + offsets.get(cell).dy);//move
+				setComponentZOrder(cell, cell.type.order);
 			}
 		}
+
+		for (ActiveCellView cell : cells)
+		{
+			cell.moveCell(offsets.get(cell).dx, offsets.get(cell).dy);//update coordinates
+		}
+	}
+
+	public void start()
+	{
+		timer.start();
+	}
+
+	public void stop()
+	{
+		timer.stop();
 
 		if (RecordTable.getInstance().getEntry(origin.id).time == 0 || origin.getTime() < RecordTable.getInstance().getEntry(origin.id).time)
 		{
 			new ChampionView(origin.id, origin.getTime(), origin.getCount()).setVisible(true);
 		}
-	}
-
-	public void stop()
-	{
-		origin.stop();
 	}
 }
