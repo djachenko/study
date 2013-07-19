@@ -178,6 +178,7 @@ public class GameView extends JFrame
 
 		add(currentlevelView);
 		pack();
+		requestFocusInWindow();
 
 		active = true;
 		currentlevelView.start();
@@ -203,6 +204,7 @@ public class GameView extends JFrame
 
 		add(greetingScreen);
 		pack();
+		requestFocusInWindow();
 	}
 
 	public void iteration()
