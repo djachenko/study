@@ -164,7 +164,13 @@ public class GameView extends JFrame
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
+					System.out.println("Main1");
+
 					origin.stop();
+
+					stopLevel(true);
+
+					System.out.println("Main2");
 				}
 			});
 		}
@@ -184,7 +190,7 @@ public class GameView extends JFrame
 		currentlevelView.start();
 	}
 
-	public void stopLevel()
+	public void stopLevel(boolean isHard)
 	{
 		JMenu game = getJMenuBar().getMenu(0);
 
@@ -197,7 +203,15 @@ public class GameView extends JFrame
 		game.add(reset);
 		game.add(exit);
 
-		currentlevelView.stop();
+		if (!isHard)
+		{
+			currentlevelView.stop();
+		}
+		else
+		{
+			currentlevelView.hardStop();
+		}
+
 		active = false;
 
 		remove(currentlevelView);
@@ -213,7 +227,7 @@ public class GameView extends JFrame
 		{
 			if (!origin.isActive())
 			{
-				stopLevel();
+				stopLevel(false);
 			}
 			else
 			{

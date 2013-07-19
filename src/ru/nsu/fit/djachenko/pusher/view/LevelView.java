@@ -142,11 +142,16 @@ public class LevelView extends JPanel
 
 	public void stop()
 	{
-		timer.stop();
+		hardStop();
 
 		if (RecordTable.getInstance().getEntry(origin.id).time == 0 || origin.getTime() < RecordTable.getInstance().getEntry(origin.id).time)
 		{
 			new ChampionView(origin.id, origin.getTime(), origin.getCount()).setVisible(true);
 		}
+	}
+
+	public void hardStop()
+	{
+		timer.stop();
 	}
 }

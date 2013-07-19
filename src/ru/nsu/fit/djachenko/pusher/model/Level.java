@@ -101,6 +101,11 @@ public class Level extends Field
 			active = false;
 			notifyAll();
 		}
+
+		synchronized (directionTransfer)
+		{
+			directionTransfer.notifyAll();
+		}
 	}
 
 	public void movePusher(Direction dir)
