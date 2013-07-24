@@ -8,20 +8,18 @@ public class TestSender extends Thread
 	public static final int SENDERSCOUNT = 510;
 
 	private Integer id;
-	private int port;
-	private String address;
+	private static int PORT = 5678;
+	private static String ADDRESS = "localhost";
 
-	TestSender(int id, String address, int port)
+	TestSender(int id)
 	{
 		this.id = id;
-		this.address = address;
-		this.port = port;
 	}
 
 	@Override
 	public void run()
 	{
-		try(Socket socket = new Socket(address, port))
+		try(Socket socket = new Socket(ADDRESS, PORT))
 		{
 			PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 
@@ -43,7 +41,7 @@ public class TestSender extends Thread
 	{
 		for (int i = 0; i < SENDERSCOUNT; i++)
 		{
-			new TestSender(i, "localhost", 0).start();
+			new TestSender(i).start();
 		}
 	}
 }

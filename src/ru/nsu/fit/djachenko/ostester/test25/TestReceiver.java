@@ -6,13 +6,18 @@ import java.net.Socket;
 
 public class TestReceiver extends Thread
 {
-	public static int PORT = 7777;
+	public static int PORT = 5679;
 
 	private Socket socket;
+
+	private int id;
+	private static int count = 0;
 
 	TestReceiver(Socket socket)
 	{
 		this.socket = socket;
+		id = count;
+		count++;
 	}
 
 	@Override
@@ -26,7 +31,7 @@ public class TestReceiver extends Thread
 
 			int id = Integer.parseInt(in.readLine());
 
-			while (true)
+			for (int i = 0; ; i++)
 			{
 				string = in.readLine();
 
@@ -40,6 +45,11 @@ public class TestReceiver extends Thread
 					{
 						System.out.println("Fail");
 					}
+				}
+
+				if (i % 10 == 0)
+				{
+					System.out.println(id + " read " + i + " times");
 				}
 			}
 		}
