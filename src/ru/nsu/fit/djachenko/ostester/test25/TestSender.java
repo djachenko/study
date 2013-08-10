@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class TestSender extends Thread
 {
-	public static final int SENDERSCOUNT = 510;
+	public static final int SENDERSCOUNT = 10;
 
 	private Integer id;
 	private static int PORT = 5678;
@@ -19,6 +19,8 @@ public class TestSender extends Thread
 	@Override
 	public void run()
 	{
+		System.out.println(id + " started");
+
 		try(Socket socket = new Socket(ADDRESS, PORT))
 		{
 			PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));

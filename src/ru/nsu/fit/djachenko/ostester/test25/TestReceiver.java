@@ -10,14 +10,9 @@ public class TestReceiver extends Thread
 
 	private Socket socket;
 
-	private int id;
-	private static int count = 0;
-
 	TestReceiver(Socket socket)
 	{
 		this.socket = socket;
-		id = count;
-		count++;
 	}
 
 	@Override
@@ -30,6 +25,8 @@ public class TestReceiver extends Thread
 			String string;
 
 			int id = Integer.parseInt(in.readLine());
+
+			System.out.println(id + " connected");
 
 			for (int i = 0; ; i++)
 			{
@@ -49,7 +46,7 @@ public class TestReceiver extends Thread
 
 				if (i % 10 == 0)
 				{
-					System.out.println(id + " read " + i + " times");
+				//	System.out.println(id + " read " + i + " times");
 				}
 			}
 		}
