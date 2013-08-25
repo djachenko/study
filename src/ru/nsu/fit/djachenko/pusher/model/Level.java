@@ -15,6 +15,8 @@ public class Level extends Field
 	private int count;
 	public final int id;
 
+	public String levelFile;
+
 	public Level(int id, String levelFile, DirectionTransfer directionTransfer) throws IOException
 	{
 		super();
@@ -27,6 +29,7 @@ public class Level extends Field
 		this.time = 0;
 		this.count = 0;
 		this.id = id;
+		this.levelFile = levelFile;
 	}
 
 	public void run()
@@ -106,6 +109,20 @@ public class Level extends Field
 		{
 			directionTransfer.notifyAll();
 		}
+	}
+
+	public void restart()
+	{
+		try
+		{
+			init(levelFile);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		pusher = getPusher();
 	}
 
 	public void movePusher(Direction dir)

@@ -107,7 +107,6 @@ public class LevelView extends JPanel
 		setPreferredSize(new Dimension(width, height));
 	}
 
-
 	public void iteration()
 	{
 		for (Map.Entry<Cell, ActiveCellView> i : activeCells.entrySet())

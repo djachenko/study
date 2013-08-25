@@ -157,6 +157,22 @@ public class GameView extends JFrame
 		game.remove(reset);
 		game.remove(exit);
 
+		JMenuItem restart = new JMenuItem("Restart");
+		{
+			restart.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					origin.restart();
+					stopLevel(true);
+					startLevel();
+				}
+			});
+		}
+
+		game.add(restart);
+
 		JMenuItem mainMenu = new JMenuItem("Main menu");
 		{
 			mainMenu.addActionListener(new ActionListener()
@@ -164,13 +180,9 @@ public class GameView extends JFrame
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					System.out.println("Main1");
-
 					origin.stop();
 
 					stopLevel(true);
-
-					System.out.println("Main2");
 				}
 			});
 		}
@@ -192,29 +204,40 @@ public class GameView extends JFrame
 
 	public void stopLevel(boolean isHard)
 	{
+		if (currentlevelView == null)
+		{
+			return;
+		}
+
+		if (!isHard)
+		{
+			System.out.println("soft");
+			currentlevelView.stop();
+		}
+		else
+		{
+			System.out.println("hard");
+			currentlevelView.hardStop();
+		}
+
+		remove(currentlevelView);
+
+		currentlevelView = null;
+
+		active = false;
+
 		JMenu game = getJMenuBar().getMenu(0);
 
-		JMenuItem mainMenu = game.getItem(1);
-		JMenuItem exit = game.getItem(2);
+		JMenuItem restart = game.getItem(1);
+		JMenuItem mainMenu = game.getItem(2);
+		JMenuItem exit = game.getItem(3);
 
+		game.remove(restart);
 		game.remove(mainMenu);
 		game.remove(exit);
 
 		game.add(reset);
 		game.add(exit);
-
-		if (!isHard)
-		{
-			currentlevelView.stop();
-		}
-		else
-		{
-			currentlevelView.hardStop();
-		}
-
-		active = false;
-
-		remove(currentlevelView);
 
 		add(greetingScreen);
 		pack();

@@ -28,6 +28,8 @@ public class Game
 
 	private Level currentLevel = null;
 
+	int index;
+
 	public Game()
 	{
 		directionTransfer = new DirectionTransfer();
@@ -36,8 +38,6 @@ public class Game
 
 	public void run()
 	{
-		int index = 0;
-
 		try
 		{
 			while (true)
@@ -89,6 +89,11 @@ public class Game
 	public void stop()
 	{
 		currentLevel.stop();
+	}
+
+	public void restart()
+	{
+		currentLevel.restart();
 	}
 
 	public DirectionTransfer getDirectionTransfer()
