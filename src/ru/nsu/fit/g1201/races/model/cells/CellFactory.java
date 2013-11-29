@@ -39,4 +39,9 @@ public class CellFactory
 	{
 		return borderCell;
 	}
+
+	public Cell getBarrierCell()
+	{
+		return new BarrierCell();
+	}
 }

@@ -8,9 +8,9 @@ public class Race
 	private Road road;
 	private Car car;
 
-	Race()
+	public Race()
 	{
-		this.car = new Car(this, 6, 0);
+		this.car = new Car(this, 4, 0);
 		this.road = new Road(9);
 		this.road.draw(car);
 		this.road.print();
@@ -29,6 +29,11 @@ public class Race
 				0,
 				500
 		);
+
+		for (int i = 0; i < 5; i++)
+		{
+			road.add(new Barrier(6, 15 + i * 5, 2, 2));
+		}
 	}
 
 	public boolean ableToMove(int x, int y, Direction direction)
@@ -39,6 +44,11 @@ public class Race
 	public void move(int x, int y, Direction direction)
 	{
 		road.move(x, y, direction);
+	}
+
+	public void moveCar(Direction direction)
+	{
+		car.move(direction);
 	}
 
 	void iteration(int iteration)

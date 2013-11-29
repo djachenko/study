@@ -15,7 +15,7 @@ public class Car
 		this.y = y;
 	}
 
-	void move(Direction direction)
+	synchronized void move(Direction direction)
 	{
 		switch (direction)
 		{
@@ -40,15 +40,15 @@ public class Car
 			case RIGHT:
 				int dx = direction.getDx();
 
-				if (race.ableToMove(x, y, direction) &&
-					race.ableToMove(x + dx, y + 1, direction) &&
-					race.ableToMove(x, y + 2, direction) &&
-					race.ableToMove(x + dx, y + 3, direction))
+				if (race.ableToMove(x - dx, y, direction) &&
+					race.ableToMove(x, y + 1, direction) &&
+					race.ableToMove(x - dx, y + 2, direction) &&
+					race.ableToMove(x, y + 3, direction))
 				{
-					race.move(x, y, direction);
-					race.move(x + dx, y + 1, direction);
-					race.move(x, y + 2, direction);
-					race.move(x + dx, y + 3, direction);
+					race.move(x - dx, y, direction);
+					race.move(x, y + 1, direction);
+					race.move(x - dx, y + 2, direction);
+					race.move(x, y + 3, direction);
 
 					x += direction.getDx();
 				}

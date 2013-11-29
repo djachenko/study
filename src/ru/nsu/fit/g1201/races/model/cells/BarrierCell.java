@@ -2,10 +2,8 @@ package ru.nsu.fit.g1201.races.model.cells;
 
 import ru.nsu.fit.g1201.races.model.Direction;
 
-public class BorderCell implements Cell
+public class BarrierCell implements Cell
 {
-	BorderCell(){}
-
 	@Override
 	public boolean ableToMove(Direction direction)
 	{

@@ -5,6 +5,7 @@ import ru.nsu.fit.g1201.races.model.cells.CellFactory;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Road
 {
@@ -13,6 +14,8 @@ public class Road
 
 	private LinkedList<Cell[]> road = new LinkedList<>();
 	private final Cell[] templateLine;
+
+	private List<Barrier> barriers = new LinkedList<>();
 
 	private int shiftCount = 0;
 
@@ -37,12 +40,46 @@ public class Road
 		}
 	}
 
+	int getWidth()
+	{
+		return width;
+	}
+
+	int getHeight()
+	{
+		return HEIGHT;
+	}
+
+	private Cell[] getLine(int i)
+	{
+		return road.get(i - shiftCount);
+	}
+
+	Cell at(int x, int y)
+	{
+		return road.get(y - shiftCount)[x + 1];
+	}
+
+	boolean ableToReplace(int x, int y)
+	{
+		return !(x < 0 || x >= width || y < shiftCount || y >= HEIGHT + shiftCount);
+
+	}
+
+	void replace(int x, int y, Cell cell)
+	{
+		if (ableToReplace(x, y))
+		{
+			getLine(y)[x + 1] = cell;
+		}
+	}
+
 	public boolean ableToMove(int x, int y, Direction direction)
 	{
 		return at(x, y).ableToMove(direction);
 	}
 
-	public void move(int x, int y, Direction direction)
+	public synchronized void move(int x, int y, Direction direction)
 	{
 		at(x, y).move(direction);
 
@@ -53,14 +90,17 @@ public class Road
 		replace(x, y, factory.getAsphaltCell());
 	}
 
-	int getWidth()
+	void shift()
 	{
-		return width;
-	}
+		road.remove();
+		road.add(Arrays.copyOf(templateLine, templateLine.length));
 
-	int getHeight()
-	{
-		return road.size();
+		shiftCount++;
+
+		for (Barrier barrier : barriers)
+		{
+			barrier.draw(this, HEIGHT - 1 + shiftCount);
+		}
 	}
 
 	void draw(Car car)
@@ -68,29 +108,12 @@ public class Road
 		car.draw(this);
 	}
 
-	void replace(int x, int y, Cell cell)
+	void add(Barrier barrier)
 	{
-		getLine(y)[x - 1] = cell;
+		barriers.add(barrier);
 	}
 
-	void shift()
-	{
-		road.removeFirst();
-		road.addLast(Arrays.copyOf(templateLine, templateLine.length));
-		shiftCount++;
-	}
-	
-	private Cell[] getLine(int i)
-	{
-		return road.get(i - shiftCount);
-	}
-
-	Cell at(int x, int y)
-	{
-		return road.get(y - shiftCount)[x - 1];
-	}
-
-	void print()
+	synchronized void print()
 	{
 		StringBuffer buffer = new StringBuffer();
 
