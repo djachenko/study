@@ -14,4 +14,10 @@ public class AsphaltCell extends Cell
 	public void move(Direction direction)
 	{
 	}
+
+	@Override
+	public char getRepresentation()
+	{
+		return ' ';
+	}
 }

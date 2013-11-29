@@ -3,67 +3,54 @@ package ru.nsu.fit.g1201.races;
 import ru.nsu.fit.g1201.races.cells.Cell;
 import ru.nsu.fit.g1201.races.cells.CellFactory;
 
+import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Road
 {
-	private int width;
+	private final int width;
+	public static final int HEIGHT = 15;
 
-	private List<Cell[]> road;
+	private LinkedList<Cell[]> road = new LinkedList<>();
+	private final Cell[] templateLine;
+
+	private int shiftCount = 0;
 
 	private final CellFactory factory = CellFactory.getInstance();
 
 	Road(int width)
 	{
 		this.width = width;
+		templateLine = new Cell[width + 2];
 
-		this.road = new LinkedList<>();
+		for (int i = 1; i < width + 1; i++)
+		{
+			templateLine[i] = factory.getAsphaltCell();
+		}
+
+		templateLine[0] = factory.getBorderCell();
+		templateLine[width + 1] = factory.getBorderCell();
+
+		for (int i = 0; i < HEIGHT; i++)
+		{
+			road.add(Arrays.copyOf(templateLine, templateLine.length));
+		}
 	}
 
 	public boolean ableToMove(int x, int y, Direction direction)
 	{
-		return road.get(y)[x].ableToMove(direction);
+		return at(x, y).ableToMove(direction);
 	}
 
 	public void move(int x, int y, Direction direction)
 	{
-		road.get(y)[x].move(direction);
+		at(x, y).move(direction);
 
 		int dx = direction.getDx();
 		int dy = direction.getDy();
 
-		road.get(y + dy)[x + dx] = road.get(y)[x];
-		road.get(y)[x] = factory.getAsphaltCell();
-	}
-
-	void add(Car car)
-	{
-		int x = car.getX();
-		int y = car.getY();
-
-		if (x >= 1 && x <= getWidth() - 2 && y >= 0 && y <= getHeight() - 4)
-		{
-			Cell[] line = road.get(y);
-
-			line[x] = factory.getCarCell(x, y, this);
-
-			line = road.get(y + 1);
-
-			line[x - 1] = factory.getCarCell(x - 1, y + 1, this);
-			line[x] = factory.getCarCell(x, y + 1, this);
-			line[x + 1] = factory.getCarCell(x + 1, y + 1, this);
-
-			line = road.get(y + 2);
-
-			line[x] = factory.getCarCell(x, y + 2, this);
-
-			line = road.get(y + 3);
-
-			line[x - 1] = factory.getCarCell(x - 1, y + 3, this);
-			line[x] = factory.getCarCell(x, y + 3, this);
-			line[x + 1] = factory.getCarCell(x + 1, y + 3, this);
-		}
+		replace(x + dx, y + dy, at(x, y));
+		replace(x, y, factory.getAsphaltCell());
 	}
 
 	int getWidth()
@@ -74,5 +61,56 @@ public class Road
 	int getHeight()
 	{
 		return road.size();
+	}
+
+	void draw(Car car)
+	{
+		car.draw(this);
+	}
+
+	void replace(int x, int y, Cell cell)
+	{
+		getLine(y)[x - 1] = cell;
+	}
+
+	void shift()
+	{
+		road.removeFirst();
+		road.addLast(Arrays.copyOf(templateLine, templateLine.length));
+		shiftCount++;
+	}
+	
+	private Cell[] getLine(int i)
+	{
+		return road.get(i - shiftCount);
+	}
+
+	Cell at(int x, int y)
+	{
+		return road.get(y - shiftCount)[x - 1];
+	}
+
+	void print()
+	{
+		StringBuffer buffer = new StringBuffer();
+
+		for (int i = HEIGHT - 1; i >= 0; i--)
+		{
+			if (i + shiftCount < 10)
+			{
+				buffer.append('0');
+			}
+			
+			buffer.append(i + shiftCount).append(' ');
+			
+			for (Cell cell : road.get(i))
+			{
+				buffer.append(cell.getRepresentation());
+			}
+			
+			buffer.append('\n');
+		}
+
+		System.out.println(buffer);
 	}
 }

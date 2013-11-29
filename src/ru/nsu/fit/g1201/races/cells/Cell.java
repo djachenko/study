@@ -6,4 +6,5 @@ public abstract class Cell
 {
 	public abstract boolean ableToMove(Direction direction);
 	public abstract void move(Direction direction);
+	public abstract char getRepresentation();
 }

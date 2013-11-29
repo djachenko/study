@@ -30,4 +30,10 @@ public class CarCell extends Cell
 		x += direction.getDx();
 		y += direction.getDy();
 	}
+
+	@Override
+	public char getRepresentation()
+	{
+		return 'r';
+	}
 }
