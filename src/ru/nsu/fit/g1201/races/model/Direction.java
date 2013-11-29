@@ -1,4 +1,4 @@
-package ru.nsu.fit.g1201.races;
+package ru.nsu.fit.g1201.races.model;
 
 public enum Direction
 {

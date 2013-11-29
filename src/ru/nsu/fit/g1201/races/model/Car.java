@@ -1,6 +1,6 @@
-package ru.nsu.fit.g1201.races;
+package ru.nsu.fit.g1201.races.model;
 
-import ru.nsu.fit.g1201.races.cells.CellFactory;
+import ru.nsu.fit.g1201.races.model.cells.CellFactory;
 
 public class Car
 {

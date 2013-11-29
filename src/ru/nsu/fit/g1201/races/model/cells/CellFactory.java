@@ -1,6 +1,6 @@
-package ru.nsu.fit.g1201.races.cells;
+package ru.nsu.fit.g1201.races.model.cells;
 
-import ru.nsu.fit.g1201.races.Road;
+import ru.nsu.fit.g1201.races.model.Road;
 
 public class CellFactory
 {

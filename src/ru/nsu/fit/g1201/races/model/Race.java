@@ -1,4 +1,4 @@
-package ru.nsu.fit.g1201.races;
+package ru.nsu.fit.g1201.races.model;
 
 import java.util.Timer;
 import java.util.TimerTask;

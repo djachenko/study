@@ -1,13 +1,13 @@
-package ru.nsu.fit.g1201.races.cells;
+package ru.nsu.fit.g1201.races.model.cells;
 
-import ru.nsu.fit.g1201.races.Direction;
+import ru.nsu.fit.g1201.races.model.Direction;
 
-public class AsphaltCell extends Cell
+public class BorderCell extends Cell
 {
 	@Override
 	public boolean ableToMove(Direction direction)
 	{
-		return true;
+		return false;
 	}
 
 	@Override
@@ -18,6 +18,6 @@ public class AsphaltCell extends Cell
 	@Override
 	public char getRepresentation()
 	{
-		return ' ';
+		return '#';
 	}
 }

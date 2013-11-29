@@ -1,7 +1,7 @@
-package ru.nsu.fit.g1201.races;
+package ru.nsu.fit.g1201.races.model;
 
-import ru.nsu.fit.g1201.races.cells.Cell;
-import ru.nsu.fit.g1201.races.cells.CellFactory;
+import ru.nsu.fit.g1201.races.model.cells.Cell;
+import ru.nsu.fit.g1201.races.model.cells.CellFactory;
 
 import java.util.Arrays;
 import java.util.LinkedList;
