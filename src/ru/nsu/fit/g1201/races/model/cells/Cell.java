@@ -4,7 +4,8 @@ import ru.nsu.fit.g1201.races.model.Direction;
 
 public interface Cell
 {
-	public abstract boolean ableToMove(Direction direction);
-	public abstract void move(Direction direction);
-	public abstract char getRepresentation();
+	public boolean ableToMove(Direction direction);
+	public void move(Direction direction);
+	public char getRepresentation();
+	public boolean ableToReplace();
 }

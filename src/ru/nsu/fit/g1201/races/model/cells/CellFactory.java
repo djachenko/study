@@ -1,6 +1,10 @@
 package ru.nsu.fit.g1201.races.model.cells;
 
+import ru.nsu.fit.g1201.races.model.Race;
 import ru.nsu.fit.g1201.races.model.Road;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CellFactory
 {
@@ -8,6 +12,8 @@ public class CellFactory
 
 	private static AsphaltCell asphaltCell = new AsphaltCell();
 	private static BorderCell borderCell = new BorderCell();
+
+	private static Map<Race, Cell> barrierCells = new HashMap<>();
 
 	public static CellFactory getInstance()
 	{
@@ -40,8 +46,13 @@ public class CellFactory
 		return borderCell;
 	}
 
-	public Cell getBarrierCell()
+	public synchronized Cell getBarrierCell(Race race)
 	{
-		return new BarrierCell();
+		if (!barrierCells.containsKey(race))
+		{
+			barrierCells.put(race, new BarrierCell(race));
+		}
+
+		return barrierCells.get(race);
 	}
 }

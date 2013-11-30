@@ -62,11 +62,11 @@ public class Road
 
 	boolean ableToReplace(int x, int y)
 	{
-		return !(x < 0 || x >= width || y < shiftCount || y >= HEIGHT + shiftCount);
+		return !(x < 0 || x >= width || y < shiftCount || y >= HEIGHT + shiftCount) && at(x, y).ableToReplace();
 
 	}
 
-	void replace(int x, int y, Cell cell)
+	public void replace(int x, int y, Cell cell)
 	{
 		if (ableToReplace(x, y))
 		{
@@ -82,11 +82,6 @@ public class Road
 	public synchronized void move(int x, int y, Direction direction)
 	{
 		at(x, y).move(direction);
-
-		int dx = direction.getDx();
-		int dy = direction.getDy();
-
-		replace(x + dx, y + dy, at(x, y));
 		replace(x, y, factory.getAsphaltCell());
 	}
 
@@ -97,10 +92,19 @@ public class Road
 
 		shiftCount++;
 
+		LinkedList<Barrier> temp = new LinkedList<>();
+
 		for (Barrier barrier : barriers)
 		{
 			barrier.draw(this, HEIGHT - 1 + shiftCount);
+
+			if (!barrier.isAlreadyDrawn(HEIGHT - 1 + shiftCount))
+			{
+				temp.add(barrier);
+			}
 		}
+
+		barriers = temp;
 	}
 
 	void draw(Car car)

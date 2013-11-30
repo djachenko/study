@@ -22,4 +22,10 @@ public class BorderCell implements Cell
 	{
 		return '#';
 	}
+
+	@Override
+	public boolean ableToReplace()
+	{
+		return false;
+	}
 }

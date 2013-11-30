@@ -13,7 +13,7 @@ public class Barrier
 
 	private final Cell[][] representation;
 
-	Barrier(int x, int y, int width, int height)
+	Barrier(int x, int y, int width, int height, Race race)
 	{
 		this.x = x;
 		this.y = y;
@@ -29,7 +29,7 @@ public class Barrier
 		{
 			for (int i = 0; i < line.length; i++)
 			{
-				line[i] = factory.getBarrierCell();
+				line[i] = factory.getBarrierCell(race);
 			}
 		}
 	}

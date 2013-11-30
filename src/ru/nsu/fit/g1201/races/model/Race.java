@@ -8,6 +8,16 @@ public class Race
 	private Road road;
 	private Car car;
 
+	private Timer timer;
+	private TimerTask task = new TimerTask()
+	{
+		@Override
+		public void run()
+		{
+			iteration();
+		}
+	};
+
 	public Race()
 	{
 		this.car = new Car(this, 4, 0);
@@ -15,24 +25,12 @@ public class Race
 		this.road.draw(car);
 		this.road.print();
 
-		new Timer().scheduleAtFixedRate(
-				new TimerTask()
-				{
-					private int count = 0;
-
-					@Override
-					public void run()
-					{
-						iteration(count++);
-					}
-				},
-				0,
-				500
-		);
+		timer = new Timer();
+		timer.scheduleAtFixedRate(task,	0, 500);
 
 		for (int i = 0; i < 5; i++)
 		{
-			road.add(new Barrier(6, 15 + i * 5, 2, 2));
+			road.add(new Barrier(6, 15 + i * 5, 2, 2, this));
 		}
 	}
 
@@ -51,12 +49,18 @@ public class Race
 		car.move(direction);
 	}
 
-	void iteration(int iteration)
+	void iteration()
 	{
 		car.move(Direction.FORWARD);
 
 		road.shift();
 
 		road.print();
+	}
+
+	public void crash()
+	{
+		timer.cancel();
+		timer = null;
 	}
 }

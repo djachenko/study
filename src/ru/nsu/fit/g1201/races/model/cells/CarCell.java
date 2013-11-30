@@ -26,6 +26,7 @@ public class CarCell implements Cell
 	public void move(Direction direction)
 	{
 		road.move(x + direction.getDx(), y + direction.getDy(), direction);
+		road.replace(x + direction.getDx(), y + direction.getDy(), this);
 
 		x += direction.getDx();
 		y += direction.getDy();
@@ -35,5 +36,11 @@ public class CarCell implements Cell
 	public char getRepresentation()
 	{
 		return 'r';
+	}
+
+	@Override
+	public boolean ableToReplace()
+	{
+		return true;
 	}
 }

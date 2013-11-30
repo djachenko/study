@@ -22,4 +22,10 @@ public class AsphaltCell implements Cell
 	{
 		return ' ';
 	}
+
+	@Override
+	public boolean ableToReplace()
+	{
+		return true;
+	}
 }
