@@ -1,19 +1,21 @@
 package ru.nsu.fit.g1201.races.model;
 
+import ru.nsu.fit.g1201.races.communication.RoadShiftedMessage;
 import ru.nsu.fit.g1201.races.model.cells.Cell;
 import ru.nsu.fit.g1201.races.model.cells.CellFactory;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Road
 {
+	private final Race race;
+
 	private final int width;
 	public static final int HEIGHT = 15;
 
-	private LinkedList<Cell[]> road = new LinkedList<>();
-	private final Cell[] templateLine;
+	private LinkedList<RoadLine> road = new LinkedList<>();
+	private final RoadLine templateLine;
 
 	private List<Barrier> barriers = new LinkedList<>();
 
@@ -21,56 +23,48 @@ public class Road
 
 	private final CellFactory factory = CellFactory.getInstance();
 
-	Road(int width)
+	Road(Race race, int width)
 	{
+		this.race = race;
 		this.width = width;
-		templateLine = new Cell[width + 2];
-
-		for (int i = 1; i < width + 1; i++)
-		{
-			templateLine[i] = factory.getAsphaltCell();
-		}
-
-		templateLine[0] = factory.getBorderCell();
-		templateLine[width + 1] = factory.getBorderCell();
+		templateLine = new RoadLine(width);
 
 		for (int i = 0; i < HEIGHT; i++)
 		{
-			road.add(Arrays.copyOf(templateLine, templateLine.length));
+			road.add(templateLine.clone());
 		}
 	}
 
-	int getWidth()
+	public int getWidth()
 	{
 		return width;
 	}
 
-	int getHeight()
+	public int getHeight()
 	{
 		return HEIGHT;
 	}
 
-	private Cell[] getLine(int i)
+	public RoadLine getLine(int i)
 	{
 		return road.get(i - shiftCount);
 	}
 
-	Cell at(int x, int y)
+	public Cell at(int x, int y)
 	{
-		return road.get(y - shiftCount)[x + 1];
+		return road.get(y - shiftCount).at(x);
 	}
 
 	boolean ableToReplace(int x, int y)
 	{
 		return !(x < 0 || x >= width || y < shiftCount || y >= HEIGHT + shiftCount) && at(x, y).ableToReplace();
-
 	}
 
 	public void replace(int x, int y, Cell cell)
 	{
 		if (ableToReplace(x, y))
 		{
-			getLine(y)[x + 1] = cell;
+			getLine(y).replace(x, cell);
 		}
 	}
 
@@ -85,10 +79,10 @@ public class Road
 		replace(x, y, factory.getAsphaltCell());
 	}
 
-	void shift()
+	synchronized void shift()
 	{
 		road.remove();
-		road.add(Arrays.copyOf(templateLine, templateLine.length));
+		road.add(templateLine.clone());
 
 		shiftCount++;
 
@@ -105,6 +99,8 @@ public class Road
 		}
 
 		barriers = temp;
+
+		race.send(new RoadShiftedMessage(road.get(HEIGHT - 1)));
 	}
 
 	void draw(Car car)
@@ -119,7 +115,7 @@ public class Road
 
 	synchronized void print()
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		for (int i = HEIGHT - 1; i >= 0; i--)
 		{
@@ -128,14 +124,7 @@ public class Road
 				buffer.append('0');
 			}
 			
-			buffer.append(i + shiftCount).append(' ');
-			
-			for (Cell cell : road.get(i))
-			{
-				buffer.append(cell.getRepresentation());
-			}
-			
-			buffer.append('\n');
+			buffer.append(i + shiftCount).append(' ').append(road.get(i));
 		}
 
 		System.out.println(buffer);

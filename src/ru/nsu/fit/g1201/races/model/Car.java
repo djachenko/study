@@ -1,5 +1,6 @@
 package ru.nsu.fit.g1201.races.model;
 
+import ru.nsu.fit.g1201.races.communication.CarMovedMessage;
 import ru.nsu.fit.g1201.races.model.cells.CellFactory;
 
 public class Car
@@ -51,6 +52,7 @@ public class Car
 					race.move(x, y + 3, direction);
 
 					x += direction.getDx();
+					race.send(new CarMovedMessage(direction));
 				}
 				break;
 			default:
@@ -73,5 +75,10 @@ public class Car
 				}
 			}
 		}
+	}
+
+	public int getX()
+	{
+		return x;
 	}
 }

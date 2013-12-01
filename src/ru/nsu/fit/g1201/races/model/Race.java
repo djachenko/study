@@ -1,5 +1,8 @@
 package ru.nsu.fit.g1201.races.model;
 
+import ru.nsu.fit.g1201.races.communication.MessageChannel;
+import ru.nsu.fit.g1201.races.communication.MessageToView;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,23 +12,29 @@ public class Race
 	private Car car;
 
 	private Timer timer;
-	private TimerTask task = new TimerTask()
-	{
-		@Override
-		public void run()
-		{
-			iteration();
-		}
-	};
+	private MessageChannel<MessageToView> channel;
 
-	public Race()
+	public Race(MessageChannel<MessageToView> channel)
 	{
 		this.car = new Car(this, 4, 0);
-		this.road = new Road(9);
-		this.road.draw(car);
-		this.road.print();
+		this.road = new Road(this, 9);
+		this.channel = channel;
 
 		timer = new Timer();
+	}
+
+	public void start()
+	{
+		road.draw(car);
+
+		TimerTask task = new TimerTask()
+		{
+			@Override
+			public void run()
+			{
+				iteration();
+			}
+		};
 		timer.scheduleAtFixedRate(task,	0, 500);
 
 		for (int i = 0; i < 5; i++)
@@ -62,5 +71,20 @@ public class Race
 	{
 		timer.cancel();
 		timer = null;
+	}
+
+	void send(MessageToView messageToView)
+	{
+		channel.set(messageToView);
+	}
+
+	public Road getRoad()
+	{
+		return road;
+	}
+
+	public Car getCar()
+	{
+		return car;
 	}
 }

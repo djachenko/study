@@ -15,6 +15,9 @@ public class CellFactory
 
 	private static Map<Race, Cell> barrierCells = new HashMap<>();
 
+	private CellFactory()
+	{}
+
 	public static CellFactory getInstance()
 	{
 		if (instance == null)
