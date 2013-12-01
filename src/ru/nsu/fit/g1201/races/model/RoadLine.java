@@ -4,16 +4,15 @@ import ru.nsu.fit.g1201.races.model.cells.Cell;
 import ru.nsu.fit.g1201.races.model.cells.CellFactory;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class RoadLine implements Cloneable
 {
 	private Cell[] line;
+	private boolean isCopied = false;
 
 	RoadLine(int width)
 	{
 		line = new Cell[width + 2];
-
 
 		CellFactory factory = CellFactory.getInstance();
 
@@ -27,7 +26,7 @@ public class RoadLine implements Cloneable
 
 	private RoadLine(RoadLine origin)
 	{
-		line = Arrays.copyOf(origin.line, origin.line.length);
+		line = origin.line;
 	}
 
 	@Override
@@ -58,6 +57,12 @@ public class RoadLine implements Cloneable
 
 	void replace(int x, Cell cell)
 	{
+		if (!isCopied)
+		{
+			line = Arrays.copyOf(line, line.length);
+			isCopied = true;
+		}
+
 		line[x + 1] = cell;
 	}
 
