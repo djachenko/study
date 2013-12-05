@@ -3,6 +3,7 @@ package ru.nsu.fit.g1201.races.model;
 import ru.nsu.fit.g1201.races.communication.MessageChannel;
 import ru.nsu.fit.g1201.races.communication.MessageToView;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,6 +14,8 @@ public class Race
 
 	private Timer timer;
 	private MessageChannel<MessageToView> channel;
+
+	private Random random = new Random();
 
 	public Race(MessageChannel<MessageToView> channel)
 	{
@@ -29,18 +32,15 @@ public class Race
 
 		TimerTask task = new TimerTask()
 		{
+			private int iterationCount = 0;
+
 			@Override
 			public void run()
 			{
-				iteration();
+				iteration(iterationCount++);
 			}
 		};
-		timer.scheduleAtFixedRate(task,	0, 500);
-
-		for (int i = 0; i < 5; i++)
-		{
-			road.add(new Barrier(6, 15 + i * 5, 2, 2, this));
-		}
+		timer.scheduleAtFixedRate(task,	0, 200);
 	}
 
 	public boolean ableToMove(int x, int y, Direction direction)
@@ -50,27 +50,43 @@ public class Race
 
 	public void move(int x, int y, Direction direction)
 	{
-		road.move(x, y, direction);
+		if (road != null)
+		{
+			road.move(x, y, direction);
+		}
 	}
 
 	public void moveCar(Direction direction)
 	{
-		car.move(direction);
+		if (car != null)
+		{
+			car.move(direction);
+		}
 	}
 
-	void iteration()
+	void iteration(int index)
 	{
-		car.move(Direction.FORWARD);
+		if (index % 10 == 0 && road != null)
+		{
+			road.add(new Barrier(random.nextInt(road.getWidth() - 2), 15 + index, 2, 2, this));
+		}
 
-		road.shift();
+		moveCar(Direction.FORWARD);
 
-		road.print();
+		if (road != null)
+		{
+			road.shift();
+
+			road.print();
+		}
 	}
 
 	public void crash()
 	{
 		timer.cancel();
 		timer = null;
+		car = null;
+		road = null;
 	}
 
 	void send(MessageToView messageToView)
