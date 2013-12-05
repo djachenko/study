@@ -15,12 +15,13 @@ public class Race
 	private Timer timer;
 	private MessageChannel<MessageToView> channel;
 
-	private Random random = new Random();
+	private int scipcount = 4;
+	private boolean isAccelerated = false;
 
 	public Race(MessageChannel<MessageToView> channel)
 	{
 		this.car = new Car(this, 4, 0);
-		this.road = new Road(this, 9);
+		this.road = new Road(this, new RandomRoadMap(this));
 		this.channel = channel;
 
 		timer = new Timer();
@@ -40,7 +41,7 @@ public class Race
 				iteration(iterationCount++);
 			}
 		};
-		timer.scheduleAtFixedRate(task,	0, 200);
+		timer.scheduleAtFixedRate(task,	0, 100);
 	}
 
 	public boolean ableToMove(int x, int y, Direction direction)
@@ -64,20 +65,33 @@ public class Race
 		}
 	}
 
+	public void accelerate()
+	{
+		if (!isAccelerated)
+		{
+			scipcount /= 4;
+			isAccelerated = true;
+		}
+	}
+
+	public void deaccelerate()
+	{
+		scipcount *= 4;
+		isAccelerated = false;
+	}
+
 	void iteration(int index)
 	{
-		if (index % 10 == 0 && road != null)
+		if (index % scipcount == 0)
 		{
-			road.add(new Barrier(random.nextInt(road.getWidth() - 2), 15 + index, 2, 2, this));
-		}
+			moveCar(Direction.FORWARD);
 
-		moveCar(Direction.FORWARD);
+			if (road != null)
+			{
+				road.shift();
 
-		if (road != null)
-		{
-			road.shift();
-
-			road.print();
+				road.print();
+			}
 		}
 	}
 

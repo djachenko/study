@@ -5,39 +5,34 @@ import ru.nsu.fit.g1201.races.model.cells.Cell;
 import ru.nsu.fit.g1201.races.model.cells.CellFactory;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class Road
 {
 	private final Race race;
+	private final RoadMap map;
 
-	private final int width;
 	public static final int HEIGHT = 15;
 
 	private LinkedList<RoadLine> road = new LinkedList<>();
-	private final RoadLine templateLine;
-
-	private List<Barrier> barriers = new LinkedList<>();
 
 	private int shiftCount = 0;
 
 	private final CellFactory factory = CellFactory.getInstance();
 
-	Road(Race race, int width)
+	Road(Race race, RoadMap map)
 	{
 		this.race = race;
-		this.width = width;
-		templateLine = new RoadLine(width);
+		this.map = map;
 
 		for (int i = 0; i < HEIGHT; i++)
 		{
-			road.add(templateLine.clone());
+			road.add(map.nextLine());
 		}
 	}
 
 	public int getWidth()
 	{
-		return width;
+		return map.width();
 	}
 
 	public int getHeight()
@@ -57,7 +52,7 @@ public class Road
 
 	boolean ableToReplace(int x, int y)
 	{
-		return !(x < 0 || x >= width || y < shiftCount || y >= HEIGHT + shiftCount) && at(x, y).ableToReplace();
+		return !(x < 0 || x >= getWidth() || y < shiftCount || y >= HEIGHT + shiftCount) && at(x, y).ableToReplace();
 	}
 
 	public void replace(int x, int y, Cell cell)
@@ -82,23 +77,9 @@ public class Road
 	synchronized void shift()
 	{
 		road.remove();
-		road.add(templateLine.clone());
+		road.add(map.nextLine());
 
 		shiftCount++;
-
-		LinkedList<Barrier> temp = new LinkedList<>();
-
-		for (Barrier barrier : barriers)
-		{
-			barrier.draw(this, HEIGHT - 1 + shiftCount);
-
-			if (!barrier.isAlreadyDrawn(HEIGHT - 1 + shiftCount))
-			{
-				temp.add(barrier);
-			}
-		}
-
-		barriers = temp;
 
 		race.send(new RoadShiftedMessage(road.get(HEIGHT - 1)));
 	}
@@ -106,11 +87,6 @@ public class Road
 	void draw(Car car)
 	{
 		car.draw(this);
-	}
-
-	void add(Barrier barrier)
-	{
-		barriers.add(barrier);
 	}
 
 	synchronized void print()

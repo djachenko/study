@@ -34,13 +34,13 @@ public class Barrier
 		}
 	}
 
-	void draw(Road road, int line)
+	void draw(RoadLine roadLine, int lineIndex)
 	{
-		if (line >= y && line < y + height)
+		if (lineIndex >= y && lineIndex < y + height)
 		{
 			for (int i = 0; i < width; i++)
 			{
-				road.replace(x + i, line, representation[line - y][i]);
+				roadLine.replace(x + i, representation[lineIndex - y][i]);
 			}
 		}
 	}
