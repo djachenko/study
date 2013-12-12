@@ -9,6 +9,8 @@ import ru.nsu.fit.g1201.races.model.Road;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,11 +24,11 @@ public class RaceView extends JPanel
 		initUI(race);
 	}
 
-	private void initUI(Race originRace)
+	private void initUI(final Race race)
 	{
 		setLayout(null);
 
-		Road originRoad = originRace.getRoad();
+		Road originRoad = race.getRoad();
 
 		int width = originRoad.getWidth();
 		int height = originRoad.getHeight();
@@ -41,10 +43,55 @@ public class RaceView extends JPanel
 
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
 
-		carView = new CarView(originRace.getCar(), height);
+		carView = new CarView(race.getCar(), height);
 
 		add(carView);
 		setComponentZOrder(carView, 0);
+
+		addKeyListener(new KeyListener()
+		{
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				int key = e.getKeyCode();
+
+				switch (key)
+				{
+					case KeyEvent.VK_LEFT:
+						race.moveCar(Direction.LEFT);
+						break;
+					case KeyEvent.VK_RIGHT:
+						race.moveCar(Direction.RIGHT);
+						break;
+					case KeyEvent.VK_SPACE:
+						race.accelerate();
+						break;
+					default:
+						break;
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				int key = e.getKeyCode();
+
+				switch (key)
+				{
+					case KeyEvent.VK_SPACE:
+						race.deaccelerate();
+						break;
+					default:
+						break;
+				}
+			}
+		});
 
 		repaint();
 	}

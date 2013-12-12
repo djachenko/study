@@ -10,8 +10,7 @@ public class Starter
 	public static void main(String[] args)
 	{
 		MessageChannel<MessageToView> channel = new MessageChannel<>();
-		Race race = new Race(channel);
-		new MainWindow(race, channel).setVisible(true);
-		race.start();
+		StarterController controller = new StarterController(channel);
+		new MainWindow(channel, controller).setVisible(true);
 	}
 }
