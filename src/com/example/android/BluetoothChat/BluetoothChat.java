@@ -326,6 +326,7 @@ public class BluetoothChat extends Activity
 					avatar.compress(Bitmap.CompressFormat.PNG, 100, stream);
 					final byte[] imageByteArray = stream.toByteArray();
 
+					mChatService.write(imageByteArray.length);
 					mChatService.write(imageByteArray);
 
 					Toast.makeText(getApplicationContext(), "Connected to " + mConnectedDeviceName, Toast.LENGTH_SHORT).show();

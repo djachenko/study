@@ -16,9 +16,7 @@
 
 package com.example.android.BluetoothChat;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.UUID;
 
 import android.app.AlertDialog;
@@ -290,6 +288,24 @@ public class BluetoothChatService
         r.write(out);
     }
 
+	public void write(int a)
+	{
+		// Create temporary object
+		ConnectedThread r;
+		// Synchronize a copy of the ConnectedThread
+		synchronized (this)
+		{
+			if (mState != STATE_CONNECTED)
+			{
+				return;
+			}
+
+			r = mConnectedThread;
+		}
+		// Perform the write unsynchronized
+		r.write(a);
+	}
+
     /**
      * Indicate that the connection attempt failed and notify the UI Activity.
      */
@@ -546,12 +562,16 @@ public class BluetoothChatService
         {
             Log.i(TAG, "BEGIN mConnectedThread");
 
-            byte[] buffer = new byte[1024];
             int bytes;
 
 	        try
 	        {
-		        bytes = mmInStream.read(buffer);
+		        ObjectInputStream inputStream = new ObjectInputStream(mmInStream);
+		        bytes = inputStream.readInt();
+
+		        byte[] buffer = new byte[bytes];
+		        inputStream.readFully(buffer);
+
 		        mHandler.obtainMessage(BluetoothChat.MESSAGE_AVATAR, bytes, -1, buffer).sendToTarget();
 
 	            // Keep listening to the InputStream while connected
@@ -591,6 +611,19 @@ public class BluetoothChatService
                 Log.e(TAG, "Exception during write", e);
             }
         }
+
+	    public void write(int a)
+	    {
+		    try
+		    {
+			    ObjectOutputStream stream = new ObjectOutputStream(mmOutStream);
+			    stream.writeInt(a);
+		    }
+		    catch (IOException e)
+		    {
+			    Log.e(TAG, "Exception during write", e);
+		    }
+	    }
 
         public void cancel()
         {
