@@ -241,7 +241,7 @@ public class BluetoothChat extends Activity
 		// Check that there's actually something to send
 		if (message.length() > 0)
 		{
-			// Get the message bytes and tell the BluetoothChatService to write
+			// Get the message bytes and tell the BluetoothChatService to sendAvatar
 			byte[] send = message.getBytes();
 			mChatService.write(send);
 
@@ -322,12 +322,7 @@ public class BluetoothChat extends Activity
 					TextView nickname = (TextView)findViewById(R.id.nickname);
 					nickname.setText(mConnectedDeviceName);
 
-					final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-					avatar.compress(Bitmap.CompressFormat.PNG, 100, stream);
-					final byte[] imageByteArray = stream.toByteArray();
-
-					mChatService.write(imageByteArray.length);
-					mChatService.write(imageByteArray);
+					mChatService.sendAvatar(avatar);
 
 					Toast.makeText(getApplicationContext(), "Connected to " + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
 					break;

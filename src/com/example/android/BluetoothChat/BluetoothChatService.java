@@ -26,6 +26,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -267,7 +268,7 @@ public class BluetoothChatService
 
     /**
      * Write to the ConnectedThread in an unsynchronized manner
-     * @param out The bytes to write
+     * @param out The bytes to sendAvatar
      * @see ConnectedThread#write(byte[])
      */
     public void write(byte[] out)
@@ -284,11 +285,11 @@ public class BluetoothChatService
 
             r = mConnectedThread;
         }
-        // Perform the write unsynchronized
+        // Perform the sendAvatar unsynchronized
         r.write(out);
     }
 
-	public void write(int a)
+	public void sendAvatar(Bitmap avatar)
 	{
 		// Create temporary object
 		ConnectedThread r;
@@ -302,8 +303,8 @@ public class BluetoothChatService
 
 			r = mConnectedThread;
 		}
-		// Perform the write unsynchronized
-		r.write(a);
+		// Perform the sendAvatar unsynchronized
+		r.sendAvatar(avatar);
 	}
 
     /**
@@ -324,7 +325,8 @@ public class BluetoothChatService
     /**
      * Indicate that the connection was lost and notify the UI Activity.
      */
-    private void connectionLost() {
+    private void connectionLost()
+    {
         // Send a failure message back to the Activity
         Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
@@ -586,7 +588,7 @@ public class BluetoothChatService
 	        }
 	        catch (IOException e)
 	        {
-		        Log.e(TAG, "disconnected", e);
+		        Log.e(TAG, "disconnected" + e.getMessage(), e);
 		        connectionLost();
 		        // Start the service over to restart listening mode
 		        BluetoothChatService.this.start();
@@ -595,7 +597,7 @@ public class BluetoothChatService
 
         /**
          * Write to the connected OutStream.
-         * @param buffer  The bytes to write
+         * @param buffer  The bytes to sendAvatar
          */
         public void write(byte[] buffer)
         {
@@ -612,12 +614,17 @@ public class BluetoothChatService
             }
         }
 
-	    public void write(int a)
+	    public void sendAvatar(Bitmap avatar)
 	    {
+		    final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		    avatar.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		    final byte[] imageByteArray = stream.toByteArray();
+
 		    try
 		    {
-			    ObjectOutputStream stream = new ObjectOutputStream(mmOutStream);
-			    stream.writeInt(a);
+			    ObjectOutputStream objectOutputStream = new ObjectOutputStream(mmOutStream);
+			    objectOutputStream.writeInt(imageByteArray.length);
+			    mmOutStream.write(imageByteArray);
 		    }
 		    catch (IOException e)
 		    {
