@@ -1,11 +1,15 @@
 package ru.nsu.fit.g1201.races.view;
 
 import ru.nsu.fit.g1201.races.ResultController;
+import ru.nsu.fit.g1201.races.model.Direction;
+import ru.nsu.fit.g1201.races.model.Race;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class PauseView extends JDialog {
 
@@ -14,8 +18,17 @@ public class PauseView extends JDialog {
     private JButton topScoresButton;
     private JButton exitButton;
 
-    public PauseView() {
+	private Race race;
 
+    public PauseView(Race race)
+    {
+	    this.race = race;
+
+	    initUI();
+    }
+
+	private void initUI()
+	{
         setLayout(new GridLayout(2, 2));
         setSize(new Dimension(300, 120));
 
@@ -54,23 +67,61 @@ public class PauseView extends JDialog {
         add(restartButton);
         add(exitButton);
 
+		addKeyListener(new KeyListener()
+		{
+			@Override
+			public void keyTyped(KeyEvent e)
+			{}
+
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				int key = e.getKeyCode();
+
+				System.out.println(key + " press");
+
+				switch (key)
+				{
+					case KeyEvent.VK_ESCAPE:
+						continueRace();
+					default:
+						break;
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e)
+			{}
+		});
+
         setResizable(false);
         setModalityType(ModalityType.APPLICATION_MODAL);
         setTitle("Pause menu");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setVisible(true);
-
+        requestFocus();
     }
 
-    public void continueRace() {}
+    public void continueRace()
+    {
+	    race.pause();
+	    dispose();
+    }
 
-    public void restartRace() {}
+    public void restartRace()
+    {
+	    race.stop();
+	    dispose();
+	    race.start();
+    }
 
-    public void showTopScores() {
+    public void showTopScores()
+    {
         new TopScoresView(new ResultController());
     }
 
-    public void leaveRace() {}
+    public void leaveRace()
+    {
 
+    }
 }

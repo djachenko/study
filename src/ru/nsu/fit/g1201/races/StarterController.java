@@ -19,6 +19,6 @@ public class StarterController extends Thread
 
 	public void startNewRace(RaceParameters parameters)
 	{
-		new Race(channel).start();
+		new Race(parameters, channel).start();
 	}
 }

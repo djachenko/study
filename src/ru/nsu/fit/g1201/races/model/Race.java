@@ -1,9 +1,7 @@
 package ru.nsu.fit.g1201.races.model;
 
-import ru.nsu.fit.g1201.races.communication.MessageChannel;
-import ru.nsu.fit.g1201.races.communication.MessageToView;
+import ru.nsu.fit.g1201.races.communication.*;
 
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,21 +13,26 @@ public class Race
 	private Timer timer;
 	private MessageChannel<MessageToView> channel;
 
-	private int scipcount = 4;
+	private int scipCount = 4;
 	private boolean isAccelerated = false;
+	private boolean paused = false;
 
-	public Race(MessageChannel<MessageToView> channel)
+	public Race(RaceParameters parameters, MessageChannel<MessageToView> channel)
 	{
-		this.car = new Car(this, 4, 0);
-		this.road = new Road(this, new RandomRoadMap(this));
 		this.channel = channel;
-
-		timer = new Timer();
 	}
 
 	public void start()
 	{
+		this.car = new Car(this, 4, 0);
+		this.road = new Road(this, new RandomRoadMap(this));
+
+		isAccelerated = false;
+		paused = false;
+
 		road.draw(car);
+
+		send(new RaceStartedMessage(this));
 
 		TimerTask task = new TimerTask()
 		{
@@ -41,7 +44,9 @@ public class Race
 				iteration(iterationCount++);
 			}
 		};
-		timer.scheduleAtFixedRate(task,	0, 100);
+
+		timer = new Timer();
+		timer.schedule(task, 0, 100);
 	}
 
 	public boolean ableToMove(int x, int y, Direction direction)
@@ -69,20 +74,32 @@ public class Race
 	{
 		if (!isAccelerated)
 		{
-			scipcount /= 4;
+			scipCount /= 4;
 			isAccelerated = true;
 		}
 	}
 
 	public void deaccelerate()
 	{
-		scipcount *= 4;
+		scipCount *= 4;
 		isAccelerated = false;
 	}
 
-	void iteration(int index)
+	synchronized void iteration(int index)
 	{
-		if (index % scipcount == 0)
+		while (paused)
+		{
+			try
+			{
+				wait();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		if (index % scipCount == 0)
 		{
 			moveCar(Direction.FORWARD);
 
@@ -97,6 +114,13 @@ public class Race
 
 	public void crash()
 	{
+		stop();
+	}
+
+	public void stop()
+	{
+		channel.set(new RaceStoppedMessage());
+
 		timer.cancel();
 		timer = null;
 		car = null;
@@ -106,6 +130,23 @@ public class Race
 	void send(MessageToView messageToView)
 	{
 		channel.set(messageToView);
+	}
+
+	public synchronized void pause()
+	{
+		System.out.println("paused");
+
+		if (!paused)
+		{
+			paused = true;
+			send(new RacePausedMessage(this));
+		}
+		else
+		{
+			paused = false;
+
+			notify();
+		}
 	}
 
 	public Road getRoad()

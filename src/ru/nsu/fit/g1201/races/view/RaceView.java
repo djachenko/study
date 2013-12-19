@@ -2,6 +2,7 @@ package ru.nsu.fit.g1201.races.view;
 
 import ru.nsu.fit.g1201.races.communication.CarMovedMessage;
 import ru.nsu.fit.g1201.races.communication.MessageToView;
+import ru.nsu.fit.g1201.races.communication.RacePausedMessage;
 import ru.nsu.fit.g1201.races.communication.RoadShiftedMessage;
 import ru.nsu.fit.g1201.races.model.Direction;
 import ru.nsu.fit.g1201.races.model.Race;
@@ -33,12 +34,17 @@ public class RaceView extends JPanel
 		int width = originRoad.getWidth();
 		int height = originRoad.getHeight();
 
-		for (int y = height - 1; y >= 0; y--)
+		synchronized (race)
 		{
-			RoadLineView roadLineView = new RoadLineView(originRoad.getLine(height - 1 - y), y);
+			for (int y = height - 1; y >= 0; y--)
+			{
+				System.out.println("view " + y + ' ' + (height - 1 - y));
 
-			lines.add(roadLineView);
-			add(roadLineView);
+				RoadLineView roadLineView = new RoadLineView(originRoad.getTableLine(height - 1 - y), y);
+
+				lines.add(roadLineView);
+				add(roadLineView);
+			}
 		}
 
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
@@ -61,6 +67,8 @@ public class RaceView extends JPanel
 			{
 				int key = e.getKeyCode();
 
+				System.out.println("key " + key);
+
 				switch (key)
 				{
 					case KeyEvent.VK_LEFT:
@@ -72,6 +80,8 @@ public class RaceView extends JPanel
 					case KeyEvent.VK_SPACE:
 						race.accelerate();
 						break;
+					case KeyEvent.VK_ESCAPE:
+						race.pause();
 					default:
 						break;
 				}
@@ -119,5 +129,10 @@ public class RaceView extends JPanel
 	public void accept(CarMovedMessage message)
 	{
 		carView.move(message.getDirection());
+	}
+
+	public void accept(RacePausedMessage message)
+	{
+		new PauseView(message.getRace()).setVisible(true);
 	}
 }

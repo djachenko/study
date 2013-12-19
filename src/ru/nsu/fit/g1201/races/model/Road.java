@@ -40,9 +40,14 @@ public class Road
 		return HEIGHT;
 	}
 
-	public RoadLine getLine(int i)
+	public synchronized RoadLine getLine(int i)
 	{
-		return road.get(i - shiftCount);
+		return getTableLine(i - shiftCount);
+	}
+
+	public synchronized RoadLine getTableLine(int i)
+	{
+		return road.get(i);
 	}
 
 	public Cell at(int x, int y)
