@@ -3,6 +3,7 @@ package ru.nsu.fit.g1201.races.model;
 import ru.nsu.fit.g1201.races.communication.RoadShiftedMessage;
 import ru.nsu.fit.g1201.races.model.cells.Cell;
 import ru.nsu.fit.g1201.races.model.cells.CellFactory;
+import ru.nsu.fit.g1201.races.model.roadmaps.RoadMap;
 
 import java.util.LinkedList;
 

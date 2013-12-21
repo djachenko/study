@@ -1,7 +1,7 @@
 package ru.nsu.fit.g1201.races.view;
 
 import ru.nsu.fit.g1201.races.StarterController;
-import ru.nsu.fit.g1201.races.model.MapList;
+import ru.nsu.fit.g1201.races.model.roadmaps.MapList;
 import ru.nsu.fit.g1201.races.model.RaceParameters;
 
 import javax.swing.*;

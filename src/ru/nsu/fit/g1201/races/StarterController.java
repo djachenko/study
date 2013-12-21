@@ -2,7 +2,6 @@ package ru.nsu.fit.g1201.races;
 
 import ru.nsu.fit.g1201.races.communication.MessageChannel;
 import ru.nsu.fit.g1201.races.communication.MessageToView;
-import ru.nsu.fit.g1201.races.model.MapList;
 import ru.nsu.fit.g1201.races.model.Race;
 import ru.nsu.fit.g1201.races.model.RaceParameters;
 

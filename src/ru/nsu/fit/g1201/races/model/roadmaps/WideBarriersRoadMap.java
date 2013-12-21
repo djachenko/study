@@ -1,10 +1,14 @@
-package ru.nsu.fit.g1201.races.model;
+package ru.nsu.fit.g1201.races.model.roadmaps;
+
+import ru.nsu.fit.g1201.races.model.Barrier;
+import ru.nsu.fit.g1201.races.model.Race;
+import ru.nsu.fit.g1201.races.model.RoadLine;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class RandomRoadMap extends RoadMap
+public class WideBarriersRoadMap extends RoadMap
 {
 	private static final int WIDTH = 9;
 
@@ -16,7 +20,7 @@ public class RandomRoadMap extends RoadMap
 
 	private Random random = new Random(System.currentTimeMillis());
 
-	RandomRoadMap(Race race)
+	WideBarriersRoadMap(Race race)
 	{
 		super(race);
 	}
@@ -32,7 +36,7 @@ public class RandomRoadMap extends RoadMap
 	{
 		if (lineCount % 10 == 0 && lineCount >= 15)
 		{
-			createBarrier();
+			createBarriers();
 		}
 
 		RoadLine result = line.clone();
@@ -54,8 +58,17 @@ public class RandomRoadMap extends RoadMap
 		return result;
 	}
 
-	private void createBarrier()
+	private void createBarriers()
 	{
-		barriers.add(new Barrier(random.nextInt(width() - 1), lineCount, 2, 2, getRace()));
+		int free = random.nextInt(width() - 2) + 1;
+
+		for (int x = 0; x < WIDTH; x++)
+		{
+			if (Math.abs(x - free) > 1)
+			{
+				System.out.println("barr " + x);
+				barriers.add(new Barrier(x, lineCount, 1, 2, getRace()));
+			}
+		}
 	}
 }

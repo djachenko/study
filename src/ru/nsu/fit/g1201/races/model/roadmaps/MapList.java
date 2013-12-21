@@ -1,4 +1,6 @@
-package ru.nsu.fit.g1201.races.model;
+package ru.nsu.fit.g1201.races.model.roadmaps;
+
+import ru.nsu.fit.g1201.races.model.Race;
 
 public class MapList
 {

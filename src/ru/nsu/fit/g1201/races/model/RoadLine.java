@@ -10,7 +10,7 @@ public class RoadLine implements Cloneable
 	private Cell[] line;
 	private boolean isCopied = false;
 
-	RoadLine(int width)
+	public RoadLine(int width)
 	{
 		line = new Cell[width + 2];
 

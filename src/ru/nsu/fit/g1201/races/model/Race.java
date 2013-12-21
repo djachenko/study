@@ -1,6 +1,8 @@
 package ru.nsu.fit.g1201.races.model;
 
 import ru.nsu.fit.g1201.races.communication.*;
+import ru.nsu.fit.g1201.races.model.roadmaps.MapList;
+import ru.nsu.fit.g1201.races.model.roadmaps.RoadMap;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -13,7 +13,7 @@ public class Barrier
 
 	private final Cell[][] representation;
 
-	Barrier(int x, int y, int width, int height, Race race)
+	public Barrier(int x, int y, int width, int height, Race race)
 	{
 		this.x = x;
 		this.y = y;
@@ -34,7 +34,7 @@ public class Barrier
 		}
 	}
 
-	void draw(RoadLine roadLine, int lineIndex)
+	public void draw(RoadLine roadLine, int lineIndex)
 	{
 		if (lineIndex >= y && lineIndex < y + height)
 		{
@@ -45,7 +45,7 @@ public class Barrier
 		}
 	}
 
-	boolean isAlreadyDrawn(int lastDrawnLine)
+	public boolean isAlreadyDrawn(int lastDrawnLine)
 	{
 		return y + height <= lastDrawnLine;
 	}
