@@ -46,12 +46,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/send"
+	        android:onClick="sendButtonHandler"
         />
 	    <ImageButton android:id="@+id/button_recoder"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:text="@string/send"
 		    android:src="@drawable/mic"
-		    android:contentDescription="@string/mic"/>
+		    android:contentDescription="@string/mic"
+		    android:onClick="startVoiceRecognitionActivity"
+		/>
     </LinearLayout>
 </LinearLayout>
