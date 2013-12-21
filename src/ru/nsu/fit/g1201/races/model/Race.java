@@ -28,13 +28,15 @@ public class Race
 		this.channel = channel;
 
 		this.speed = parameters.getSpeed();
+		System.out.println(parameters.getMapIndex());
 		this.map = MapList.getInstance().getRoadMap(parameters.getMapIndex(), this);
+		System.out.println(map.getClass().getName());
 	}
 
 	public void start()
 	{
 		this.car = new Car(this, 4, 0);
-		this.road = new Road(this, new RandomRoadMap(this));
+		this.road = new Road(this, map);
 
 		isAccelerated = false;
 		paused = false;
