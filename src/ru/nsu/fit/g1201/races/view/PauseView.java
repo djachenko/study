@@ -6,10 +6,7 @@ import ru.nsu.fit.g1201.races.model.Race;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 public class PauseView extends JDialog {
 
@@ -94,6 +91,15 @@ public class PauseView extends JDialog {
 			{}
 		});
 
+		addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				race.pause();
+			}
+		});
+
         setResizable(false);
         setModalityType(ModalityType.APPLICATION_MODAL);
         setTitle("Pause menu");
@@ -122,6 +128,6 @@ public class PauseView extends JDialog {
 
     public void leaveRace()
     {
-
+	    race.stop();
     }
 }

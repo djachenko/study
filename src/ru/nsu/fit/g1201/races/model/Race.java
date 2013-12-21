@@ -11,7 +11,7 @@ public class Race
 {
 	private static MapList mapList = MapList.getInstance();
 
-	private RoadMap map;
+	private int mapIndex;
 	private Road road;
 	private Car car;
 
@@ -30,15 +30,13 @@ public class Race
 		this.channel = channel;
 
 		this.speed = parameters.getSpeed();
-		System.out.println(parameters.getMapIndex());
-		this.map = MapList.getInstance().getRoadMap(parameters.getMapIndex(), this);
-		System.out.println(map.getClass().getName());
+		this.mapIndex = parameters.getMapIndex();
 	}
 
 	public void start()
 	{
 		this.car = new Car(this, 4, 0);
-		this.road = new Road(this, map);
+		this.road = new Road(this, MapList.getInstance().getRoadMap(mapIndex, this));
 
 		isAccelerated = false;
 		paused = false;
@@ -150,8 +148,6 @@ public class Race
 
 	public synchronized void pause()
 	{
-		System.out.println("paused");
-
 		if (!paused)
 		{
 			paused = true;
