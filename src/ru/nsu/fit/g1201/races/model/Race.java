@@ -7,6 +7,9 @@ import java.util.TimerTask;
 
 public class Race
 {
+	private static MapList mapList = MapList.getInstance();
+
+	private RoadMap map;
 	private Road road;
 	private Car car;
 
@@ -17,9 +20,15 @@ public class Race
 	private boolean isAccelerated = false;
 	private boolean paused = false;
 
+	private int speed;
+	private int points;
+
 	public Race(RaceParameters parameters, MessageChannel<MessageToView> channel)
 	{
 		this.channel = channel;
+
+		this.speed = parameters.getSpeed();
+		this.map = MapList.getInstance().getRoadMap(parameters.getMapIndex(), this);
 	}
 
 	public void start()
@@ -29,6 +38,7 @@ public class Race
 
 		isAccelerated = false;
 		paused = false;
+		points = 0;
 
 		road.draw(car);
 
@@ -46,7 +56,7 @@ public class Race
 		};
 
 		timer = new Timer();
-		timer.schedule(task, 0, 100);
+		timer.schedule(task, 0, 100 / speed);
 	}
 
 	public boolean ableToMove(int x, int y, Direction direction)
@@ -109,6 +119,8 @@ public class Race
 
 				road.print();
 			}
+
+			points++;
 		}
 	}
 
@@ -157,5 +169,15 @@ public class Race
 	public Car getCar()
 	{
 		return car;
+	}
+
+	public int getSpeed()
+	{
+		return speed;
+	}
+
+	public int getPoints()
+	{
+		return points;
 	}
 }

@@ -8,7 +8,7 @@ import ru.nsu.fit.g1201.races.model.RaceParameters;
 
 public class StarterController extends Thread
 {
-	private MapList mapList = MapList.getInstance();
+
 
 	private final MessageChannel<MessageToView> channel;
 

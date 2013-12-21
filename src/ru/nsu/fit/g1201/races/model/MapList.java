@@ -1,30 +1,39 @@
 package ru.nsu.fit.g1201.races.model;
 
-import java.io.File;
-import java.io.FilenameFilter;
+public class MapList
+{
+	private final static MapList instance = new MapList();
+	private final String[] mapNames = new String[]
+			{
+					"Random"
+			};
 
-public class MapList {
-
-    private String[] maps;
-	private static final MapList instance = new MapList();
-
-    private MapList() {
-        File mapDir = new File("res/maps");
-        FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".map");
-            }
-        };
-        maps = mapDir.list(filter);
-    }
+	private MapList()
+	{}
 
 	public static MapList getInstance()
 	{
 		return instance;
 	}
 
-    public String[] getMapList() {
-        return maps;
-    }
+	public String[] getMapNames()
+	{
+		return mapNames;
+	}
+
+	public RoadMap getRandomRoadMap(Race race)
+	{
+		return new RandomRoadMap(race);
+	}
+
+	public RoadMap getRoadMap(int index, Race race)
+	{
+		switch (index)
+		{
+			case 0:
+				return getRandomRoadMap(race);
+			default:
+				return null;
+		}
+	}
 }

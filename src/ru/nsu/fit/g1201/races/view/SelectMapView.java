@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 
 public final class SelectMapView extends JPanel
 {
-    private String selectedMapName;
+    private int selectedMapIndex;
 
     private JTable mapList;
 
@@ -42,7 +42,7 @@ public final class SelectMapView extends JPanel
             {
                 if (e.getClickCount() == 2)
                 {
-                    selectedMapName = mapList.getModel().getValueAt(mapList.getSelectedRow(), 0).toString();
+                    selectedMapIndex = mapList.getSelectedRow();
                     OK();
                 }
             }
@@ -61,7 +61,7 @@ public final class SelectMapView extends JPanel
             {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
                 {
-                    selectedMapName = mapList.getModel().getValueAt(mapList.getSelectedRow(), 0).toString();
+                    selectedMapIndex = mapList.getSelectedRow();
                     OK();
                 }
             }
@@ -79,7 +79,7 @@ public final class SelectMapView extends JPanel
 
     public void OK()
     {
-        raceParameters.setMapName(selectedMapName);
+        raceParameters.setMapIndex(selectedMapIndex);
         new SelectInitialSpeedView(raceParameters, controller);
     }
 
@@ -88,7 +88,7 @@ public final class SelectMapView extends JPanel
         @Override
         public final int getRowCount()
         {
-            return MapList.getInstance().getMapList().length;
+            return MapList.getInstance().getMapNames().length;
         }
 
         @Override
@@ -103,7 +103,7 @@ public final class SelectMapView extends JPanel
             switch (c)
             {
                 case 0:
-                    return MapList.getInstance().getMapList()[r];
+                    return MapList.getInstance().getMapNames()[r];
                 default:
                     return "";
             }
