@@ -142,7 +142,11 @@ public class BluetoothChatService
         mConnectedThread = new ConnectedThread(socket, socketType);
         mConnectedThread.start();
 
-        sendMessageToActivity(device.getName());
+	    Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_DEVICE_NAME);
+	    Bundle bundle = new Bundle();
+	    bundle.putString(BluetoothChat.DEVICE_NAME, device.getName());
+	    msg.setData(bundle);
+	    mHandler.sendMessage(msg);
 
         setState(STATE_CONNECTED);
     }
