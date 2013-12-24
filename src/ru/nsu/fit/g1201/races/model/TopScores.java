@@ -2,6 +2,7 @@ package ru.nsu.fit.g1201.races.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 public class TopScores {
 
+	private static final String RESULTPATH= "res/TopScores.txt";
     private static int TOP_SIZE = 10;
     private int currentSize;
     private List<Result> topScores;
@@ -21,8 +23,8 @@ public class TopScores {
             while (scanner.hasNext()) {
                 Result result = new Result();
                 result.setNickname(scanner.next());
-                result.setScores(scanner.nextLong());
-                result.setMap(scanner.next());
+                result.setScore(scanner.nextLong());
+                result.setMapIndex(scanner.nextInt());
                 topScores.add(result);
                 ++currentSize;
             }
@@ -33,7 +35,7 @@ public class TopScores {
     }
 
     public boolean isTop(long scores) {
-        return (scores > topScores.get(currentSize - 1).getScores());
+        return (scores > topScores.get(currentSize - 1).getScore());
     }
 
     public void addResult(Result result) {
@@ -44,6 +46,20 @@ public class TopScores {
         topScores.add(result);
         Collections.sort(topScores);
         ++currentSize;
+
+	    try (PrintWriter writer = new PrintWriter(new File(RESULTPATH)))
+	    {
+		    for (Result entry : topScores)
+		    {
+			    writer.println(entry.toString());
+		    }
+
+		    writer.flush();
+	    }
+	    catch (FileNotFoundException e)
+	    {
+		    e.printStackTrace();
+	    }
     }
 
     public List<Result> getTopScores() {

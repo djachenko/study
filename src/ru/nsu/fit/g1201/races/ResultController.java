@@ -1,5 +1,8 @@
 package ru.nsu.fit.g1201.races;
 
+import ru.nsu.fit.g1201.races.communication.MessageChannel;
+import ru.nsu.fit.g1201.races.communication.MessageToView;
+import ru.nsu.fit.g1201.races.communication.RequestForNicknameMessage;
 import ru.nsu.fit.g1201.races.model.Result;
 import ru.nsu.fit.g1201.races.model.TopScores;
 
@@ -7,19 +10,32 @@ import java.util.List;
 
 public class ResultController {
 
-    private TopScores topScores;
+	private TopScores topScores = new TopScores();
+	private final MessageChannel<MessageToView> channel;
 
-    public ResultController(){
-        topScores = new TopScores();
-    }
+	private String nickname;
 
-    public void newScores(long newScores) {
-        if (topScores.isTop(newScores)) {
-            //TODO: запилить вызов формы ввода
+	public ResultController(MessageChannel<MessageToView> channel)
+	{
+		this.channel = channel;
+	}
+
+    public void newScores(long newScores, int mapIndex)
+    {
+        if (topScores.isTop(newScores))
+        {
+	        synchronized (this)
+	        {
+		        nickname = null;
+		        channel.set(new RequestForNicknameMessage(this));
+
+		        waitForSettingNickname();
+	        }
+
             Result result = new Result();
-            result.setNickname("test");
-            result.setScores(newScores);
-            result.setMap("test.map"); //TODO: взять мапу из race
+            result.setNickname(nickname);
+            result.setScore(newScores);
+            result.setMapIndex(mapIndex); //TODO: взять мапу из race
             topScores.addResult(result);
         }
     }
@@ -31,4 +47,25 @@ public class ResultController {
     public int getTopScoresSize() {
         return topScores.size();
     }
+
+	public void waitForSettingNickname()
+	{
+		while (nickname == null)
+		{
+			try
+			{
+				wait();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public synchronized void setNickname(String nickname)
+	{
+		this.nickname = nickname;
+		notify();
+	}
 }

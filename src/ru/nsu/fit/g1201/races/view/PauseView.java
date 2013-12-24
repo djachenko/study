@@ -123,7 +123,7 @@ public class PauseView extends JDialog {
 
     public void showTopScores()
     {
-        new TopScoresView(new ResultController());
+        new TopScoresView(race.getResultController());
     }
 
     public void leaveRace()

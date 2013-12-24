@@ -3,42 +3,48 @@ package ru.nsu.fit.g1201.races.model;
 public class Result implements Comparable<Result>{
 
     private String nickname;
-    private long scores;
-    private String map;
+    private long score;
+    private int mapIndex;
 
     public String getNickname() {
         return nickname;
     }
 
-    public long getScores() {
-        return scores;
+    public long getScore() {
+        return score;
     }
 
-    public String getMap() {
-        return map;
+    public int getMapIndex() {
+        return mapIndex;
     }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public void setScores(long scores) {
-        this.scores = scores;
+    public void setScore(long score) {
+        this.score = score;
     }
 
-    public void setMap(String map) {
-        this.map = map;
+    public void setMapIndex(int mapIndex) {
+        this.mapIndex = mapIndex;
     }
 
 
     @Override
     public int compareTo(Result result) {
-        if (scores < result.getScores()) {
+        if (score < result.getScore()) {
             return 1;
         }
-        if (scores > result.getScores()) {
+        if (score > result.getScore()) {
             return -1;
         }
         return 0;
     }
+
+	@Override
+	public String toString()
+	{
+		return nickname + " " + score + " " + mapIndex;
+	}
 }

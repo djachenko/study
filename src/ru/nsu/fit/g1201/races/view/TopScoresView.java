@@ -1,6 +1,7 @@
 package ru.nsu.fit.g1201.races.view;
 
 import ru.nsu.fit.g1201.races.ResultController;
+import ru.nsu.fit.g1201.races.model.roadmaps.MapList;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -44,13 +45,15 @@ public class TopScoresView extends JDialog {
 
         @Override
         public final Object getValueAt(int r, int c) {
+	        String[] mapNames = MapList.getInstance().getMapNames();
+
             switch (c) {
                 case 0:
                     return resultController.getTopScores().get(r).getNickname();
                 case 1:
-                    return resultController.getTopScores().get(r).getScores();
+                    return resultController.getTopScores().get(r).getScore();
                 case 2:
-                    return resultController.getTopScores().get(r).getMap();
+                    return mapNames[resultController.getTopScores().get(r).getMapIndex()];
                 default:
                     return "";
             }

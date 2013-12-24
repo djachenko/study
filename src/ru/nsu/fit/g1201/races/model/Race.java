@@ -1,5 +1,6 @@
 package ru.nsu.fit.g1201.races.model;
 
+import ru.nsu.fit.g1201.races.ResultController;
 import ru.nsu.fit.g1201.races.communication.*;
 import ru.nsu.fit.g1201.races.model.roadmaps.MapList;
 import ru.nsu.fit.g1201.races.model.roadmaps.RoadMap;
@@ -17,17 +18,19 @@ public class Race
 
 	private Timer timer;
 	private MessageChannel<MessageToView> channel;
+	private final ResultController resultController;
 
 	private int scipCount = 4;
 	private boolean isAccelerated = false;
 	private boolean paused = false;
 
 	private int speed;
-	private int points;
+	private long points;
 
-	public Race(RaceParameters parameters, MessageChannel<MessageToView> channel)
+	public Race(RaceParameters parameters, MessageChannel<MessageToView> channel, ResultController resultController)
 	{
 		this.channel = channel;
+		this.resultController = resultController;
 
 		this.speed = parameters.getSpeed();
 		this.mapIndex = parameters.getMapIndex();
@@ -133,6 +136,8 @@ public class Race
 
 	public void stop()
 	{
+		resultController.newScores(points, mapIndex);
+
 		channel.set(new RaceStoppedMessage());
 
 		timer.cancel();
@@ -171,12 +176,22 @@ public class Race
 		return car;
 	}
 
+	public ResultController getResultController()
+	{
+		return resultController;
+	}
+
 	public int getSpeed()
 	{
 		return speed;
 	}
 
-	public int getPoints()
+	public int getMapIndex()
+	{
+		return mapIndex;
+	}
+
+	public long getPoints()
 	{
 		return points;
 	}

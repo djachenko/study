@@ -1,10 +1,8 @@
 package ru.nsu.fit.g1201.races.view;
 
+import ru.nsu.fit.g1201.races.ResultController;
 import ru.nsu.fit.g1201.races.StarterController;
-import ru.nsu.fit.g1201.races.communication.MessageChannel;
-import ru.nsu.fit.g1201.races.communication.MessageToView;
-import ru.nsu.fit.g1201.races.communication.RaceStoppedMessage;
-import ru.nsu.fit.g1201.races.communication.RaceStartedMessage;
+import ru.nsu.fit.g1201.races.communication.*;
 import ru.nsu.fit.g1201.races.communication.RaceStoppedMessage;
 import ru.nsu.fit.g1201.races.model.Race;
 import ru.nsu.fit.g1201.races.view.activities.HandleMessageTask;
@@ -72,6 +70,11 @@ public class MainWindow extends JFrame
 		currentRaceView.requestFocus();
 	}
 
+	private void showRecordNicknameView(ResultController resultController)
+	{
+		new RecordNicknameView(resultController).setVisible(true);
+	}
+
 	public void accept(MessageToView messageToView)
 	{
 		if (currentRaceView != null)
@@ -90,5 +93,10 @@ public class MainWindow extends JFrame
 		showSelectMapView();
 
 		currentRaceView = null;
+	}
+
+	public void accept(RequestForNicknameMessage message)
+	{
+		showRecordNicknameView(message.getController());
 	}
 }
