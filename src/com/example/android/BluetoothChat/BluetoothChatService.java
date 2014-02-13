@@ -43,7 +43,7 @@ public class BluetoothChatService
 
     public BluetoothChatService(Handler handler)
     {
-	    mAdapter = BluetoothAdapter.getDefaultAdapter();
+        mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         mHandler = handler;
     }
@@ -65,14 +65,14 @@ public class BluetoothChatService
     {
         if (mConnectThread != null)
         {
-	        mConnectThread.cancel();
-	        mConnectThread = null;
+            mConnectThread.cancel();
+            mConnectThread = null;
         }
 
         if (mConnectedThread != null)
         {
-	        mConnectedThread.cancel();
-	        mConnectedThread = null;
+            mConnectedThread.cancel();
+            mConnectedThread = null;
         }
 
         setState(STATE_LISTEN);
@@ -96,15 +96,15 @@ public class BluetoothChatService
         {
             if (mConnectThread != null)
             {
-	            mConnectThread.cancel();
-	            mConnectThread = null;
+                mConnectThread.cancel();
+                mConnectThread = null;
             }
         }
 
         if (mConnectedThread != null)
         {
-	        mConnectedThread.cancel();
-	        mConnectedThread = null;
+            mConnectedThread.cancel();
+            mConnectedThread = null;
         }
 
         mConnectThread = new ConnectThread(device, secure);
@@ -117,14 +117,14 @@ public class BluetoothChatService
     {
         if (mConnectThread != null)
         {
-	        mConnectThread.cancel();
-	        mConnectThread = null;
+            mConnectThread.cancel();
+            mConnectThread = null;
         }
 
         if (mConnectedThread != null)
         {
-	        mConnectedThread.cancel();
-	        mConnectedThread = null;
+            mConnectedThread.cancel();
+            mConnectedThread = null;
         }
 
         if (mSecureAcceptThread != null)
@@ -133,20 +133,20 @@ public class BluetoothChatService
             mSecureAcceptThread = null;
         }
 
-	    if (mInsecureAcceptThread != null)
-	    {
+        if (mInsecureAcceptThread != null)
+        {
             mInsecureAcceptThread.cancel();
             mInsecureAcceptThread = null;
         }
 
-        mConnectedThread = new ConnectedThread(socket, socketType);
+	    mConnectedThread = new ConnectedThread(socket, socketType);
         mConnectedThread.start();
 
-	    Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_DEVICE_NAME);
-	    Bundle bundle = new Bundle();
-	    bundle.putString(BluetoothChat.DEVICE_NAME, device.getName());
-	    msg.setData(bundle);
-	    mHandler.sendMessage(msg);
+        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_DEVICE_NAME);
+        Bundle bundle = new Bundle();
+        bundle.putString(BluetoothChat.DEVICE_NAME, device.getName());
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
 
         setState(STATE_CONNECTED);
     }
@@ -188,7 +188,7 @@ public class BluetoothChatService
         {
             if (mState != STATE_CONNECTED)
             {
-	            return;
+                return;
             }
 
             r = mConnectedThread;
@@ -197,47 +197,47 @@ public class BluetoothChatService
         r.write(out);
     }
 
-	public void sendAvatar(Bitmap avatar)
-	{
-		ConnectedThread r;
+    public void sendAvatar(Bitmap avatar)
+    {
+        ConnectedThread r;
 
-		synchronized (this)
-		{
-			if (mState != STATE_CONNECTED)
-			{
-				return;
-			}
+        synchronized (this)
+        {
+            if (mState != STATE_CONNECTED)
+            {
+                return;
+            }
 
-			r = mConnectedThread;
-		}
+            r = mConnectedThread;
+        }
 
-		r.sendAvatar(avatar);
-	}
+        r.sendAvatar(avatar);
+    }
 
-	private void sendMessageToActivity(String message)
-	{
-		Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_TOAST);
-		Bundle bundle = new Bundle();
-		bundle.putString(BluetoothChat.TOAST, message);
-		msg.setData(bundle);
-		mHandler.sendMessage(msg);
-	}
+    private void sendMessageToActivity(String message)
+    {
+        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_TOAST);
+        Bundle bundle = new Bundle();
+        bundle.putString(BluetoothChat.TOAST, message);
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+    }
 
     private void connectionFailed()
     {
-		sendMessageToActivity("Unable to connect to device");
+        sendMessageToActivity("Unable to connect to device");
 
         BluetoothChatService.this.start();
     }
 
-    private void connectionLost()
+    private void connectionLost(Throwable e)
     {
-	    sendMessageToActivity("Device connection was lost");
+        sendMessageToActivity("Device connection was lost");
 
         BluetoothChatService.this.start();
     }
 
-     private class AcceptThread extends Thread
+    private class AcceptThread extends Thread
     {
         private final BluetoothServerSocket mmServerSocket;
         private String mSocketType;
@@ -290,21 +290,21 @@ public class BluetoothChatService
                     {
                         switch (mState)
                         {
-	                        case STATE_LISTEN:
-	                        case STATE_CONNECTING:
-	                            connected(socket, socket.getRemoteDevice(), mSocketType);
-	                            break;
-	                        case STATE_NONE:
-	                        case STATE_CONNECTED:
-	                            try
-	                            {
-	                                socket.close();
-	                            }
-	                            catch (IOException e)
-	                            {
-	                                Log.e(TAG, "Could not close unwanted socket", e);
-	                            }
-	                            break;
+                            case STATE_LISTEN:
+                            case STATE_CONNECTING:
+                                connected(socket, socket.getRemoteDevice(), mSocketType);
+                                break;
+                            case STATE_NONE:
+                            case STATE_CONNECTED:
+                                try
+                                {
+                                    socket.close();
+                                }
+                                catch (IOException e)
+                                {
+                                    Log.e(TAG, "Could not close unwanted socket", e);
+                                }
+                                break;
                         }
                     }
                 }
@@ -437,42 +437,42 @@ public class BluetoothChatService
             Log.i(TAG, "BEGIN mConnectedThread");
 
             try
-	        {
-		        byte[] buffer = new byte[1024];
+            {
+                byte[] buffer = new byte[1024];
 
-		        int bytes;
+                int bytes;
 
-		        int avatarLength = mmInStream.read() << 24 |
-				        (mmInStream.read() & 0xFF) << 16 |
-				        (mmInStream.read() & 0xFF) << 8 |
-				        (mmInStream.read() & 0xFF);
+                int avatarLength = mmInStream.read() << 24 |
+                        (mmInStream.read() & 0xFF) << 16 |
+                        (mmInStream.read() & 0xFF) << 8 |
+                        (mmInStream.read() & 0xFF);
 
-		        byte[] avatarBuffer = new byte[avatarLength];
-		        int avatarEnd = 0;
+                byte[] avatarBuffer = new byte[avatarLength];
+                int avatarEnd = 0;
 
-		        while (avatarEnd != avatarLength)
-		        {
-			        bytes = mmInStream.read(avatarBuffer, avatarEnd, avatarLength - avatarEnd);
+                while (avatarEnd != avatarLength)
+                {
+                    bytes = mmInStream.read(avatarBuffer, avatarEnd, avatarLength - avatarEnd);
 
-			        avatarEnd += bytes;
-		        }
+                    avatarEnd += bytes;
+                }
 
-		        mHandler.obtainMessage(BluetoothChat.MESSAGE_AVATAR, avatarLength, -1, avatarBuffer).sendToTarget();
+	            mHandler.obtainMessage(BluetoothChat.MESSAGE_AVATAR, avatarLength, -1, avatarBuffer).sendToTarget();
 
-	            while (true)
-	            {
+                while (true)
+                {
                     bytes = mmInStream.read(buffer);
 
                     mHandler.obtainMessage(BluetoothChat.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
-	            }
-	        }
-	        catch (Throwable e)
-	        {
-		        Log.e(TAG, "disconnected" + e.getMessage(), e);
-		        connectionLost();
+                }
+            }
+            catch (Throwable e)
+            {
+                Log.e(TAG, "disconnected" + e.getMessage(), e);
+                connectionLost(e);
 
-		        BluetoothChatService.this.start();
-	        }
+                BluetoothChatService.this.start();
+            }
         }
 
         public void write(byte[] buffer)
@@ -489,28 +489,28 @@ public class BluetoothChatService
             }
         }
 
-	    public void sendAvatar(Bitmap avatar)
-	    {
-		    final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		    avatar.compress(Bitmap.CompressFormat.PNG, 100, stream);
-		    final byte[] imageByteArray = stream.toByteArray();
+        public void sendAvatar(Bitmap avatar)
+        {
+            final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            avatar.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            final byte[] imageByteArray = stream.toByteArray();
 
-		    try
-		    {
-			    mmOutStream.write(new byte[]{
-					    (byte)(imageByteArray.length >> 24),
-					    (byte)(imageByteArray.length >> 16),
-					    (byte)(imageByteArray.length >> 8),
-					    (byte)(imageByteArray.length),
-			    });
+            try
+            {
+                mmOutStream.write(new byte[]{
+                        (byte)(imageByteArray.length >> 24),
+                        (byte)(imageByteArray.length >> 16),
+                        (byte)(imageByteArray.length >> 8),
+                        (byte)(imageByteArray.length),
+                });
 
-			    mmOutStream.write(imageByteArray);
-		    }
-		    catch (IOException e)
-		    {
-			    Log.e(TAG, "Exception during write", e);
-		    }
-	    }
+                mmOutStream.write(imageByteArray);
+            }
+            catch (IOException e)
+            {
+                Log.e(TAG, "Exception during write", e);
+            }
+        }
 
         public void cancel()
         {
