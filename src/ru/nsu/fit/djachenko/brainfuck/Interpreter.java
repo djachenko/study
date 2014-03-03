@@ -1,6 +1,5 @@
 package ru.nsu.fit.djachenko.brainfuck;
 
-import ru.nsu.fit.djachenko.brainfuck.commands.Command;
 import ru.nsu.fit.djachenko.brainfuck.commands.CommandFactory;
 
 public class Interpreter implements Runnable
@@ -25,15 +24,7 @@ public class Interpreter implements Runnable
 
 		for ( ; !enough && parser.ready(); )
 		{
-			try
-			{
-				Command command = factory.get(parser.getCommand());
-				command.run(dataManager, this);
-			}
-			catch (BadCommandException e)
-			{
-				e.printStackTrace();
-			}
+			factory.get(parser.getCommand()).run(dataManager, this);
 		}
 	}
 
