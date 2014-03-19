@@ -17,6 +17,11 @@ public class Buffer
 
 	Buffer(Reader reader)
 	{
+		if (reader == null)
+		{
+			throw new NullPointerException();
+		}
+
 		this.reader = reader;
 	}
 
@@ -32,9 +37,13 @@ public class Buffer
 		if (trigger)
 		{
 			line++;
-			column = -1;
+			column = 0;
 
 			trigger = false;
+		}
+		else
+		{
+			column++;
 		}
 
 		if (c == '\n')
@@ -42,24 +51,36 @@ public class Buffer
 			trigger = true;
 		}
 
-		column++;
-
 		return c;
 	}
 
-	public int peekChar()
+	public int peekChar() throws IOException
 	{
 		return peekChar(position);
 	}
 
-	public int peekChar(int index)
+	public int peekChar(int index) throws IOException
 	{
+		while (!(index < buffer.length()))
+		{
+			retrieveChar();
+		}
+
 		return buffer.charAt(index);
 	}
 
 	private void retrieveChar() throws IOException
 	{
-		buffer.append(reader.read());
+		int nextChar = reader.read();
+
+		if (nextChar == -1)
+		{
+			throw new BufferException("Attempt to read more characters than program contains");
+		}
+		else
+		{
+			buffer.append((char)nextChar);
+		}
 	}
 
 	public int getLine()
