@@ -109,7 +109,19 @@ public class Lexer
 		{
 			StringBuilder builder = new StringBuilder();
 
-			while (Character.isAlphabetic(c))
+			while (Character.isAlphabetic(c) || Character.isDigit(c))
+			{
+				builder.append(buffer.getChar());
+				c = buffer.peekChar();
+			}
+
+			return factory.getLexeme(builder.toString(), line, column);
+		}
+		else if (Character.isDigit(c))
+		{
+			StringBuilder builder = new StringBuilder();
+
+			while (Character.isDigit(c))
 			{
 				builder.append(buffer.getChar());
 				c = buffer.peekChar();
