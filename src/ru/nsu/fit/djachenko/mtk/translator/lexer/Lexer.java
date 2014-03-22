@@ -3,19 +3,22 @@ package ru.nsu.fit.djachenko.mtk.translator.lexer;
 import ru.nsu.fit.djachenko.mtk.translator.buffer.Buffer;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class Lexer
 {
 	private final Buffer buffer;
 
-	private final LexemeFactory factory = LexemeFactory.getInstance();
+	private static final LexemeFactory FACTORY = LexemeFactory.getInstance();
+	private static final Map<String, Lexeme.Type> KEYWORDS = Lexeme.getKeywords();
+	private static final Map<Integer, Lexeme.Type> SIMPLE_LEXEMES = Lexeme.getSimpleLexemes();
 
 	Lexer(Buffer buffer)
 	{
 		this.buffer = buffer;
 	}
 
-	Lexeme getLexeme() throws IOException
+	Lexeme getLexeme() throws IOException, LexerException
 	{
 		trim();
 
@@ -24,12 +27,12 @@ public class Lexer
 
 	private void trim() throws IOException
 	{
-		for (int c = buffer.peekChar(); !Character.isAlphabetic(c); c = buffer.peekChar())
+		for (int current = buffer.peekChar(); !lexemeStarts(); current = buffer.peekChar())
 		{
-			switch (c)
+			switch (current)
 			{
 				case '/':
-					int next = buffer.peekChar(buffer.getPosition() + 1);
+					int next = buffer.peekNextChar();
 
 					switch (next)
 					{
@@ -42,14 +45,14 @@ public class Lexer
 							break;
 
 						default:
-							buffer.getChar();
+							buffer.nextChar();
 							break;
 					}
 
 					break;
 
 				default:
-					buffer.getChar();
+					buffer.nextChar();
 					break;
 			}
 		}
@@ -59,30 +62,40 @@ public class Lexer
 	{
 		while (true)
 		{
-			int c = buffer.getChar();
+			int c = buffer.peekChar();
 
 			switch (c)
 			{
 				case '*':
-					if (buffer.peekChar(buffer.getPosition() + 1) == '/')
+					if (buffer.peekNextChar() == '/')
 					{
-						buffer.getChar();
+						buffer.nextChar();
+						buffer.nextChar();
 
 						return;
 					}
 					else
 					{
+						buffer.nextChar();
 						break;
 					}
 				case '/':
-					if (buffer.peekChar(buffer.getPosition() + 1) == '*')
+					switch (buffer.peekNextChar())
 					{
-						skipMultilineComment();
+						case '*':
+							skipMultilineComment();
+							break;
+						case '/':
+							skipOneLineComment();
+							break;
+						default:
+							buffer.nextChar();
+							break;
 					}
 
 					break;
-
 				default:
+					buffer.nextChar();
 					break;
 			}
 		}
@@ -90,48 +103,153 @@ public class Lexer
 
 	private void skipOneLineComment() throws IOException
 	{
-		int c = buffer.getChar();
+		int c = buffer.peekChar();
 
 		while (c != '\n')
 		{
-			c = buffer.getChar();
+			buffer.nextChar();
+			c = buffer.peekChar();
 		}
 	}
 
-	private Lexeme parseLexeme() throws IOException
+	private Lexeme parseLexeme() throws IOException, LexerException
+	{
+		int c = buffer.peekChar();
+
+		if (isSimpleLexeme(c))
+		{
+			return parseSimpleLexeme();
+		}
+		else if (Character.isLetter(c))
+		{
+			return parseName();
+		}
+		else if (isNumber(c))
+		{
+			return parseNumber();
+		}
+		else
+		{
+			throw new LexerException("Unknown token", buffer.getLine(), buffer.getColumn());
+		}
+	}
+
+	private Lexeme parseNumber() throws IOException, LexerException
 	{
 		int c = buffer.peekChar();
 
 		int line = buffer.getLine();
 		int column = buffer.getColumn();
 
-		if (Character.isAlphabetic(c))
+		StringBuilder builder = new StringBuilder();
+
+		while (Character.isDigit(c))
 		{
-			StringBuilder builder = new StringBuilder();
+			builder.append((char)c);
 
-			while (Character.isAlphabetic(c) || Character.isDigit(c))
-			{
-				builder.append(buffer.getChar());
-				c = buffer.peekChar();
-			}
-
-			return factory.getLexeme(builder.toString(), line, column);
+			buffer.nextChar();
+			c = buffer.peekChar();
 		}
-		else if (Character.isDigit(c))
+		
+		if (c == '.')
 		{
-			StringBuilder builder = new StringBuilder();
+			builder.append(c);
+			
+			buffer.nextChar();
+			c = buffer.peekChar();
 
 			while (Character.isDigit(c))
 			{
-				builder.append(buffer.getChar());
+				builder.append((char)c);
+
+				buffer.peekChar();
 				c = buffer.peekChar();
 			}
+		}
 
-			return factory.getLexeme(builder.toString(), line, column);
+		String value = builder.toString();
+
+		if (value.equals("."))
+		{
+			throw new LexerException("Wrong number", line, column);
 		}
 		else
 		{
-			return factory.getLexeme(String.valueOf(c), line, column);
+			return FACTORY.getLexeme(Lexeme.Type.VALUE, value, line, column);
+		}
+	}
+
+	private Lexeme parseName() throws IOException
+	{
+		int c = buffer.peekChar();
+
+		int line = buffer.getLine();
+		int column = buffer.getColumn();
+
+		StringBuilder builder = new StringBuilder();
+
+		while (Character.isLetterOrDigit(c))
+		{
+			builder.append(c);
+
+			buffer.nextChar();
+			c = buffer.peekChar();
+		}
+
+		String name = builder.toString();
+
+		if (KEYWORDS.containsKey(name))
+		{
+			return FACTORY.getLexeme(KEYWORDS.get(name), name, line, column);
+		}
+		else
+		{
+			return FACTORY.getLexeme(Lexeme.Type.IDENTIFIER, name, line, column);
+		}
+	}
+
+	private Lexeme parseSimpleLexeme() throws IOException, LexerException
+	{
+		int c = buffer.peekChar();
+
+		int line = buffer.getLine();
+		int column = buffer.getColumn();
+
+		Lexeme.Type type = SIMPLE_LEXEMES.get(c);
+		
+		buffer.nextChar();
+
+		return FACTORY.getLexeme(type, line, column);
+	}
+
+	private boolean isNumber(int c)
+	{
+		return Character.isDigit(c) || c == '.';
+	}
+
+	private boolean isSimpleLexeme(int c)
+	{
+		return SIMPLE_LEXEMES.containsKey(c);
+	}
+
+	private boolean lexemeStarts() throws IOException
+	{
+		int c = buffer.peekChar();
+
+		if (c == '/')
+		{
+			int next = buffer.peekNextChar();
+
+			return next != '/' && next != '*';
+		}
+		else
+		{
+			return Character.isLetterOrDigit(c) ||
+			       c == '*' ||
+			       c == '-' ||
+			       c == '+' ||
+			       c == '(' ||
+			       c == ')';
 		}
 	}
 }

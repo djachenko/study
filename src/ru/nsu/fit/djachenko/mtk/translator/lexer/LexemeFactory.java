@@ -12,23 +12,13 @@ public class LexemeFactory
 		return instance;
 	}
 
-	Lexeme getLexeme(String representation, int line, int column)
+	Lexeme getLexeme(Lexeme.Type type, int line, int column)
 	{
-		if (representation.equals("="))
-		{
-			return new Lexeme(Lexeme.Type.ASSIGN, line, column);
-		}
-		else if (representation.equals("double") || representation.equals("int"))
-		{
-			return new Lexeme(Lexeme.Type.TYPE, line, column);
-		}
-		else if (representation.equals("print"))
-		{
-			return new Lexeme(Lexeme.Type.PRINT, line, column);
-		}
-		else
-		{
-			return new Lexeme(Lexeme.Type.NAME, line, column);
-		}
+		return new Lexeme(type, line, column);
+	}
+
+	Lexeme getLexeme(Lexeme.Type type, String value, int line, int column)
+	{
+		return new Lexeme(type, value, line, column);
 	}
 }
