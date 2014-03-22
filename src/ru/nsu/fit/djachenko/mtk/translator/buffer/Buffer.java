@@ -12,10 +12,11 @@ public class Buffer
 	private int column = 0;
 
 	private boolean ended = false;
+	private int endPosition = -1;
 
 	public static final int EOP = -1;
 
-	private StringBuffer buffer = new StringBuffer();
+	private final StringBuffer buffer = new StringBuffer();
 
 	Buffer(Reader reader)
 	{
@@ -64,6 +65,11 @@ public class Buffer
 			retrieveChar();
 		}
 
+		if (index == endPosition)
+		{
+			return EOP;
+		}
+
 		return buffer.charAt(index);
 	}
 
@@ -79,7 +85,8 @@ public class Buffer
 			}
 			else
 			{
-				buffer.append(EOP);
+				endPosition = buffer.length();
+				buffer.append((char)0);
 				ended = true;
 			}
 		}
