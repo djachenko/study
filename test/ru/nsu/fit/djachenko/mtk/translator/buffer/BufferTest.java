@@ -2,7 +2,9 @@ package ru.nsu.fit.djachenko.mtk.translator.buffer;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -12,381 +14,197 @@ public class BufferTest
 	String template;
 	Buffer buffer;
 
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
 	@Before
 	public void prepare()
 	{
-		template = "sd hf js\nh fsd\nkjh fa\nK hj ka\nsHAW";
+		template = "sd hf js\n\nh fsd\nkjh fa\nK hj ka\nsHAW";
 		buffer = new Buffer(new StringReader(template));
 	}
 
 	@Test
-	public void testGet()
+	public void testNextException() throws IOException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
-			try
-			{
-				int c = buffer.getChar();
-
-				Assert.assertEquals(template.charAt(i), c);
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
+			buffer.nextChar();
 		}
+
+		buffer.nextChar();//EOP
+
+		thrown.expect(BufferException.class);
+
+		buffer.nextChar();//and here is exception
 	}
 
 	@Test
-	public void testGetException()
-	{
-		for (int i = 0; i < template.length(); i++)
-		{
-			try
-			{
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
-		}
-
-		try
-		{
-			buffer.getChar();
-			Assert.fail();
-		}
-		catch (IOException e)
-		{}
-	}
-
-	@Test
-	public void testGetLineShift()
+	public void testNextLineShift() throws IOException
 	{
 		int lineCount = 0;
 
 		for (int i = 0; i < template.length(); i++)
 		{
-			try
-			{
-				int c = buffer.getChar();
+			int c = buffer.peekChar();
+			buffer.nextChar();
 
-				Assert.assertEquals(lineCount, buffer.getLine());
-
-				if (c == '\n')
-				{
-					lineCount++;
-				}
-			}
-			catch (IOException e)
+			if (c == '\n')
 			{
-				Assert.fail();
+				lineCount++;
 			}
+
+			Assert.assertEquals(lineCount, buffer.getLine());
 		}
 	}
 
 	@Test
-	public void testGetColumnShift()
+	public void testNextColumnShift() throws IOException
 	{
 		int columnCount = 0;
-		int prev = -1;
 
 		for (int i = 0; i < template.length(); i++)
 		{
-			try
+			Assert.assertEquals(columnCount, buffer.getColumn());
+
+			int c = buffer.peekChar();
+			buffer.nextChar();
+
+			if (c == '\n')
 			{
-				Assert.assertEquals(columnCount, buffer.getColumn());
-
-				int c = buffer.getChar();
-
-				if (prev == '\n')
-				{
-					columnCount = 0;
-				}
-				else
-				{
-					columnCount++;
-				}
-
-				Assert.assertEquals(columnCount, buffer.getColumn());
-
-				prev = c;
+				columnCount = 0;
 			}
-			catch (IOException e)
+			else
 			{
-				Assert.fail();
+				columnCount++;
 			}
+
+			Assert.assertEquals(columnCount, buffer.getColumn());
 		}
 	}
 
 	@Test
-	public void testGetPositionShift()
+	public void testPeek() throws IOException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
-			try
-			{
-				Assert.assertEquals(i, buffer.getPosition());
+			int c = buffer.peekChar();
 
-				buffer.getChar();
+			Assert.assertEquals(template.charAt(i), c);
 
-				Assert.assertEquals(i + 1, buffer.getPosition());
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
+			buffer.nextChar();
 		}
 	}
 
 	@Test
-	public void testPeek()
+	public void testPeekException() throws IOException
 	{
 		for (int i = 0; i < template.length(); i++)
-		{
-			try
-			{
-				int c = buffer.peekChar();
-
-				Assert.assertEquals(template.charAt(i), c);
-
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
-		}
-	}
-
-	@Test
-	public void testPeekException()
-	{
-		for (int i = 0; i < template.length(); i++)
-		{
-			try
-			{
-				buffer.peekChar();
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
-
-			try
-			{
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{}
-		}
-
-		try
 		{
 			buffer.peekChar();
-			Assert.fail();
+			buffer.nextChar();
 		}
-		catch (IOException e)
-		{}
+
+		buffer.peekChar();
+		buffer.nextChar();
+
+		thrown.expect(BufferException.class);
+
+		buffer.peekChar();
 	}
 
 	@Test
-	public void testPeekLineShift()
+	public void testPeekLineShift() throws IOException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
-			try
+			int lineCount = buffer.getLine();
+
+			buffer.peekChar();
+
+			Assert.assertEquals(lineCount, buffer.getLine());
+
+			buffer.nextChar();
+		}
+	}
+
+	@Test
+	public void testPeekColumnShift() throws IOException
+	{
+		for (int i = 0; i < template.length(); i++)
+		{
+			int column = buffer.getColumn();
+
+			buffer.peekChar();
+
+			Assert.assertEquals(column, buffer.getColumn());
+
+			buffer.nextChar();
+		}
+	}
+
+	@Test
+	public void testPeekNextChar() throws IOException
+	{
+		for (int i = 0; i < template.length() - 1; i++)
+		{
+			int c = buffer.peekNextChar();
+
+			Assert.assertEquals(template.charAt(i + 1), c);
+
+			buffer.nextChar();
+		}
+
+		Assert.assertEquals(Buffer.EOP, buffer.peekNextChar());
+	}
+
+	@Test
+	public void testPeekNextCharException() throws IOException
+	{
+		for (int i = 0; i < template.length(); i++)
+		{
+			buffer.peekNextChar();
+			buffer.nextChar();
+		}
+
+		thrown.expect(BufferException.class);
+
+		buffer.peekNextChar();
+	}
+
+	@Test
+	public void testPeekNextCharLineShift() throws IOException
+	{
+		for (int j = 0; j < template.length(); j++)
+		{
+			for (int i = 1; i < template.length(); i++)
 			{
 				int lineCount = buffer.getLine();
 
-				buffer.peekChar();
+				buffer.peekNextChar();
 
 				Assert.assertEquals(lineCount, buffer.getLine());
+			}
 
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
+			buffer.nextChar();
 		}
 	}
 
 	@Test
-	public void testPeekColumnShift()
+	public void testPeekNextCharColumnShift() throws IOException
 	{
-		for (int i = 0; i < template.length(); i++)
+		for (int j = 0; j < template.length(); j++)
 		{
-			try
+			for (int i = 0; i < template.length(); i++)
 			{
 				int column = buffer.getColumn();
 
 				buffer.peekChar();
 
 				Assert.assertEquals(column, buffer.getColumn());
-
-				buffer.getChar();
-
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
-		}
-	}
-
-	@Test
-	public void testPeekPositionShift()
-	{
-		for (int i = 0; i < template.length(); i++)
-		{
-			try
-			{
-				Assert.assertEquals(i, buffer.getPosition());
-
-				buffer.peekChar();
-
-				Assert.assertEquals(i, buffer.getPosition());
-
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
-		}
-	}
-
-	@Test
-	public void testParametrizedPeek()
-	{
-		for (int i = 0; i < template.length(); i++)
-		{
-			try
-			{
-				int c = buffer.peekChar(i);
-
-				Assert.assertEquals(template.charAt(i), c);
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
-		}
-	}
-
-	@Test
-	public void testParametrizedPeekException()
-	{
-		for (int i = 0; i < template.length(); i++)
-		{
-			try
-			{
-				buffer.peekChar(i);
-			}
-			catch (IOException e)
-			{
-				Assert.fail();
-			}
-		}
-
-		try
-		{
-			buffer.peekChar(template.length() + 1);
-			Assert.fail();
-		}
-		catch (IOException e)
-		{}
-	}
-
-	@Test
-	public void testParametrizedPeekLineShift()
-	{
-		for (int j = 0; j < template.length(); j++)
-		{
-			for (int i = 0; i < template.length(); i++)
-			{
-				try
-				{
-					int lineCount = buffer.getLine();
-
-					buffer.peekChar(i);
-
-					Assert.assertEquals(lineCount, buffer.getLine());
-				}
-				catch (IOException e)
-				{
-					Assert.fail();
-				}
 			}
 
-			try
-			{
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{}
-		}
-	}
-
-	@Test
-	public void testParametrizedPeekColumnShift()
-	{
-		for (int j = 0; j < template.length(); j++)
-		{
-			for (int i = 0; i < template.length(); i++)
-			{
-				try
-				{
-					int column = buffer.getColumn();
-
-					buffer.peekChar();
-
-					Assert.assertEquals(column, buffer.getColumn());
-				}
-				catch (IOException e)
-				{
-					Assert.fail();
-				}
-			}
-
-			try
-			{
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{}
-		}
-	}
-
-	@Test
-	public void testParametrizedPeekPositionShift()
-	{
-		for (int j = 0; j < template.length(); j++)
-		{
-			for (int i = 0; i < template.length(); i++)
-			{
-				try
-				{
-					Assert.assertEquals(j, buffer.getPosition());
-
-					buffer.peekChar();
-
-					Assert.assertEquals(j, buffer.getPosition());
-				}
-				catch (IOException e)
-				{
-					Assert.fail();
-				}
-			}
-
-			try
-			{
-				buffer.getChar();
-			}
-			catch (IOException e)
-			{}
+			buffer.nextChar();
 		}
 	}
 }
