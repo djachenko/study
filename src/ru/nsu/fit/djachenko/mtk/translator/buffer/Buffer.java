@@ -11,7 +11,9 @@ public class Buffer
 	private int line = 0;
 	private int column = 0;
 
-	private boolean trigger = false;
+	private boolean ended = false;
+
+	public static final int EOP = -1;
 
 	private StringBuffer buffer = new StringBuffer();
 
@@ -25,7 +27,7 @@ public class Buffer
 		this.reader = reader;
 	}
 
-	public int getChar() throws IOException
+	public void nextChar() throws IOException
 	{
 		while (!(position < buffer.length()))
 		{
@@ -34,24 +36,15 @@ public class Buffer
 
 		int c = buffer.charAt(position++);
 
-		if (trigger)
+		if (c == '\n')
 		{
 			line++;
 			column = 0;
-
-			trigger = false;
 		}
 		else
 		{
 			column++;
 		}
-
-		if (c == '\n')
-		{
-			trigger = true;
-		}
-
-		return c;
 	}
 
 	public int peekChar() throws IOException
@@ -59,7 +52,12 @@ public class Buffer
 		return peekChar(position);
 	}
 
-	public int peekChar(int index) throws IOException
+	public int peekNextChar() throws IOException
+	{
+		return peekChar(position + 1);
+	}
+
+	private int peekChar(int index) throws IOException
 	{
 		while (!(index < buffer.length()))
 		{
@@ -75,7 +73,15 @@ public class Buffer
 
 		if (nextChar == -1)
 		{
-			throw new BufferException("Attempt to read more characters than program contains");
+			if (ended)
+			{
+				throw new BufferException("Attempt to read more characters than program contains");
+			}
+			else
+			{
+				buffer.append(EOP);
+				ended = true;
+			}
 		}
 		else
 		{
@@ -91,10 +97,5 @@ public class Buffer
 	public int getColumn()
 	{
 		return column;
-	}
-
-	public int getPosition()
-	{
-		return position;
 	}
 }
