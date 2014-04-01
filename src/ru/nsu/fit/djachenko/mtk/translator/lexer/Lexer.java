@@ -1,11 +1,12 @@
 package ru.nsu.fit.djachenko.mtk.translator.lexer;
 
 import ru.nsu.fit.djachenko.mtk.translator.buffer.Buffer;
+import ru.nsu.fit.djachenko.mtk.translator.buffer.BufferException;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class Lexer
+class Lexer
 {
 	private final Buffer buffer;
 
@@ -18,14 +19,14 @@ public class Lexer
 		this.buffer = buffer;
 	}
 
-	Lexeme getLexeme() throws IOException, LexerException
+	Lexeme getLexeme() throws IOException, LexerException, BufferException
 	{
 		trim();
 
 		return parseLexeme();
 	}
 
-	private void trim() throws IOException
+	private void trim() throws IOException, LexerException, BufferException
 	{
 		for (int current = buffer.peekChar(); !lexemeStarts(); current = buffer.peekChar())
 		{
@@ -58,14 +59,19 @@ public class Lexer
 		}
 	}
 
-	private void skipMultilineComment() throws IOException
+	private void skipMultilineComment() throws IOException, LexerException, BufferException
 	{
+		buffer.nextChar();
+		buffer.nextChar();
+
 		while (true)
 		{
 			int c = buffer.peekChar();
 
 			switch (c)
 			{
+				case Buffer.EOP:
+					throw new LexerException("Not closed comment", buffer.getLine(), buffer.getColumn());
 				case '*':
 					if (buffer.peekNextChar() == '/')
 					{
@@ -79,21 +85,6 @@ public class Lexer
 						buffer.nextChar();
 						break;
 					}
-				case '/':
-					switch (buffer.peekNextChar())
-					{
-						case '*':
-							skipMultilineComment();
-							break;
-						case '/':
-							skipOneLineComment();
-							break;
-						default:
-							buffer.nextChar();
-							break;
-					}
-
-					break;
 				default:
 					buffer.nextChar();
 					break;
@@ -101,18 +92,18 @@ public class Lexer
 		}
 	}
 
-	private void skipOneLineComment() throws IOException
+	private void skipOneLineComment() throws IOException, BufferException
 	{
 		int c = buffer.peekChar();
 
-		while (c != '\n')
+		while (c != '\n' && c != Buffer.EOP)
 		{
 			buffer.nextChar();
 			c = buffer.peekChar();
 		}
 	}
 
-	private Lexeme parseLexeme() throws IOException, LexerException
+	private Lexeme parseLexeme() throws IOException, LexerException, BufferException
 	{
 		int c = buffer.peekChar();
 
@@ -134,7 +125,7 @@ public class Lexer
 		}
 	}
 
-	private Lexeme parseNumber() throws IOException, LexerException
+	private Lexeme parseNumber() throws IOException, LexerException, BufferException
 	{
 		int c = buffer.peekChar();
 
@@ -179,7 +170,7 @@ public class Lexer
 		}
 	}
 
-	private Lexeme parseName() throws IOException
+	private Lexeme parseName() throws IOException, BufferException
 	{
 		int c = buffer.peekChar();
 
@@ -208,7 +199,7 @@ public class Lexer
 		}
 	}
 
-	private Lexeme parseSimpleLexeme() throws IOException, LexerException
+	private Lexeme parseSimpleLexeme() throws IOException, BufferException
 	{
 		int c = buffer.peekChar();
 
@@ -232,7 +223,7 @@ public class Lexer
 		return SIMPLE_LEXEMES.containsKey(c);
 	}
 
-	private boolean lexemeStarts() throws IOException
+	private boolean lexemeStarts() throws IOException, BufferException
 	{
 		int c = buffer.peekChar();
 
@@ -244,12 +235,7 @@ public class Lexer
 		}
 		else
 		{
-			return Character.isLetterOrDigit(c) ||
-			       c == '*' ||
-			       c == '-' ||
-			       c == '+' ||
-			       c == '(' ||
-			       c == ')';
+			return Character.isLetterOrDigit(c) || isSimpleLexeme(c);
 		}
 	}
 }

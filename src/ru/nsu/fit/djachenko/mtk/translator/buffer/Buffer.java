@@ -18,7 +18,7 @@ public class Buffer
 
 	private final StringBuffer buffer = new StringBuffer();
 
-	Buffer(Reader reader)
+	public Buffer(Reader reader)
 	{
 		if (reader == null)
 		{
@@ -28,7 +28,7 @@ public class Buffer
 		this.reader = reader;
 	}
 
-	public void nextChar() throws IOException
+	public void nextChar() throws IOException, BufferException
 	{
 		while (!(position < buffer.length()))
 		{
@@ -48,17 +48,17 @@ public class Buffer
 		}
 	}
 
-	public int peekChar() throws IOException
+	public int peekChar() throws IOException, BufferException
 	{
 		return peekChar(position);
 	}
 
-	public int peekNextChar() throws IOException
+	public int peekNextChar() throws IOException, BufferException
 	{
 		return peekChar(position + 1);
 	}
 
-	private int peekChar(int index) throws IOException
+	private int peekChar(int index) throws IOException, BufferException
 	{
 		while (!(index < buffer.length()))
 		{
@@ -73,7 +73,7 @@ public class Buffer
 		return buffer.charAt(index);
 	}
 
-	private void retrieveChar() throws IOException
+	private void retrieveChar() throws IOException, BufferException
 	{
 		int nextChar = reader.read();
 

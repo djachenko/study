@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mtk.translator.lexer;
 
-public class LexemeFactory
+class LexemeFactory
 {
 	private static final LexemeFactory instance = new LexemeFactory();
 

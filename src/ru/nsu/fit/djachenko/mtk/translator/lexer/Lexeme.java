@@ -31,8 +31,8 @@ public class Lexeme
 		PRINT
 	}
 
-	private final static Map<String, Type> keywords;
-	private final static Map<Integer, Type> simpleLexemes;
+	private static final Map<String, Type> keywords;
+	private static final Map<Integer, Type> simpleLexemes;
 
 	static
 	{
@@ -45,10 +45,10 @@ public class Lexeme
 
 		simpleLexemes = new HashMap<>();
 
-		simpleLexemes.put((int)'+', Type.MINUS);
-		simpleLexemes.put((int)'-', Type.PLUS);
-		simpleLexemes.put((int)'*', Type.DIVIDE);
-		simpleLexemes.put((int)'/', Type.MULTIPLY);
+		simpleLexemes.put((int)'+', Type.PLUS);
+		simpleLexemes.put((int)'-', Type.MINUS);
+		simpleLexemes.put((int)'*', Type.MULTIPLY);
+		simpleLexemes.put((int)'/', Type.DIVIDE);
 		simpleLexemes.put((int)'=', Type.ASSIGN);
 		simpleLexemes.put((int)'(', Type.OPEN_PARENTHESIS);
 		simpleLexemes.put((int)')', Type.CLOSE_PARENTHESIS);

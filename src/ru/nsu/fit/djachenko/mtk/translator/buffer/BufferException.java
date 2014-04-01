@@ -1,8 +1,6 @@
 package ru.nsu.fit.djachenko.mtk.translator.buffer;
 
-import java.io.IOException;
-
-public class BufferException extends IOException
+public class BufferException extends Exception
 {
 	BufferException(String message)
 	{

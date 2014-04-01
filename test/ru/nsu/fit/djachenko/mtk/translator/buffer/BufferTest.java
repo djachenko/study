@@ -11,8 +11,8 @@ import java.io.StringReader;
 
 public class BufferTest
 {
-	String template;
-	Buffer buffer;
+	private String template;
+	private Buffer buffer;
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -25,7 +25,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testNextException() throws IOException
+	public void testNextException() throws IOException, BufferException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
@@ -40,7 +40,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testNextLineShift() throws IOException
+	public void testNextLineShift() throws IOException, BufferException
 	{
 		int lineCount = 0;
 
@@ -59,7 +59,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testNextColumnShift() throws IOException
+	public void testNextColumnShift() throws IOException, BufferException
 	{
 		int columnCount = 0;
 
@@ -84,7 +84,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeek() throws IOException
+	public void testPeek() throws IOException, BufferException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
@@ -97,7 +97,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeekException() throws IOException
+	public void testPeekException() throws IOException, BufferException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
@@ -114,7 +114,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeekLineShift() throws IOException
+	public void testPeekLineShift() throws IOException, BufferException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
@@ -129,7 +129,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeekColumnShift() throws IOException
+	public void testPeekColumnShift() throws IOException, BufferException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
@@ -144,7 +144,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeekNextChar() throws IOException
+	public void testPeekNextChar() throws IOException, BufferException
 	{
 		for (int i = 0; i < template.length() - 1; i++)
 		{
@@ -159,7 +159,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeekNextCharException() throws IOException
+	public void testPeekNextCharException() throws IOException, BufferException
 	{
 		for (int i = 0; i < template.length(); i++)
 		{
@@ -173,7 +173,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeekNextCharLineShift() throws IOException
+	public void testPeekNextCharLineShift() throws IOException, BufferException
 	{
 		for (int j = 0; j < template.length(); j++)
 		{
@@ -191,7 +191,7 @@ public class BufferTest
 	}
 
 	@Test
-	public void testPeekNextCharColumnShift() throws IOException
+	public void testPeekNextCharColumnShift() throws IOException, BufferException
 	{
 		for (int j = 0; j < template.length(); j++)
 		{
