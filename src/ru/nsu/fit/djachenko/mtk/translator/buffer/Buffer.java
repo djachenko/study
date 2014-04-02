@@ -105,4 +105,9 @@ public class Buffer
 	{
 		return column;
 	}
+
+	public boolean programEnded()
+	{
+		return ended;
+	}
 }

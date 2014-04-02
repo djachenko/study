@@ -207,4 +207,19 @@ public class BufferTest
 			buffer.nextChar();
 		}
 	}
+
+	@Test
+	public void testProgramEnded() throws IOException, BufferException
+	{
+		for (int i = 0; i < template.length(); i++)
+		{
+			Assert.assertFalse(buffer.programEnded());
+			buffer.nextChar();
+		}
+
+		Assert.assertFalse(buffer.programEnded());
+		buffer.nextChar();
+
+		Assert.assertTrue(buffer.programEnded());
+	}
 }
