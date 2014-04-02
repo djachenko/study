@@ -17,6 +17,15 @@ public class LexerTest
 	public ExpectedException expectedException = ExpectedException.none();
 
 	@Test
+	public void testEmptyString() throws BufferException, IOException, LexerException
+	{
+		Lexer lexer = new Lexer(new Buffer(new StringReader("")));
+
+		Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexer.getLexeme().getType());
+		Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexer.getLexeme().getType());
+	}
+
+	@Test
 	public void testMultilineComments() throws IOException, LexerException, BufferException
 	{
 		Lexer lexer = new Lexer(new Buffer(new StringReader("/*blabla*/")));
@@ -78,7 +87,10 @@ public class LexerTest
 			Lexeme result = lexer.getLexeme();
 
 			Assert.assertEquals(simpleLexemes.get(lexeme), result.getType());
-			Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexer.getLexeme().getType());
+			if (lexeme != Buffer.EOP)
+			{
+				Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexer.getLexeme().getType());
+			}
 		}
 	}
 }

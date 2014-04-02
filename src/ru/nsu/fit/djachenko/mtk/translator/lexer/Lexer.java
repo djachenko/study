@@ -6,7 +6,7 @@ import ru.nsu.fit.djachenko.mtk.translator.buffer.BufferException;
 import java.io.IOException;
 import java.util.Map;
 
-class Lexer
+public class Lexer
 {
 	private final Buffer buffer;
 
@@ -14,12 +14,12 @@ class Lexer
 	private static final Map<String, Lexeme.Type> KEYWORDS = Lexeme.getKeywords();
 	private static final Map<Integer, Lexeme.Type> SIMPLE_LEXEMES = Lexeme.getSimpleLexemes();
 
-	Lexer(Buffer buffer)
+	public Lexer(Buffer buffer)
 	{
 		this.buffer = buffer;
 	}
 
-	Lexeme getLexeme() throws IOException, LexerException, BufferException
+	public Lexeme getLexeme() throws IOException, LexerException, BufferException
 	{
 		trim();
 
@@ -237,5 +237,10 @@ class Lexer
 		{
 			return Character.isLetterOrDigit(c) || isSimpleLexeme(c);
 		}
+	}
+
+	public boolean programEnded()
+	{
+		return buffer.programEnded();
 	}
 }
