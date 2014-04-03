@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mtk.translator.lexer;
 
 import ru.nsu.fit.djachenko.mtk.translator.buffer.Buffer;
-import ru.nsu.fit.djachenko.mtk.translator.buffer.BufferException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,14 +18,14 @@ public class Lexer
 		this.buffer = buffer;
 	}
 
-	public Lexeme getLexeme() throws IOException, LexerException, BufferException
+	public Lexeme getLexeme() throws IOException, LexerException
 	{
 		trim();
 
 		return parseLexeme();
 	}
 
-	private void trim() throws IOException, LexerException, BufferException
+	private void trim() throws IOException, LexerException
 	{
 		for (int current = buffer.peekChar(); !lexemeStarts(); current = buffer.peekChar())
 		{
@@ -59,7 +58,7 @@ public class Lexer
 		}
 	}
 
-	private void skipMultilineComment() throws IOException, LexerException, BufferException
+	private void skipMultilineComment() throws IOException, LexerException
 	{
 		buffer.nextChar();
 		buffer.nextChar();
@@ -92,7 +91,7 @@ public class Lexer
 		}
 	}
 
-	private void skipOneLineComment() throws IOException, BufferException
+	private void skipOneLineComment() throws IOException
 	{
 		int c = buffer.peekChar();
 
@@ -103,7 +102,7 @@ public class Lexer
 		}
 	}
 
-	private Lexeme parseLexeme() throws IOException, LexerException, BufferException
+	private Lexeme parseLexeme() throws IOException, LexerException
 	{
 		int c = buffer.peekChar();
 
@@ -125,7 +124,7 @@ public class Lexer
 		}
 	}
 
-	private Lexeme parseNumber() throws IOException, LexerException, BufferException
+	private Lexeme parseNumber() throws IOException, LexerException
 	{
 		int c = buffer.peekChar();
 
@@ -170,7 +169,7 @@ public class Lexer
 		}
 	}
 
-	private Lexeme parseName() throws IOException, BufferException
+	private Lexeme parseName() throws IOException
 	{
 		int c = buffer.peekChar();
 
@@ -199,7 +198,7 @@ public class Lexer
 		}
 	}
 
-	private Lexeme parseSimpleLexeme() throws IOException, BufferException
+	private Lexeme parseSimpleLexeme() throws IOException
 	{
 		int c = buffer.peekChar();
 
@@ -223,7 +222,7 @@ public class Lexer
 		return SIMPLE_LEXEMES.containsKey(c);
 	}
 
-	private boolean lexemeStarts() throws IOException, BufferException
+	private boolean lexemeStarts() throws IOException
 	{
 		int c = buffer.peekChar();
 

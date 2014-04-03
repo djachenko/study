@@ -28,7 +28,7 @@ public class Buffer
 		this.reader = reader;
 	}
 
-	public void nextChar() throws IOException, BufferException
+	public void nextChar() throws IOException
 	{
 		while (!(position < buffer.length()))
 		{
@@ -48,17 +48,17 @@ public class Buffer
 		}
 	}
 
-	public int peekChar() throws IOException, BufferException
+	public int peekChar() throws IOException
 	{
 		return peekChar(position);
 	}
 
-	public int peekNextChar() throws IOException, BufferException
+	public int peekNextChar() throws IOException
 	{
 		return peekChar(position + 1);
 	}
 
-	private int peekChar(int index) throws IOException, BufferException
+	private int peekChar(int index) throws IOException
 	{
 		while (!(index < buffer.length()))
 		{
@@ -73,7 +73,7 @@ public class Buffer
 		return buffer.charAt(index);
 	}
 
-	private void retrieveChar() throws IOException, BufferException
+	private void retrieveChar() throws IOException
 	{
 		int nextChar = reader.read();
 

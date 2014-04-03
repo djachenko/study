@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mtk.translator.buffer;
 
-public class BufferException extends Exception
+class BufferException extends RuntimeException
 {
 	BufferException(String message)
 	{

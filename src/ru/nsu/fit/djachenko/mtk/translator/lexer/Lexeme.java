@@ -20,6 +20,8 @@ public class Lexeme
 		OPEN_PARENTHESIS,
 		CLOSE_PARENTHESIS,
 
+		POWER,
+
 		IDENTIFIER,
 		TYPE,
 		VALUE,
@@ -52,6 +54,7 @@ public class Lexeme
 		simpleLexemes.put((int)'=', Type.ASSIGN);
 		simpleLexemes.put((int)'(', Type.OPEN_PARENTHESIS);
 		simpleLexemes.put((int)')', Type.CLOSE_PARENTHESIS);
+		simpleLexemes.put((int)'^', Type.POWER);
 		simpleLexemes.put(Buffer.EOP, Type.END_OF_PROGRAM);
 	}
 

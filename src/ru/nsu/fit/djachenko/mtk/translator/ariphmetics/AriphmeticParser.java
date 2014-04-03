@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mtk.translator.ariphmetics;
 
 import ru.nsu.fit.djachenko.mtk.translator.ariphmetics.tree.*;
-import ru.nsu.fit.djachenko.mtk.translator.buffer.BufferException;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.Lexeme;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.Lexer;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.LexerException;
@@ -19,7 +18,7 @@ public class AriphmeticParser
 		this.lexer = lexer;
 	}
 
-	TreeNode parseExpression() throws BufferException, IOException, LexerException, AriphmeticParserException
+	TreeNode parseExpression() throws IOException, LexerException, AriphmeticParserException
 	{
 		TreeNode root = parseTerm();
 
@@ -43,13 +42,13 @@ public class AriphmeticParser
 		return root;
 	}
 
-	private TreeNode parseTerm() throws LexerException, IOException, BufferException, AriphmeticParserException
+	private TreeNode parseTerm() throws LexerException, IOException, AriphmeticParserException
 	{
 		TreeNode root = parseFactor();
 
 		while (!lexer.programEnded())
 		{
-			lexeme = lexer.getLexeme();//because there isn't getLexeme() in parseFactor
+			//lexeme = lexer.getLexeme();//because there isn't getLexeme() in parseFactor
 
 			switch (lexeme.getType())
 			{
@@ -67,12 +66,28 @@ public class AriphmeticParser
 		return root;
 	}
 
-	private TreeNode parseFactor() throws BufferException, IOException, LexerException, AriphmeticParserException
+	private TreeNode parseFactor() throws IOException, LexerException, AriphmeticParserException
 	{
-		return parsePower();
+		TreeNode root = parsePower();
+
+		while (!lexer.programEnded())
+		{
+			lexeme = lexer.getLexeme();
+
+			switch (lexeme.getType())
+			{
+				case POWER:
+					root = new Power(root, parseFactor());
+					break;
+				default:
+					return root;
+			}
+		}
+
+		return root;
 	}
 
-	private TreeNode parsePower() throws LexerException, IOException, BufferException, AriphmeticParserException
+	private TreeNode parsePower() throws LexerException, IOException, AriphmeticParserException
 	{
 		Lexeme current = lexer.getLexeme();
 
@@ -86,7 +101,7 @@ public class AriphmeticParser
 		}
 	}
 
-	private TreeNode parseAtom() throws BufferException, IOException, LexerException, AriphmeticParserException
+	private TreeNode parseAtom() throws IOException, LexerException, AriphmeticParserException
 	{
 		switch (lexeme.getType())
 		{

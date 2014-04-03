@@ -5,7 +5,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ru.nsu.fit.djachenko.mtk.translator.buffer.Buffer;
-import ru.nsu.fit.djachenko.mtk.translator.buffer.BufferException;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -14,19 +13,18 @@ import java.util.Map;
 public class LexerTest
 {
 	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
+	public final ExpectedException expectedException = ExpectedException.none();
 
 	@Test
-	public void testEmptyString() throws BufferException, IOException, LexerException
+	public void testEmptyString() throws IOException, LexerException
 	{
 		Lexer lexer = new Lexer(new Buffer(new StringReader("")));
 
 		Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexer.getLexeme().getType());
-		Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexer.getLexeme().getType());
 	}
 
 	@Test
-	public void testMultilineComments() throws IOException, LexerException, BufferException
+	public void testMultilineComments() throws IOException, LexerException
 	{
 		Lexer lexer = new Lexer(new Buffer(new StringReader("/*blabla*/")));
 
@@ -36,7 +34,7 @@ public class LexerTest
 	}
 
 	@Test
-	public void testEnclosedMultilineComments() throws IOException, LexerException, BufferException
+	public void testEnclosedMultilineComments() throws IOException, LexerException
 	{
 		Lexer lexer = new Lexer(new Buffer(new StringReader("/*bl/*abla*/")));
 
@@ -46,7 +44,7 @@ public class LexerTest
 	}
 
 	@Test
-	public void testNotClosedMultilineComments() throws IOException, LexerException, BufferException
+	public void testNotClosedMultilineComments() throws IOException, LexerException
 	{
 		Lexer lexer = new Lexer(new Buffer(new StringReader("/*bl/*abl")));
 
@@ -56,7 +54,7 @@ public class LexerTest
 	}
 
 	@Test
-	public void testOneLineComments() throws IOException, LexerException, BufferException
+	public void testOneLineComments() throws IOException, LexerException
 	{
 		Lexer lexer = new Lexer(new Buffer(new StringReader("//comment\n")));
 
@@ -65,7 +63,7 @@ public class LexerTest
 	}
 
 	@Test
-	public void testOneLineCommentsInTheEnd() throws IOException, LexerException, BufferException
+	public void testOneLineCommentsInTheEnd() throws IOException, LexerException
 	{
 		Lexer lexer = new Lexer(new Buffer(new StringReader("//comment")));
 
@@ -74,7 +72,7 @@ public class LexerTest
 	}
 
 	@Test
-	public void testSimpleLexemes() throws BufferException, IOException, LexerException
+	public void testSimpleLexemes() throws IOException, LexerException
 	{
 		Map<Integer, Lexeme.Type> simpleLexemes = Lexeme.getSimpleLexemes();
 
