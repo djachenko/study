@@ -11,8 +11,6 @@ public class AriphmeticParser
 {
 	private final Lexer lexer;
 
-	private Lexeme lexeme;
-
 	public AriphmeticParser(Lexer lexer)
 	{
 		this.lexer = lexer;
@@ -24,9 +22,9 @@ public class AriphmeticParser
 
 		while (!lexer.programEnded())
 		{
-			//lexeme = lexer.getLexeme();
+			Lexeme currentLexeme = lexer.getLexeme();
 
-			switch (lexeme.getType())
+			switch (currentLexeme.getType())
 			{
 				case PLUS:
 					root = new Sum(root, parseTerm());
@@ -35,6 +33,7 @@ public class AriphmeticParser
 					root = new Sub(root, parseTerm());
 					break;
 				default:
+					lexer.reject();
 					return root;
 			}
 		}
@@ -42,15 +41,15 @@ public class AriphmeticParser
 		return root;
 	}
 
-	private TreeNode parseTerm() throws LexerException, IOException, AriphmeticParserException
+	private TreeNode parseTerm() throws IOException, LexerException, AriphmeticParserException
 	{
 		TreeNode root = parseFactor();
 
 		while (!lexer.programEnded())
 		{
-			//lexeme = lexer.getLexeme();//because there isn't getLexeme() in parseFactor
+			Lexeme currentLexeme = lexer.getLexeme();
 
-			switch (lexeme.getType())
+			switch (currentLexeme.getType())
 			{
 				case MULTIPLY:
 					root = new Mul(root, parseFactor());
@@ -59,6 +58,7 @@ public class AriphmeticParser
 					root = new Div(root, parseFactor());
 					break;
 				default:
+					lexer.reject();
 					return root;
 			}
 		}
@@ -72,14 +72,15 @@ public class AriphmeticParser
 
 		while (!lexer.programEnded())
 		{
-			lexeme = lexer.getLexeme();
+			Lexeme currentLexeme = lexer.getLexeme();
 
-			switch (lexeme.getType())
+			switch (currentLexeme.getType())
 			{
 				case POWER:
 					root = new Power(root, parseFactor());
 					break;
 				default:
+					lexer.reject();
 					return root;
 			}
 		}
@@ -87,22 +88,24 @@ public class AriphmeticParser
 		return root;
 	}
 
-	private TreeNode parsePower() throws LexerException, IOException, AriphmeticParserException
+	private TreeNode parsePower() throws IOException, LexerException, AriphmeticParserException
 	{
-		Lexeme current = lexer.getLexeme();
+		Lexeme currentLexeme = lexer.getLexeme();
 
-		switch (current.getType())
+		switch (currentLexeme.getType())
 		{
 			case MINUS:
 				return new UnaryMinus(parsePower());
 			default:
-				lexeme = current;
+				lexer.reject();
 				return parseAtom();
 		}
 	}
 
 	private TreeNode parseAtom() throws IOException, LexerException, AriphmeticParserException
 	{
+		Lexeme lexeme = lexer.getLexeme();
+
 		switch (lexeme.getType())
 		{
 			case VALUE:
@@ -110,9 +113,20 @@ public class AriphmeticParser
 			case IDENTIFIER:
 				return new Variable(lexeme.getValue());
 			case OPEN_PARENTHESIS:
-				return parseExpression();
-		}
+				TreeNode expression = parseExpression();
 
-		throw new IllegalArgumentException();
+				lexeme = lexer.getLexeme();
+
+				if (lexeme.getType() == Lexeme.Type.CLOSE_PARENTHESIS)
+				{
+					return expression;
+				}
+				else
+				{
+					throw new AriphmeticParserException("Unexpected token");
+				}
+			default:
+				throw new AriphmeticParserException("Unexpected token");
+		}
 	}
 }

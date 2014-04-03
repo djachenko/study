@@ -13,6 +13,9 @@ public class Lexer
 	private static final Map<String, Lexeme.Type> KEYWORDS = Lexeme.getKeywords();
 	private static final Map<Integer, Lexeme.Type> SIMPLE_LEXEMES = Lexeme.getSimpleLexemes();
 
+	private boolean rejected = false;
+	private Lexeme previousLexeme;
+
 	public Lexer(Buffer buffer)
 	{
 		this.buffer = buffer;
@@ -20,9 +23,32 @@ public class Lexer
 
 	public Lexeme getLexeme() throws IOException, LexerException
 	{
-		trim();
+		if (rejected)
+		{
+			rejected = false;
 
-		return parseLexeme();
+			return previousLexeme;
+		}
+		else
+		{
+			trim();
+
+			previousLexeme = parseLexeme();
+
+			return previousLexeme;
+		}
+	}
+
+	public void reject() throws LexerException
+	{
+		if (previousLexeme == null)
+		{
+			throw new LexerException("Rejection before quering");
+		}
+		else
+		{
+			rejected = true;
+		}
 	}
 
 	private void trim() throws IOException, LexerException

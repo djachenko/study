@@ -56,9 +56,11 @@ public class LexerTest
 	@Test
 	public void testOneLineComments() throws IOException, LexerException
 	{
-		Lexer lexer = new Lexer(new Buffer(new StringReader("//comment\n")));
+		Lexer lexer = new Lexer(new Buffer(new StringReader("//comment\n10")));
 
 		Lexeme lexeme = lexer.getLexeme();
+		Assert.assertEquals(Lexeme.Type.VALUE, lexeme.getType());
+		lexeme = lexer.getLexeme();
 		Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexeme.getType());
 	}
 
@@ -90,5 +92,29 @@ public class LexerTest
 				Assert.assertEquals(Lexeme.Type.END_OF_PROGRAM, lexer.getLexeme().getType());
 			}
 		}
+	}
+
+	@Test
+	public void rejectTest() throws IOException, LexerException
+	{
+		Lexer lexer = new Lexer(new Buffer(new StringReader("")));
+
+		Lexeme first = lexer.getLexeme();
+
+		lexer.reject();
+
+		Lexeme second = lexer.getLexeme();
+
+		Assert.assertSame(first, second);
+	}
+
+	@Test
+	public void rejectExceptionTest() throws IOException, LexerException
+	{
+		Lexer lexer = new Lexer(new Buffer(new StringReader("")));
+
+		expectedException.expect(LexerException.class);
+
+		lexer.reject();
 	}
 }
