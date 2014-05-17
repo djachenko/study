@@ -1,24 +1,32 @@
-package ru.nsu.fit.djachenko.mtk.translator.ariphmetics;
+package ru.nsu.fit.djachenko.mtk.translator.parser.expression;
 
-import ru.nsu.fit.djachenko.mtk.translator.ariphmetics.tree.*;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.Lexeme;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.Lexer;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.LexerException;
+import ru.nsu.fit.djachenko.mtk.translator.parser.expression.tree.*;
 
 import java.io.IOException;
+import java.util.Map;
 
-public class AriphmeticParser
+public class ExpressionParser
 {
 	private final Lexer lexer;
+	private final Map<String, Variable> variableMap;
 
-	public AriphmeticParser(Lexer lexer)
+	public ExpressionParser(Lexer lexer)
 	{
-		this.lexer = lexer;
+		this(lexer, null);
 	}
 
-	TreeNode parseExpression() throws IOException, LexerException, AriphmeticParserException
+	public ExpressionParser(Lexer lexer, Map<String, Variable> variableMap)
 	{
-		TreeNode root = parseTerm();
+		this.lexer = lexer;
+		this.variableMap = variableMap;
+	}
+
+	public Expression parseExpression() throws IOException, LexerException, ExpressionParserException
+	{
+		Expression root = parseTerm();
 
 		while (!lexer.programEnded())
 		{
@@ -41,9 +49,9 @@ public class AriphmeticParser
 		return root;
 	}
 
-	private TreeNode parseTerm() throws IOException, LexerException, AriphmeticParserException
+	private Expression parseTerm() throws IOException, LexerException, ExpressionParserException
 	{
-		TreeNode root = parseFactor();
+		Expression root = parseFactor();
 
 		while (!lexer.programEnded())
 		{
@@ -66,9 +74,9 @@ public class AriphmeticParser
 		return root;
 	}
 
-	private TreeNode parseFactor() throws IOException, LexerException, AriphmeticParserException
+	private Expression parseFactor() throws IOException, LexerException, ExpressionParserException
 	{
-		TreeNode root = parsePower();
+		Expression root = parsePower();
 
 		while (!lexer.programEnded())
 		{
@@ -88,7 +96,7 @@ public class AriphmeticParser
 		return root;
 	}
 
-	private TreeNode parsePower() throws IOException, LexerException, AriphmeticParserException
+	private Expression parsePower() throws IOException, LexerException, ExpressionParserException
 	{
 		Lexeme currentLexeme = lexer.getLexeme();
 
@@ -102,18 +110,18 @@ public class AriphmeticParser
 		}
 	}
 
-	private TreeNode parseAtom() throws IOException, LexerException, AriphmeticParserException
+	private Expression parseAtom() throws IOException, LexerException, ExpressionParserException
 	{
 		Lexeme lexeme = lexer.getLexeme();
 
 		switch (lexeme.getType())
 		{
 			case VALUE:
-				return new Value(lexeme.getValue());
+				return new Constant(lexeme.getValue());
 			case IDENTIFIER:
-				return new Variable(lexeme.getValue());
+				return variableMap.get(lexeme.getValue());
 			case OPEN_PARENTHESIS:
-				TreeNode expression = parseExpression();
+				Expression expression = parseExpression();
 
 				lexeme = lexer.getLexeme();
 
@@ -123,10 +131,10 @@ public class AriphmeticParser
 				}
 				else
 				{
-					throw new AriphmeticParserException("Unexpected token");
+					throw new ExpressionParserException("Unexpected token");
 				}
 			default:
-				throw new AriphmeticParserException("Unexpected token");
+				throw new ExpressionParserException("Unexpected token");
 		}
 	}
 }

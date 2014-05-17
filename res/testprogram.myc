@@ -1,0 +1,9 @@
+void main()
+{
+int a;
+a = 7 + 8;
+double b;
+b = 3;
+print(a);
+print(b);
+}

@@ -26,17 +26,15 @@ public class Lexer
 		if (rejected)
 		{
 			rejected = false;
-
-			return previousLexeme;
 		}
 		else
 		{
 			trim();
 
 			previousLexeme = parseLexeme();
-
-			return previousLexeme;
 		}
+
+		return previousLexeme;
 	}
 
 	public void reject() throws LexerException
@@ -169,7 +167,7 @@ public class Lexer
 		
 		if (c == '.')
 		{
-			builder.append(c);
+			builder.append((char)c);
 			
 			buffer.nextChar();
 			c = buffer.peekChar();
@@ -178,14 +176,14 @@ public class Lexer
 			{
 				builder.append((char)c);
 
-				buffer.peekChar();
+				buffer.nextChar();
 				c = buffer.peekChar();
 			}
 		}
 
 		String value = builder.toString();
 
-		if (value.equals("."))
+		if (".".equals(value))
 		{
 			throw new LexerException("Wrong number", line, column);
 		}
@@ -206,7 +204,7 @@ public class Lexer
 
 		while (Character.isLetterOrDigit(c))
 		{
-			builder.append(c);
+			builder.append((char)c);
 
 			buffer.nextChar();
 			c = buffer.peekChar();

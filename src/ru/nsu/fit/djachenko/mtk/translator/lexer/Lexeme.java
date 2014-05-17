@@ -20,6 +20,9 @@ public class Lexeme
 		OPEN_PARENTHESIS,
 		CLOSE_PARENTHESIS,
 
+		OPEN_BRACE,
+		CLOSE_BRACE,
+
 		POWER,
 
 		IDENTIFIER,
@@ -41,7 +44,7 @@ public class Lexeme
 		keywords = new HashMap<>();
 
 		keywords.put("return", Type.RETURN);
-		keywords.put("print", Type.PRINT);
+		keywords.put("print", Type.IDENTIFIER);
 		keywords.put("int", Type.TYPE);
 		keywords.put("double", Type.TYPE);
 
@@ -54,6 +57,8 @@ public class Lexeme
 		simpleLexemes.put((int)'=', Type.ASSIGN);
 		simpleLexemes.put((int)'(', Type.OPEN_PARENTHESIS);
 		simpleLexemes.put((int)')', Type.CLOSE_PARENTHESIS);
+		simpleLexemes.put((int)'{', Type.OPEN_BRACE);
+		simpleLexemes.put((int)'}', Type.CLOSE_BRACE);
 		simpleLexemes.put((int)'^', Type.POWER);
 		simpleLexemes.put(Buffer.EOP, Type.END_OF_PROGRAM);
 	}
