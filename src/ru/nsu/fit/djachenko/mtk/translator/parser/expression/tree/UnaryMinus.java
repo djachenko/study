@@ -5,12 +5,10 @@ import ru.nsu.fit.djachenko.mtk.translator.parser.Type;
 public class UnaryMinus implements Expression
 {
 	private final Expression argument;
-	private final Type type;
 
 	public UnaryMinus(Expression argument)
 	{
 		this.argument = argument;
-		this.type = argument.getType();
 	}
 
 	@Override
@@ -28,12 +26,12 @@ public class UnaryMinus implements Expression
 	@Override
 	public String toCode()
 	{
-		return null;
+		return argument.toCode() + "dneg\n";
 	}
 
 	@Override
 	public Type getType()
 	{
-		return type;
+		return argument.getType();
 	}
 }

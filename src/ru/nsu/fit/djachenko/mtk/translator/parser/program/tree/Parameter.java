@@ -26,7 +26,8 @@ public class Parameter implements Statement {
 	}
 
 	@Override
-	public String toCode() {
+	public String toCode()
+	{
 		return "";
 	}
 
@@ -34,5 +35,11 @@ public class Parameter implements Statement {
 	public Type getType()
 	{
 		return Type.VOID;
+	}
+
+	@Override
+	public int getLocalCount()
+	{
+		return 1;
 	}
 }

@@ -15,6 +15,10 @@ public class Lexeme
 		MULTIPLY,
 		DIVIDE,
 
+		LESS,
+		MORE,
+		EQUAL,
+
 		ASSIGN,
 
 		OPEN_PARENTHESIS,
@@ -29,11 +33,13 @@ public class Lexeme
 		TYPE,
 		VALUE,
 
+		IF,
+		ELSE,
+		WHILE,
+
 		RETURN,
 
-		END_OF_PROGRAM,
-
-		PRINT
+		END_OF_PROGRAM
 	}
 
 	private static final Map<String, Type> keywords;
@@ -47,6 +53,9 @@ public class Lexeme
 		keywords.put("print", Type.IDENTIFIER);
 		keywords.put("int", Type.TYPE);
 		keywords.put("double", Type.TYPE);
+		keywords.put("if", Type.IF);
+		keywords.put("else", Type.ELSE);
+		keywords.put("while", Type.WHILE);
 
 		simpleLexemes = new HashMap<>();
 
@@ -60,6 +69,8 @@ public class Lexeme
 		simpleLexemes.put((int)'{', Type.OPEN_BRACE);
 		simpleLexemes.put((int)'}', Type.CLOSE_BRACE);
 		simpleLexemes.put((int)'^', Type.POWER);
+		simpleLexemes.put((int)'<', Type.LESS);
+		simpleLexemes.put((int)'>', Type.MORE);
 		simpleLexemes.put(Buffer.EOP, Type.END_OF_PROGRAM);
 	}
 

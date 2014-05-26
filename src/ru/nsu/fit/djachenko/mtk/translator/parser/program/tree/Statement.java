@@ -6,4 +6,5 @@ public interface Statement
 {
 	public String toCode();
 	public Type getType();
+	public int getLocalCount();
 }

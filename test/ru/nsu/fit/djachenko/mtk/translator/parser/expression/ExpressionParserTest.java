@@ -10,9 +10,11 @@ import ru.nsu.fit.djachenko.mtk.translator.parser.expression.tree.Expression;
 import ru.nsu.fit.djachenko.mtk.translator.buffer.Buffer;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.Lexer;
 import ru.nsu.fit.djachenko.mtk.translator.lexer.LexerException;
+import ru.nsu.fit.djachenko.mtk.translator.parser.expression.tree.Variable;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Map;
 import java.util.Random;
 
 public class ExpressionParserTest
@@ -25,6 +27,8 @@ public class ExpressionParserTest
 
 	private static final int SIZE = 32;
 	private static final double EPSILON = 0.001;
+
+	private final Map<String, Variable> variableMap = null;
 
 	@Before
 	public void prepare()
@@ -48,7 +52,7 @@ public class ExpressionParserTest
 		{
 			ExpressionParser parser = new ExpressionParser(new Lexer(new Buffer(new StringReader(String.valueOf(x)))));
 
-			Expression tree = parser.parseExpression();
+			Expression tree = parser.parseExpression(variableMap);
 
 			Assert.assertEquals(x, tree.count(), EPSILON);
 		}
@@ -63,7 +67,7 @@ public class ExpressionParserTest
 
 			ExpressionParser parser = new ExpressionParser(new Lexer(new Buffer(new StringReader(expression))));
 
-			Assert.assertEquals(firstArguments[i] + secondArguments[i], parser.parseExpression().count(), EPSILON);
+			Assert.assertEquals(firstArguments[i] + secondArguments[i], parser.parseExpression(variableMap).count(), EPSILON);
 		}
 	}
 
@@ -76,7 +80,7 @@ public class ExpressionParserTest
 
 			ExpressionParser parser = new ExpressionParser(new Lexer(new Buffer(new StringReader(expression))));
 
-			Assert.assertEquals(firstArguments[i] - secondArguments[i], parser.parseExpression().count(), EPSILON);
+			Assert.assertEquals(firstArguments[i] - secondArguments[i], parser.parseExpression(variableMap).count(), EPSILON);
 		}
 	}
 
@@ -89,7 +93,7 @@ public class ExpressionParserTest
 
 			ExpressionParser parser = new ExpressionParser(new Lexer(new Buffer(new StringReader(expression))));
 
-			Assert.assertEquals(firstArguments[i] * secondArguments[i], parser.parseExpression().count(), EPSILON);
+			Assert.assertEquals(firstArguments[i] * secondArguments[i], parser.parseExpression(variableMap).count(), EPSILON);
 		}
 	}
 
@@ -102,7 +106,7 @@ public class ExpressionParserTest
 
 			ExpressionParser parser = new ExpressionParser(new Lexer(new Buffer(new StringReader(expression))));
 
-			Assert.assertEquals(firstArguments[i] / secondArguments[i], parser.parseExpression().count(), EPSILON);
+			Assert.assertEquals(firstArguments[i] / secondArguments[i], parser.parseExpression(variableMap).count(), EPSILON);
 		}
 	}
 
@@ -115,7 +119,7 @@ public class ExpressionParserTest
 
 			ExpressionParser parser = new ExpressionParser(new Lexer(new Buffer(new StringReader(expression))));
 
-			Assert.assertEquals(-1 * x, parser.parseExpression().count(), EPSILON);
+			Assert.assertEquals(-1 * x, parser.parseExpression(variableMap).count(), EPSILON);
 		}
 	}
 
@@ -141,11 +145,11 @@ public class ExpressionParserTest
 
 				if (length % 2 == 0)
 				{
-					Assert.assertEquals(x, parser.parseExpression().count(), EPSILON);
+					Assert.assertEquals(x, parser.parseExpression(variableMap).count(), EPSILON);
 				}
 				else
 				{
-					Assert.assertEquals(-x, parser.parseExpression().count(), EPSILON);
+					Assert.assertEquals(-x, parser.parseExpression(variableMap).count(), EPSILON);
 				}
 			}
 		}

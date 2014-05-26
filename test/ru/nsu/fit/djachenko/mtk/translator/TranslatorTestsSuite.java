@@ -13,6 +13,6 @@ import ru.nsu.fit.djachenko.mtk.translator.lexer.LexerTest;
 	ExpressionParserTest.class
 })
 
-public class TranslatorTestsSuite
+public interface TranslatorTestsSuite
 {
 }

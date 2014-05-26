@@ -30,7 +30,7 @@ public class Power implements Expression
 	@Override
 	public String toCode()
 	{
-		return null;
+		return left.toCode() + right.toCode() + "invokestatic java/lang/Math.pow(DD)D\n";
 	}
 
 	@Override

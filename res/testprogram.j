@@ -15,20 +15,27 @@ invokevirtual java/io/PrintStream/println(D)V
 return
 .end method
 
+.method public static add3(D)D
+.limit stack 100
+.limit locals 2
+dload 0
+ldc2_w 3.0
+dadd
+dreturn
+return
+.end method
+
 .method public static main()V
 .limit stack 100
-.limit locals 20
+.limit locals 6
 ldc2_w 7.0
-ldc2_w 8.0
-dadd
-dstore 0
-ldc2_w 3.0
 dstore 2
-dload 0
-invokestatic defaultclass.print(D)V
 dload 2
 invokestatic defaultclass.print(D)V
-return
+ldc2_w 5.0
+dstore 2
+dload 2
+invokestatic defaultclass.print(D)V
 return
 .end method
 

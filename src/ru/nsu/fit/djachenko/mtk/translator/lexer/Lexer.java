@@ -230,8 +230,19 @@ public class Lexer
 		int column = buffer.getColumn();
 
 		Lexeme.Type type = SIMPLE_LEXEMES.get(c);
-		
+
 		buffer.nextChar();
+
+		if (c == '=')
+		{
+			if (buffer.peekChar() == '=')
+			{
+				buffer.nextChar();
+				type = Lexeme.Type.EQUAL;
+
+				System.out.println("equal");
+			}
+		}
 
 		return FACTORY.getLexeme(type, line, column);
 	}

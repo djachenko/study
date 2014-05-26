@@ -7,54 +7,51 @@ import java.util.List;
 
 public class Method extends Variable
 {
-	private final List<Parameter> parameters;
-	private final List<Statement> body;
+	private final Statement body;
+	private final String signature;
+	private final int localCount;
 
-	public Method(Type returnType, String name, List<Parameter> parameters, List<Statement> body)
+	public Method(Type returnType, String name, List<Parameter> parameters, Statement body)
 	{
 		super(returnType, name, -1);
 
-		this.parameters = parameters;
 		this.body = body;
+		this.localCount = body == null ? 0 : body.getLocalCount() * 2;
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(name).append('(');
+
+		parameters.forEach(builder::append);
+
+		builder.append(')').append(returnType);
+
+		this.signature = builder.toString();
 	}
 
 	@Override
 	public String toCode()
 	{
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(".method public static ")
-		       .append(getName())
-		       .append('(');
-
-		for (Parameter parameter : parameters)
-		{
-			builder.append(parameter)
-			       .append(';');
-		}
-
-		builder.append(')')
-		       .append(getType())
-		       .append('\n');
-
-		builder.append(".limit stack 100\n")
-		       .append(".limit locals ")
-		       .append(20)
-		       .append('\n');
-
-		for (Statement statement : body)
-		{
-			builder.append(statement.toCode());
-		}
-
-		builder.append(".end method\n");
-
-		return builder.toString();
+		return ".method public static " +
+		       signature +
+		       '\n' +
+		       ".limit stack 100\n" +
+		       ".limit locals " +
+		       localCount +
+		       '\n' +
+		       body.toCode() +
+		       "return\n" +
+		       ".end method\n";
 	}
 
 	@Override
 	public String toString()
 	{
 		return toCode();
+	}
+
+	public String getSignature()
+	{
+		return signature;
 	}
 }

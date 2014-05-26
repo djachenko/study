@@ -25,6 +25,14 @@ public enum Type
 			{
 				return otherType == VOID;
 			}
+		},
+	BOOLEAN("B")
+		{
+			@Override
+			public boolean isCastableTo(Type otherType)
+			{
+				return otherType == BOOLEAN;
+			}
 		};
 
 	private final String representation;

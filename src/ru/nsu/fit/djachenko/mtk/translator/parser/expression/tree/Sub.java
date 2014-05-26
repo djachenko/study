@@ -30,7 +30,7 @@ public class Sub implements Expression
 	@Override
 	public String toCode()
 	{
-		return null;
+		return left.toCode() + right.toCode() + "dsub\n";
 	}
 
 	@Override

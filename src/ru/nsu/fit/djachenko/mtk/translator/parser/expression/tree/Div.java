@@ -28,7 +28,7 @@ public class Div implements Expression
 	@Override
 	public String toCode()
 	{
-		return null;
+		return left.toCode() + right.toCode() + "ddiv\n";
 	}
 
 	@Override

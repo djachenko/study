@@ -18,19 +18,13 @@ public class Starter
 		{
 			ProgramParser parser = new ProgramParser(new Lexer(new Buffer(reader)));
 
-			/*Method method = parser.parseMethod();
-
-			System.out.println(method.toString());*/
-
 			Program program = parser.parseProgram();
-
-			System.out.println(program);
 
 			try (Writer writer = new FileWriter("res/testprogram.j"))
 			{
 				writer.append(program.toString());
 				writer.flush();
-			}/**/
+			}
 		}
 		catch (IOException | LexerException | ExpressionParserException e)
 		{

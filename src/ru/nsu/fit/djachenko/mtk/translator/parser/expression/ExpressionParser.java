@@ -11,22 +11,15 @@ import java.util.Map;
 public class ExpressionParser
 {
 	private final Lexer lexer;
-	private final Map<String, Variable> variableMap;
 
 	public ExpressionParser(Lexer lexer)
 	{
-		this(lexer, null);
-	}
-
-	public ExpressionParser(Lexer lexer, Map<String, Variable> variableMap)
-	{
 		this.lexer = lexer;
-		this.variableMap = variableMap;
 	}
 
-	public Expression parseExpression() throws IOException, LexerException, ExpressionParserException
+	public Expression parseExpression(Map<String, Variable> variableMap) throws IOException, LexerException, ExpressionParserException
 	{
-		Expression root = parseTerm();
+		Expression root = parseTerm(variableMap);
 
 		while (!lexer.programEnded())
 		{
@@ -35,10 +28,10 @@ public class ExpressionParser
 			switch (currentLexeme.getType())
 			{
 				case PLUS:
-					root = new Sum(root, parseTerm());
+					root = new Sum(root, parseTerm(variableMap));
 					break;
 				case MINUS:
-					root = new Sub(root, parseTerm());
+					root = new Sub(root, parseTerm(variableMap));
 					break;
 				default:
 					lexer.reject();
@@ -49,9 +42,9 @@ public class ExpressionParser
 		return root;
 	}
 
-	private Expression parseTerm() throws IOException, LexerException, ExpressionParserException
+	private Expression parseTerm(Map<String, Variable> variableMap) throws IOException, LexerException, ExpressionParserException
 	{
-		Expression root = parseFactor();
+		Expression root = parseFactor(variableMap);
 
 		while (!lexer.programEnded())
 		{
@@ -60,10 +53,10 @@ public class ExpressionParser
 			switch (currentLexeme.getType())
 			{
 				case MULTIPLY:
-					root = new Mul(root, parseFactor());
+					root = new Mul(root, parseFactor(variableMap));
 					break;
 				case DIVIDE:
-					root = new Div(root, parseFactor());
+					root = new Div(root, parseFactor(variableMap));
 					break;
 				default:
 					lexer.reject();
@@ -74,9 +67,9 @@ public class ExpressionParser
 		return root;
 	}
 
-	private Expression parseFactor() throws IOException, LexerException, ExpressionParserException
+	private Expression parseFactor(Map<String, Variable> variableMap) throws IOException, LexerException, ExpressionParserException
 	{
-		Expression root = parsePower();
+		Expression root = parsePower(variableMap);
 
 		while (!lexer.programEnded())
 		{
@@ -85,7 +78,7 @@ public class ExpressionParser
 			switch (currentLexeme.getType())
 			{
 				case POWER:
-					root = new Power(root, parseFactor());
+					root = new Power(root, parseFactor(variableMap));
 					break;
 				default:
 					lexer.reject();
@@ -96,21 +89,21 @@ public class ExpressionParser
 		return root;
 	}
 
-	private Expression parsePower() throws IOException, LexerException, ExpressionParserException
+	private Expression parsePower(Map<String, Variable> variableMap) throws IOException, LexerException, ExpressionParserException
 	{
 		Lexeme currentLexeme = lexer.getLexeme();
 
 		switch (currentLexeme.getType())
 		{
 			case MINUS:
-				return new UnaryMinus(parsePower());
+				return new UnaryMinus(parsePower(variableMap));
 			default:
 				lexer.reject();
-				return parseAtom();
+				return parseAtom(variableMap);
 		}
 	}
 
-	private Expression parseAtom() throws IOException, LexerException, ExpressionParserException
+	private Expression parseAtom(Map<String, Variable> variableMap) throws IOException, LexerException, ExpressionParserException
 	{
 		Lexeme lexeme = lexer.getLexeme();
 
@@ -121,7 +114,7 @@ public class ExpressionParser
 			case IDENTIFIER:
 				return variableMap.get(lexeme.getValue());
 			case OPEN_PARENTHESIS:
-				Expression expression = parseExpression();
+				Expression expression = parseExpression(variableMap);
 
 				lexeme = lexer.getLexeme();
 
@@ -134,6 +127,8 @@ public class ExpressionParser
 					throw new ExpressionParserException("Unexpected token");
 				}
 			default:
+				System.out.println(lexeme.getType());
+				System.out.println(lexeme.getValue());
 				throw new ExpressionParserException("Unexpected token");
 		}
 	}

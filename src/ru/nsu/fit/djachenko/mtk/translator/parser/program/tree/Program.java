@@ -24,11 +24,7 @@ public class Program
 		       .append("return\n")
 		       .append(".end method\n\n");
 
-		for (Method method : methods)
-		{
-			builder.append(method.toCode())
-			       .append('\n');
-		}
+		methods.forEach(method -> builder.append(method.toCode()).append('\n'));
 
 		builder.append(".method public static main([Ljava/lang/String;)V\n" +
 		               ".limit stack 5\n" +

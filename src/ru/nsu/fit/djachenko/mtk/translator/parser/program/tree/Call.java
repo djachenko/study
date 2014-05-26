@@ -35,9 +35,7 @@ public class Call implements Statement, Expression
 		builder.append("invokestatic ")
 		       .append(Program.CLASSNAME)
 		       .append(".")
-		       .append(method.getName())
-		       .append("(D)")
-		       .append(method.getType())
+		       .append(method.getSignature())
 		       .append('\n');
 
 		return builder.toString();
@@ -47,5 +45,11 @@ public class Call implements Statement, Expression
 	public Type getType()
 	{
 		return method.getType();
+	}
+
+	@Override
+	public int getLocalCount()
+	{
+		return 0;
 	}
 }

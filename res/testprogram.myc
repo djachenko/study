@@ -1,9 +1,21 @@
+double add3(double a)
+{
+return a + 3;
+}
+
 void main()
 {
-int a;
-a = 7 + 8;
 double b;
-b = 3;
+{
+double a;
+a = 7;
 print(a);
-print(b);
+}
+
+{
+double a;
+a = 5;
+print(a);
+int c;
+}
 }

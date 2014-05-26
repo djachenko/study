@@ -30,7 +30,7 @@ public class Mul implements Expression
 	@Override
 	public String toCode()
 	{
-		return null;
+		return left.toCode() + right.toCode() + "dmul\n";
 	}
 
 	@Override
