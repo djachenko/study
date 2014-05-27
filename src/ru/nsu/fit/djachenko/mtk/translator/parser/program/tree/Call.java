@@ -8,9 +8,9 @@ import java.util.List;
 public class Call implements Statement, Expression
 {
 	private final Method method;
-	private final List<Variable> parameters;
+	private final List<Expression> parameters;
 
-	public Call(Method method, List<Variable> parameters)
+	public Call(Method method, List<Expression> parameters)
 	{
 		this.method = method;
 		this.parameters = parameters;
@@ -27,7 +27,7 @@ public class Call implements Statement, Expression
 	{
 		StringBuilder builder = new StringBuilder();
 
-		for (Variable parameter : parameters)
+		for (Expression parameter : parameters)
 		{
 			builder.append(parameter.toCode());
 		}

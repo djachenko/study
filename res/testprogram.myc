@@ -6,16 +6,18 @@ return a + 3;
 void main()
 {
 double b;
-{
 double a;
-a = 7;
-print(a);
+
+a = 2;
+b = 3;
+
+if (a + b > a * b)
+{
+print(a + b)
+}
+else
+{
+print(a * b)
 }
 
-{
-double a;
-a = 5;
-print(a);
-int c;
-}
 }

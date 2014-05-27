@@ -16,6 +16,6 @@ public class Less implements LogicExpression
 	@Override
 	public String toCode()
 	{
-		return null;
+		return left.toCode() + right.toCode() + "dcmpg\n" + "iflt";
 	}
 }

@@ -17,25 +17,21 @@ import java.util.*;
 
 public class ProgramParser
 {
-	private static class VariableIndexGenerator
+	private static class IndexGenerator
 	{
 		private int count = 0;
 
-		private VariableIndexGenerator()
+		private IndexGenerator()
 		{}
 
-		private VariableIndexGenerator(VariableIndexGenerator parent)
+		private IndexGenerator(IndexGenerator parent)
 		{
 			count = parent.count;
 		}
 
 		int getIndex()
 		{
-			int temp = count;
-
-			count++;
-
-			return temp * 2;
+			return count++;
 		}
 	}
 
@@ -47,7 +43,8 @@ public class ProgramParser
 	private final Map<String, Method> methodMap = new HashMap<>();
 	private Map<String, Variable> variableMap = new HashMap<>();
 
-	private VariableIndexGenerator generator = new VariableIndexGenerator();
+	private IndexGenerator variableGenerator = new IndexGenerator();
+	private final IndexGenerator ifGenerator = new IndexGenerator();
 
 	{
 		methodMap.put("print", new Print());
@@ -95,10 +92,10 @@ public class ProgramParser
 		Map<String, Variable> oldVariables = variableMap;
 		variableMap = new HashMap<>(variableMap);
 
-		VariableIndexGenerator oldGenerator = generator;
-		generator = new VariableIndexGenerator(generator);
+		IndexGenerator oldGenerator = variableGenerator;
+		variableGenerator = new IndexGenerator(variableGenerator);
 
-		List<Parameter> parameters = parseVarlist(generator);
+		List<Parameter> parameters = parseVarlist(variableGenerator);
 
 		if (lexer.getLexeme().getType() != Lexeme.Type.OPEN_BRACE)
 		{
@@ -110,12 +107,12 @@ public class ProgramParser
 		Statement body = parseScope(returnType);
 
 		variableMap = oldVariables;
-		generator = oldGenerator;
+		variableGenerator = oldGenerator;
 
 		return new Method(returnType, name, parameters, body);
 	}
 
-	private List<Parameter> parseVarlist(VariableIndexGenerator generator) throws IOException, LexerException, ProgramParserException
+	private List<Parameter> parseVarlist(IndexGenerator generator) throws IOException, LexerException, ProgramParserException
 	{
 		List<Parameter> parameters = new ArrayList<>();
 
@@ -138,13 +135,11 @@ public class ProgramParser
 
 	private Scope parseScope(Type methodType) throws IOException, LexerException, ProgramParserException, ExpressionParserException
 	{
-		System.out.println("<scope>");
-
 		Map<String, Variable> oldVariables = variableMap;
 		variableMap = new HashMap<>(variableMap);
 
-		VariableIndexGenerator oldGenerator = generator;
-		generator = new VariableIndexGenerator(generator);
+		IndexGenerator oldGenerator = variableGenerator;
+		variableGenerator = new IndexGenerator(variableGenerator);
 
 		List<Statement> statements = new LinkedList<>();
 
@@ -187,9 +182,7 @@ public class ProgramParser
 		int localCount = variableMap.size();
 
 		variableMap = oldVariables;
-		generator = oldGenerator;
-
-		System.out.println("</scope>");
+		variableGenerator = oldGenerator;
 
 		return new Scope(statements, localCount);
 	}
@@ -205,7 +198,7 @@ public class ProgramParser
 				lexer.getLexeme();
 				return parseScope(methodType);
 			case TYPE:
-				return parseDeclaration(generator);
+				return parseDeclaration(variableGenerator);
 			case IDENTIFIER:
 				if (variableMap.containsKey(currentLexeme.getValue()))
 				{
@@ -226,19 +219,19 @@ public class ProgramParser
 				return parseReturn(methodType);
 
 			default:
-				break;
+				fail("Unexpected identifier", currentLexeme);
 		}
 
 		return null;
 	}
 
-	private Parameter parseDeclaration(VariableIndexGenerator generator) throws IOException, LexerException
+	private Parameter parseDeclaration(IndexGenerator generator) throws IOException, LexerException
 	{
 		Type type = parseType();
 
 		String name = lexer.getLexeme().getValue();
 
-		variableMap.put(name, new Variable(type, name, generator.getIndex()));
+		variableMap.put(name, new Variable(type, name, generator.getIndex() * 2));
 
 		return new Parameter(type);
 	}
@@ -282,7 +275,7 @@ public class ProgramParser
 		}
 	}
 
-	private If parseIf(Type methodType) throws IOException, LexerException, ProgramParserException, ExpressionParserException
+	private IfElse parseIf(Type methodType) throws IOException, LexerException, ProgramParserException, ExpressionParserException
 	{
 		lexer.getLexeme();//keyword
 
@@ -295,9 +288,50 @@ public class ProgramParser
 
 		LogicExpression condition = parseCondition();
 
-		Statement body = parseScope(methodType);
+		lexer.getLexeme();
+		lexer.getLexeme();
 
-		return null;
+		Statement ifBody = parseScope(methodType);
+		Statement elseBody;
+
+		if (lexer.getLexeme().getType() == Lexeme.Type.ELSE)
+		{
+			if (lexer.getLexeme().getType() != Lexeme.Type.OPEN_BRACE)
+			{
+				lexer.reject();
+
+				fail("Unexpected identifier ", lexer.getLexeme());
+			}
+
+			elseBody = parseScope(methodType);
+		}
+		else
+		{
+			lexer.reject();
+
+			elseBody = new Statement()
+			{
+				@Override
+				public String toCode()
+				{
+					return "";
+				}
+
+				@Override
+				public Type getType()
+				{
+					return Type.VOID;
+				}
+
+				@Override
+				public int getLocalCount()
+				{
+					return 0;
+				}
+			};
+		}
+
+		return new IfElse(condition, ifBody, elseBody, ifGenerator.getIndex());
 	}
 
 	private LogicExpression parseCondition() throws ExpressionParserException, IOException, LexerException
@@ -327,19 +361,19 @@ public class ProgramParser
 		return Type.getType(currentLexeme.getValue());
 	}
 
-	private Call parseCall() throws IOException, LexerException
+	private Call parseCall() throws IOException, LexerException, ExpressionParserException
 	{
 		String name = lexer.getLexeme().getValue();
 
 		Lexeme lexeme = lexer.getLexeme();
 
-		List<Variable> parameters = new LinkedList<>();
+		List<Expression> parameters = new LinkedList<>();
 
 		for (Lexeme currentLexeme = lexer.getLexeme(); currentLexeme.getType() == Lexeme.Type.IDENTIFIER; currentLexeme = lexer.getLexeme())
 		{
-			String parameterName = currentLexeme.getValue();
+			lexer.reject();
 
-			parameters.add(variableMap.get(parameterName));
+			parameters.add(parseValue());
 		}
 
 		return new Call(methodMap.get(name), parameters);

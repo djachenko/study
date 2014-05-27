@@ -27,15 +27,32 @@ return
 
 .method public static main()V
 .limit stack 100
-.limit locals 6
-ldc2_w 7.0
+.limit locals 4
+ldc2_w 2.0
 dstore 2
+ldc2_w 3.0
+dstore 0
 dload 2
-invokestatic defaultclass.print(D)V
-ldc2_w 5.0
-dstore 2
+dload 0
+dmul
 dload 2
+dload 0
+dadd
+dcmpg
+iflt IfStart0
+goto IfEnd0
+IfStart0:
+dload 2
+dload 0
+dadd
 invokestatic defaultclass.print(D)V
+goto ElseEnd0
+IfEnd0:
+dload 2
+dload 0
+dmul
+invokestatic defaultclass.print(D)V
+ElseEnd0:
 return
 .end method
 
