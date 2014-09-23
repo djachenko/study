@@ -1,0 +1,11 @@
+2a             0: aload_0
+b4 20 02       1: getfield      #2                  // Field coins:I
+1b             4: iload_1
+68             5: imul
+3d             6: istore_2
+2a             7: aload_0
+1c             8: iload_2
+b5 20 02       9: putfield      #2                  // Field coins:I
+b1             12: return
+
+1f0
