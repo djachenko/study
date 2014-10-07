@@ -16,7 +16,7 @@ public class Lab4 {
         ProxyFactory proxyFactory = new ProxyFactory();
 
         proxyFactory.setSuperclass(Calculator.class);
-        proxyFactory.setFilter(m -> m.getName().equals("sum"));
+        proxyFactory.setFilter(m -> "sum".equals(m.getName()));
 
         Class calculatorProxyClass = proxyFactory.createClass();
 
