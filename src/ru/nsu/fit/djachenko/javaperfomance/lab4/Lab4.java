@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.javaperfomance.task1.lab4;
+package ru.nsu.fit.djachenko.javaperfomance.lab4;
 
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.Proxy;

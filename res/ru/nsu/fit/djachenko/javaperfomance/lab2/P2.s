@@ -1,7 +1,5 @@
 Compiled from "P2.java"
-public class ru.nsu.fit.djachenko.javaperfomance.task1.lab2.P2 {
-  public ru.nsu.fit.djachenko.javaperfomance.task1.lab2.P2();
-    Code:
+public class ru.nsu.fit.djachenko.javaperfomance.P2ublic ru.nsu.fit.djachenko.javaperfomance.lab2.P2  Code:
        0: aload_0       
        1: invokespecial #1                  // Method java/lang/Object."<init>":()V
        4: return        

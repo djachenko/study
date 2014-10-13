@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.javaperfomance.task1.lab3;
+package ru.nsu.fit.djachenko.javaperfomance.lab3;
 
 public class Lab3 {
 
@@ -8,6 +8,7 @@ public class Lab3 {
 		int newcoins = coins * ratio;
 		coins = newcoins;
 	}
+
 	public static void main(String[] args) {
 		Lab3 l2 = new Lab3();
 		l2.muliplyCoins(10);

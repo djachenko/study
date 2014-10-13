@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.javaperfomance.task1.lab5;
+package ru.nsu.fit.djachenko.javaperfomance.lab5;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -20,7 +20,7 @@ public class Lab5 {
 	}
 
 	public static void main(String[] args) {
-		Runnable a = () -> System.out.println("RUnnde");
+		Runnable a = () -> System.out.println("Running");
 
 		setLogging(a).run();
 	}

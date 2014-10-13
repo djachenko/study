@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.javaperfomance.task1.lab2;
+package ru.nsu.fit.djachenko.javaperfomance.lab2;
 
 public class P1 {
 	public static void main(String[] args) {
