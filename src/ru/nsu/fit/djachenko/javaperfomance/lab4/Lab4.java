@@ -5,8 +5,6 @@ import javassist.util.proxy.Proxy;
 import javassist.util.proxy.ProxyFactory;
 
 public class Lab4 {
-	//send to adamansky@gmail.com
-
 	static class Calculator {
 		public int sum(int x, int y) {
 			return x + y;

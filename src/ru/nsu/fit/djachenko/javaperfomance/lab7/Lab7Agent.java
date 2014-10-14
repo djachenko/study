@@ -22,7 +22,7 @@ public class Lab7Agent
 				count++;
 
 				System.out.println("loaded class #" + count +": " + className.replaceAll("/", ".") +
-				                   "has length of " + classFileBuffer.length + " bytes");
+				                   " has length of " + classFileBuffer.length + " bytes");
 
 				return null;
 			}
