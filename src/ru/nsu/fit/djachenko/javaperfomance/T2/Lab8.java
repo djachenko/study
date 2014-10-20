@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.javaperfomance.T1T2;
+package ru.nsu.fit.djachenko.javaperfomance.T2;
 
 public class Lab8 {
 	static void work() {
@@ -11,8 +11,8 @@ public class Lab8 {
 	}
 
 	public static void main(String[] args) {
-		T a = new T(true);
-		T b = new T(false);
+		T2 a = new T2(true);
+		T2 b = new T2(false);
 
 		a.setOther(b);
 		b.setOther(a);

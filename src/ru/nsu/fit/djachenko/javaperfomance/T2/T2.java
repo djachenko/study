@@ -1,14 +1,14 @@
-package ru.nsu.fit.djachenko.javaperfomance.T1T2;
+package ru.nsu.fit.djachenko.javaperfomance.T2;
 
-public class T implements Runnable {
-	private T other;
+public class T2 implements Runnable {
+	private T2 other;
 	private final boolean state;
 
-	public T(boolean state) {
+	public T2(boolean state) {
 		this.state = state;
 	}
 
-	void setOther(T other) {
+	void setOther(T2 other) {
 		this.other = other;
 	}
 
