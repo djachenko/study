@@ -1,0 +1,31 @@
+include "lpm_counter.inc";
+
+subdesign counted_svetofor
+(
+	clk		: input;
+	i[4..1]	: output
+)
+
+variable 
+	fsm: machine with states
+		(red,redyellow,green,greenbl,yellow);
+
+	cnt: lpm_counter with
+		(LPM_WIDTH=4, lpm_direction=down);
+
+begin
+	fsm.clk=clk;
+
+	table
+		fsm 		cnt.cout	=> 	R,		Y,		G,			cnt.data	fsm; 
+		red 		vcc			=> 	vcc, 	gnd, 	gnd,					redyellow;
+		redyellow 	vcc			=> 	vcc, 	vcc, 	gnd, 					green;
+		green 		vcc			=> 	gnd, 	gnd,	vcc, 		greenbl;
+		greenbl		vcc			=> 	gnd, 	gnd, 	greenclk,	yellow;
+		yellow 		vcc			=> 	gnd, 	vcc,	gnd,		red;
+	end table;
+	
+	cnt.clock=clk;
+	i[4..1]=cnt.q[];
+
+end;

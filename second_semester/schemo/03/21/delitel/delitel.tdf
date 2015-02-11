@@ -1,0 +1,22 @@
+constant n=3;
+
+subdesign delitel
+(
+	in: input;
+	out[n..1]: output;
+)
+
+variable d[n..1]:dff;
+
+begin
+
+d1.clk=in;
+
+d[n..2].clk=d[n-1..1].q;
+d[].d= not d[].q; 
+d[].clrn=not d1.q and not d2.q and not d3.q;
+d[].prn=vcc;
+
+out[]=d[].q;
+
+end;

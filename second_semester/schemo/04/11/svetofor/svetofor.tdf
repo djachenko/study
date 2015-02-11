@@ -1,0 +1,22 @@
+subdesign svetofor
+(
+	clk, greenclk 	: input;
+	R,G,Y			: output
+)
+
+variable fsm: machine with states
+	(red,redyellow,green,greenbl,yellow);
+
+begin
+	fsm.clk=clk;
+
+	table
+		fsm 		=> 	R,		Y,		G,			fsm; 
+		red 		=> 	vcc, 	gnd, 	gnd,		redyellow;
+		redyellow 	=> 	vcc, 	vcc, 	gnd, 		green;
+		green 		=> 	gnd, 	gnd,	vcc, 		greenbl;
+		greenbl		=> 	gnd, 	gnd, 	greenclk,	yellow;
+		yellow 		=> 	gnd, 	vcc,	gnd,		red;
+	end table;
+
+end;

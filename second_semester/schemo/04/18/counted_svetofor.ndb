@@ -1,0 +1,130 @@
+NDB006
+The number of symbol table entries is: 3
+The length of the symbol table is: 62
+
+Index Hierarchy Path
+----- --------------
+!	&null_hpath&
+.	|lpm_counter:cnt|
+@	|lpm_counter:cnt|p8count:p8c0|
+
+The number of name info structs is : 116
+
+InsOrder BitField SymTableIndex NextSyn SynParent Loc ChainType NextChain ChainParent FanOut DirExp ParExp ShareExp NodeName
+-------- -------- ------------- ------- --------- --- --------- --------- ----------- ------ ------ ------ -------- --------
+"	(@\6H	!	5	2	4	&	%	$	#	clk	o
+#	L8eg	!	32	3	4	$	%	&	#	i1	s
+$	L8eg	!	32	3	3	%	&	$	i2	r
+%	L8eg	!	32	3	2	&	%	i3	q
+&	L8eg	!	32	3	1	&	i4	p
+'	IeEA	.	515	15	:89	#$
+(	IeEA	.	518	14	:90	#%
+)	IeEA	.	519	23	:91	#&
+*	IeEA	.	519	23	:92	#'
++	IeEA	.	520	23	:93	#(
+,	IeEA	.	520	13	:94	#)
+-	IeEA	.	523	22	:95	#*
+.	IeEA	.	523	11	:96	#+
+/	IVOA	@	"7	:1	$!
+0	IGdW	@	:100	$*
+1	IGdW	@	:109	$,
+2	IGdW	@	:110	$+
+3	IGdW	@	:111	$-
+4	IGdW	@	:112	$6
+5	IGdW	@	:113	$7
+6	IGdW	@	:114	$8
+7	IGdW	@	:115	$9
+8	IGdW	@	:116	$:
+9	IGdW	@	:117	$;
+:	IGdW	@	:118	$<
+;	IGdW	@	:119	$K
+<	IGdW	@	:120	#L
+=	IGdW	@	:121	#M
+>	IGdW	@	:122	#N
+?	IGdW	@	:123	#O
+@	IGdW	@	:124	#P
+A	IGdW	@	:125	#Q
+B	IGdW	@	:126	#T
+C	IGdW	@	:127	#U
+D	IGdW	@	:128	#V
+E	IGdW	@	:129	#W
+F	IGdW	@	:130	#X
+G	IGdW	@	:131	#Y
+H	IGdW	@	:132	#\
+I	IGdW	@	:133	#]
+J	IGdW	@	:134	#^
+K	IGdW	@	:135	#_
+L	IGdW	@	:136	#`
+M	IGdW	@	:137	#a
+N	IGdW	@	:138	#R
+O	IGdW	@	:139	#Z
+P	IGdW	@	:140	#b
+Q	IGdW	@	:141	#c
+R	IGdW	@	:142	#S
+S	IGdW	@	:143	#[
+T	IGdW	@	:145	$5
+U	IGdW	@	:146	$4
+V	IGdW	@	:147	$3
+W	IGdW	@	:148	$2
+X	IGdW	@	:149	$1
+Y	IGdW	@	:150	$0
+Z	IGdW	@	:151	$/
+[	IGdW	@	:152	$.
+\	IVOA	@	"6	:2	$"
+]	IGdW	@	:22	#~
+^	IGdW	@	:23	#p
+_	IGdW	@	:24	#q
+`	IGdW	@	:25	#r
+a	IGdW	@	:26	#s
+b	IGdW	@	:27	#t
+c	IGdW	@	:28	#u
+d	IGdW	@	:29	#v
+e	IVOA	@	"5	:3	$#
+f	IGdW	@	:30	#w
+g	IGdW	@	:31	#x
+h	IGdW	@	:32	#y
+i	IGdW	@	:33	#z
+j	IGdW	@	:34	#{
+k	IGdW	@	:35	#|
+l	IGdW	@	:36	#}
+m	IGdW	@	:39	$?
+n	IVOA	@	"4	:4	$$
+o	IGdW	@	:40	$@
+p	IGdW	@	:43	$A
+q	IGdW	@	:44	$B
+r	IGdW	@	:47	$C
+s	IGdW	@	:48	$D
+t	IGdW	@	:49	$E
+u	IVOA	@	"3	:5	$%
+v	IGdW	@	:50	$F
+w	IGdW	@	:52	$G
+x	IGdW	@	:53	$H
+y	IGdW	@	:56	$I
+z	IGdW	@	:57	$J
+{	IVOA	@	"2	:6	$&
+|	IGdW	@	:64	#n
+}	IGdW	@	:67	#m
+~	IVOA	@	"1	:7	$'
+"!	IGdW	@	:77	#k
+""	IGdW	@	:78	#l
+"#	IVOA	@	"0	:8	$(
+"$	IGdW	@	:84	$=
+"%	IVOQ	@	"/	:85	$)
+"&	IGdW	@	:86	$>
+"'	IGdW	@	:88	#d
+"(	IGdW	@	:89	#e
+")	IGdW	@	:90	#f
+"*	IGdW	@	:91	#g
+"+	IGdW	@	:92	#h
+",	IGdW	@	:93	#i
+"-	IGdW	@	:95	#j
+".	IGdW	@	:96	#o
+"/	INu}	@	"%	COUT	$)
+"0	INum	@	"#	QA	$(
+"1	INum	@	~	QB	$'
+"2	INum	@	{	QC	$&
+"3	INum	@	u	QD	$%
+"4	INum	@	n	QE	$$
+"5	INum	@	e	QF	$#
+"6	INum	@	\	QG	$"
+"7	INum	@	/	QH	$!
