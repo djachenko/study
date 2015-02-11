@@ -1,0 +1,40 @@
+clock_gettime: 18.655711+
+times: 18.600000
+rtdsc: 18.656369+
+
+clock_gettime: 19.071335
+times: 18.580000+
+rtdsc: 19.072008
+
+clock_gettime: 18.939970
+times: 18.630000
+rtdsc: 18.940638
+
+clock_gettime: 19.698524
+times: 18.780000
+rtdsc: 19.699218
+
+clock_gettime: 19.659423
+times: 18.750000
+rtdsc: 19.660117
+
+clock_gettime: 20.352626
+times: 18.690000
+rtdsc: 20.353343
+
+clock_gettime: 19.155785
+times: 18.530000+
+rtdsc: 19.156460
+
+clock_gettime: 19.129871
+times: 18.560000
+rtdsc: 19.130546
+
+clock_gettime: 19.012829
+times: 18.660000
+rtdsc: 19.013499
+
+clock_gettime: 18.790333
+times: 18.560000
+rtdsc: 18.790997
+

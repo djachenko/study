@@ -1,0 +1,122 @@
+Исполнитель: Дьяченко И.С., гр. 1201
+Вариант задания: 4, сортировка методом пузырька
+
+Уровень оптимизации: O0
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 18,838298 сек.
+
+Уровень оптимизации: O0 -mtune=native
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 18.797464 сек.
+
+Уровень оптимизации: O1
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 9,156942 сек.
+
+Уровень оптимизации: O1 -mtune=native
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 9.118254 сек.
+
+Уровень оптимизации: O2
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 9,271664 сек.
+
+Уровень оптимизации: O2 -mtune=native
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 9.109691 сек.
+
+Уровень оптимизации: O3
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 9,239304 сек.
+
+Уровень оптимизации: O3 -mtune=native
+Способ измерения времени: rtdsc
+Параметр N: 50 000
+Время: 9.103320 сек.
+
+Команды компиляции и запуска:
+#!/bin/bash
+
+for k in 0 1 2 3
+do
+	gcc -O$k -o 2.out 2.c;
+	
+	for j in 0 1 2 3 4 5 6 7 8 9
+	do
+		sync;
+		cat input | ./2.out;
+	done
+
+	echo;
+	
+	gcc -O$k -mtune=native -o 2.out 2.c;
+	
+	for j in 0 1 2 3 4 5 6 7 8 9
+	do
+		sync;
+		cat input | ./2.out;
+	done
+
+	echo;
+done
+
+exit 0;
+
+Исходный код:
+#include <stdio.h>
+
+#define N 50000 
+
+int main()
+{
+	int a[N]={0};
+
+	union ticks
+	{   
+		unsigned long long t64;
+
+		struct s32
+		{
+			long th;
+			long tl; 
+		}t32;
+
+	} rdtsc_start, rdtsc_end;
+	double cpu_Hz=3000000000ULL;
+
+	int i;
+	int j;
+
+	for (i=0;i<N;i++)
+	{
+		a[i]=getchar();
+	}
+
+	asm("rdtsc\n": "=a" (rdtsc_start.t32.th), "=d" (rdtsc_start.t32.tl));
+
+	for (i=0;i<N;i++)
+	{
+		for (j=1;j<N;j++)
+		{
+			if (a[j]<a[j-1])
+			{
+				int b=a[j];
+				a[j]=a[j-1];
+				a[j-1]=b;
+			}
+		}
+	}
+
+	asm("rdtsc\n": "=a" (rdtsc_end.t32.th), "=d" (rdtsc_end.t32.tl));
+
+	printf("%lf\n", (rdtsc_end.t64-rdtsc_start.t64)/cpu_Hz);
+	
+	return 0;
+}

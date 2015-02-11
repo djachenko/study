@@ -1,0 +1,175 @@
+	.file "3.c"
+	.code32
+	.globl main
+	.type main, @function
+	.local .L97
+	.local .L102
+	.globl scanf
+	.type scanf, @function
+	.globl __fsr_init_value
+__fsr_init_value = 0
+
+	.ident     "@(#)stdio.h\t1.84\t04/09/28 SMI"
+	.ident     "@(#)feature_tests.h\t1.25\t07/02/02 SMI"
+	.ident     "@(#)ccompile.h\t1.2\t04/11/08 SMI"
+	.ident     "@(#)isa_defs.h\t1.28\t07/02/01 SMI"
+	.ident     "@(#)stdio_iso.h\t1.8\t05/08/16 SMI"
+	.ident     "@(#)va_list.h\t1.15\t04/11/19 SMI"
+	.ident     "@(#)stdio_tag.h\t1.4\t04/09/28 SMI"
+	.ident     "@(#)stdio_impl.h\t1.15\t07/03/05 SMI"
+	.ident     "@(#)stdio_c99.h\t1.2\t04/03/29 SMI"
+	.ident     "acomp: Sun C 5.8 2005/10/13"
+	.ident     "iropt: Sun Compiler Common 11 2005/10/13"
+	.ident     "ir2hf: Sun Compiler Common 11 2005/10/13"
+	.ident     "ube: Sun Compiler Common 11 2005/10/13"
+
+	.section .text,"ax"
+	.align 4
+main:
+	push       %ebp				;/ line : 6
+	movl       %esp,%ebp				;/ line : 6
+	subl       $200000,%esp				;/ line : 6
+	andl       $-16,%esp				;/ line : 6
+	push       %ebx				;/ line : 6
+	push       %esi				;/ line : 6
+	push       %edi				;/ line : 6
+	leal       12(%esp),%esi				;/ line : 7
+	push       $200000				;/ line : 7
+	push       $.L97				;/ line : 7
+	push       %esi				;/ line : 7
+	call       memcpy				;/ line : 7 
+	addl       $12,%esp				;/ line : 7
+.LP0.44:
+	xorl       %ebx,%ebx				;/ line : 14
+.CG2.14:
+	push       %esi				;/ line : 14
+	push       $.L102				;/ line : 14
+	call       scanf				;/ line : 14
+	addl       $8,%esp				;/ line : 14
+	addl       $4,%esi				;/ line : 12
+	incl       %ebx				;/ line : 12
+	cmpl       $49999,%ebx				;/ line : 12
+	jle        .CG2.14				;/ line : 12
+.LX0.45:
+.LE0.46:
+.CG3.15:
+	xorl       %eax,%eax				;/ line : 17
+.CG4.16:
+	movl       $1,%ecx				;/ line : 19
+	leal       16(%esp),%edx
+	leal       12(%esp),%ebx
+.CG5.17:
+	movl       (%edx),%edi				;/ line : 21 i
+	movl       (%ebx),%esi				;/ line : 21
+	cmpl       %esi,%edi				;/ line : 21
+	jge        .CG7.19				;/ line : 21
+.CG6.18:
+	movl       %esi,(%edx)				;/ line : 24
+	movl       %edi,(%ebx)				;/ line : 25
+.CG7.19:
+	addl       $4,%edx				;/ line : 19
+	addl       $4,%ebx				;/ line : 19
+	incl       %ecx				;/ line : 19
+	cmpl       $49999,%ecx				;/ line : 19
+	jle        .CG5.17				;/ line : 19
+.LX2.49:
+.LE2.50:
+	incl       %eax				;/ line : 17
+	cmpl       $49999,%eax				;/ line : 17
+	jle        .CG4.16				;/ line : 17
+.LX1.47:
+.LE1.48:
+	xorl       %eax,%eax				;/ line : 17
+	pop        %edi				;/ line : 17
+	pop        %esi				;/ line : 17
+	pop        %ebx				;/ line : 17
+	leave      				;/ line : 17
+	ret        				;/ line : 17
+	.size main, . - main
+
+
+	.section .data,"aw"
+Ddata.data: / Offset 0
+
+
+
+	.section .bss,"aw"
+Bbss.bss:
+
+
+	.section .bssf,"aw"
+
+
+	.section .rodata,"a"
+	.align 8
+.L97: / Offset 0
+	.type .L97, @object
+	.size .L97, 200000
+
+	.zero 200000
+Drodata.rodata: / Offset 200000
+
+
+
+	.section .rodata1,"a"
+	.align 4
+.L102: / Offset 0
+	.type .L102, @object
+	.size .L102, 3
+
+	.2byte 0x6425
+	.zero 1
+
+/  Begin sdCreateSection : .debug_info
+/  Section Info: link_name/strtab=, entsize=0x1, adralign=0x1, flags=0x0
+/  Section Data Blocks:
+/   reloc[0]: knd=2, off=6, siz=4, lab1=.debug_abbrev, lab2=, loff=0
+/   reloc[1]: knd=2, off=162, siz=4, lab1=.debug_line, lab2=, loff=0
+	.section .debug_info
+	.byte 0xa4,0x00,0x00,0x00,0x02,0x00
+	.4byte .debug_abbrev
+	.byte 0x04,0x01,0x00,0x00,0x00,0x00,0x04,0x00
+	.byte 0x00,0x00,0x33,0x2e,0x63,0x00,0x0c,0x2f
+	.byte 0x68,0x6f,0x6d,0x65,0x2f,0x73,0x74,0x75
+	.byte 0x64,0x65,0x6e,0x74,0x73,0x2f,0x31,0x32
+	.byte 0x30,0x78,0x2f,0x64,0x79,0x61,0x63,0x68
+	.byte 0x65,0x6e,0x6b,0x6f,0x2f,0x65,0x76,0x6d
+	.byte 0x2f,0x6c,0x61,0x62,0x33,0x00,0x20,0x2f
+	.byte 0x6f,0x70,0x74,0x2f,0x53,0x55,0x4e,0x57
+	.byte 0x73,0x70,0x72,0x6f,0x2f,0x70,0x72,0x6f
+	.byte 0x64,0x2f,0x62,0x69,0x6e,0x2f,0x63,0x63
+	.byte 0x20,0x2d,0x78,0x4f,0x33,0x20,0x2d,0x53
+	.byte 0x20,0x20,0x33,0x2e,0x63,0x00,0x58,0x61
+	.byte 0x3b,0x4f,0x3b,0x52,0x3d,0x53,0x75,0x6e
+	.byte 0x20,0x43,0x20,0x35,0x2e,0x38,0x20,0x32
+	.byte 0x30,0x30,0x35,0x2f,0x31,0x30,0x2f,0x31
+	.byte 0x33,0x3b,0x62,0x61,0x63,0x6b,0x65,0x6e
+	.byte 0x64,0x3b,0x72,0x61,0x77,0x3b,0x63,0x64
+	.byte 0x3b,0x00,0x44,0x42,0x47,0x5f,0x47,0x45
+	.byte 0x4e,0x20,0x35,0x2e,0x30,0x2e,0x38,0x00
+	.4byte .debug_line
+	.byte 0x00,0x00
+/  End sdCreateSection
+/  Begin sdCreateSection : .debug_line
+/  Section Info: link_name/strtab=, entsize=0x1, adralign=0x1, flags=0x0
+/  Section Data Blocks:
+	.section .debug_line
+	.byte 0x44,0x00,0x00,0x00,0x02,0x00,0x3e,0x00
+	.byte 0x00,0x00,0x01,0x00,0xff,0x04,0x0a,0x00
+	.byte 0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x01
+	.byte 0x2f,0x68,0x6f,0x6d,0x65,0x2f,0x73,0x74
+	.byte 0x75,0x64,0x65,0x6e,0x74,0x73,0x2f,0x31
+	.byte 0x32,0x30,0x78,0x2f,0x64,0x79,0x61,0x63
+	.byte 0x68,0x65,0x6e,0x6b,0x6f,0x2f,0x65,0x76
+	.byte 0x6d,0x2f,0x6c,0x61,0x62,0x33,0x00,0x00
+	.byte 0x33,0x2e,0x63,0x00,0x01,0x00,0x00,0x00
+/  End sdCreateSection
+/  Begin sdCreateSection : .debug_abbrev
+/  Section Info: link_name/strtab=, entsize=0x1, adralign=0x1, flags=0x0
+/  Section Data Blocks:
+	.section .debug_abbrev
+	.byte 0x01,0x11,0x00,0x11,0x01,0x12,0x01,0x03
+	.byte 0x08,0x13,0x0b,0x1b,0x08,0x85,0x44,0x08
+	.byte 0x87,0x44,0x08,0x25,0x08,0x10,0x06,0x00
+	.byte 0x00,0x00
+/  End sdCreateSection
