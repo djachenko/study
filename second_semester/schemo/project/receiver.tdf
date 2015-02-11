@@ -1,0 +1,119 @@
+include "lpm_counter.inc";
+include "lpm_shiftreg.inc";
+
+constant limit=4;
+constant divider=3;
+constant checks=3;
+
+subdesign receiver
+(
+	clk, in		: input;
+	out [8..1]	: output;
+)
+
+%один бит - четыре такта clk%
+
+variable 
+	shift: lpm_shiftreg with
+		(lpm_width=8, lpm_direction="left");
+	
+	cutter[divider..1]: dff;
+
+	outer: lpm_shiftreg with
+		(lpm_width=8, lpm_direction="left");
+
+	cnt: lpm_counter with
+		(lpm_width=4, lpm_direction="up");
+
+	fsm: machine with states
+		(waiting, firstbit, reading, postreading);
+	
+begin
+	cutter[].prn=vcc;%задание делителя частоты%
+	cutter[].clrn=vcc;
+	cutter[1].clk=clk;
+	cutter[divider..2].clk=cutter[divider-1..1].q;	
+	cutter[].d=not cutter[].q;%конец делителя%
+	%cutter[i].q - частота в 2^i раз меньше clk%
+
+	shift.clock=not clk;%регистр, берущий "пробы" с потока ввода. он самый быстрый, так что на него можно подать clk.%
+	shift.shiftin=in;
+
+	cnt.clock=cutter[3].q;%счетчик отправленных битов%
+
+	fsm.clk=cutter[3].q;
+	case fsm is
+		when waiting =>
+			if in %если пришел сигнал%
+				then fsm=firstbit;%это стартовый бит%
+			end if;
+
+			cnt.cnt_en=gnd;%блокировка счетчика битов%
+			cnt.sclr=gnd;%на всякий случай на обнулитель 0%
+			shift.sclr=vcc;%удерживается в нуле%
+		when firstbit =>
+			cnt.cnt_en=vcc;%блокировка снимается, но запустится он только в конце стартового бита%
+			cnt.sclr=gnd;%отпускаем обнуление%
+			fsm=reading; 
+			shift.sclr=vcc;%а shift пока стоит придержать, чтобы стартовый не посчитался числом%
+		when reading =>
+			cnt.cnt_en=vcc;%счетчик работает%
+			
+			if cnt.q[]==8%дошли до восьми - все, хватит, байт пришел%
+				then cnt.sclr=vcc;%обнуляем%
+				fsm=postreading;
+			end if;
+
+			shift.sclr=gnd;%а тут его уж надо отпустить%
+		when postreading =>
+			cnt.cnt_en=vcc;%кто-то ж должен эти три бита отсчитать%
+			
+			if cnt.q[]==2%о, прошло(счет с 0)%
+				then cnt.sclr=vcc;%опять его в ноль%
+				fsm=waiting;
+			end if;
+
+			shift.sclr=vcc;%а shift здесь не нужен%
+	end case;
+
+	outer.clock=cutter[3].q;%синхронизация выводного регистра%
+
+	table%мажоритарная схема. да, я наркоман%
+		shift.q[6..2]	=> outer.shiftin;
+		b"00000"		=>	gnd;
+		b"00001"		=>	gnd;
+		b"00010"		=>	gnd;
+		b"00011"		=>	gnd;
+		b"00100"		=>	gnd;
+		b"00101"		=>	gnd;
+		b"00110"		=>	gnd;
+		b"00111"		=>	vcc;
+		b"01000"		=>	gnd;
+		b"01001"		=>	gnd;
+		b"01010"		=>	gnd;
+		b"01011"		=>	vcc;
+		b"01100"		=>	gnd;
+		b"01101"		=>	vcc;
+		b"01110"		=>	vcc;
+		b"01111"		=>	vcc;
+		b"10000"		=>	gnd;
+		b"10001"		=>	gnd;
+		b"10010"		=>	gnd;
+		b"10011"		=>	vcc;
+		b"10100"		=>	gnd;
+		b"10101"		=>	vcc;
+		b"10110"		=>	vcc;
+		b"10111"		=>	vcc;
+		b"11000"		=>	gnd;
+		b"11001"		=>	vcc;
+		b"11010"		=>	vcc;
+		b"11011"		=>	vcc;
+		b"11100"		=>	vcc;
+		b"11101"		=>	vcc;
+		b"11110"		=>	vcc;
+		b"11111"		=>	vcc;
+	end table;
+
+	out[8..1]=outer.q[7..0];%словленное на выход%
+end;
+
