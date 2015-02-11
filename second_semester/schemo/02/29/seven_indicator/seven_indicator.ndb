@@ -1,0 +1,86 @@
+NDB006
+The number of symbol table entries is: 1
+The length of the symbol table is: 13
+
+Index Hierarchy Path
+----- --------------
+!	&null_hpath&
+
+The number of name info structs is : 74
+
+InsOrder BitField SymTableIndex NextSyn SynParent Loc ChainType NextChain ChainParent FanOut DirExp ParExp ShareExp NodeName
+-------- -------- ------------- ------- --------- --- --------- --------- ----------- ------ ------ ------ -------- --------
+"	IeEA	!	44	8	:100	"Z
+#	IeEA	!	34	2	:41	}
+$	IeEA	!	34	2	:42	~
+%	IeEA	!	34	2	:43	"!
+&	IeEA	!	35	2	:44	""
+'	IeEA	!	35	2	:45	"#
+(	IeEA	!	35	2	:46	"$
+)	IeEA	!	35	2	:47	"%
+*	IeEA	!	35	7	:48	"&
++	IeEA	!	36	2	:49	"'
+,	IeEA	!	36	2	:50	"(
+-	IeEA	!	36	2	:51	")
+.	IeEA	!	36	2	:52	"*
+/	IeEA	!	36	7	:53	"+
+0	IeEA	!	37	2	:54	",
+1	IeEA	!	37	2	:55	"-
+2	IeEA	!	37	2	:56	".
+3	IeEA	!	37	2	:57	"/
+4	IeEA	!	37	2	:58	"0
+5	IeEA	!	37	7	:59	"1
+6	IeEA	!	38	2	:60	"2
+7	IeEA	!	38	2	:61	"3
+8	IeEA	!	38	2	:62	"4
+9	IeEA	!	38	2	:63	"5
+:	IeEA	!	38	7	:64	"6
+;	IeEA	!	39	2	:65	"7
+<	IeEA	!	39	2	:66	"8
+=	IeEA	!	39	2	:67	"9
+>	IeEA	!	39	2	:68	":
+?	IeEA	!	39	2	:69	";
+@	IeEA	!	39	7	:70	"<
+A	IeEA	!	40	2	:71	"=
+B	IeEA	!	40	2	:72	">
+C	IeEA	!	40	2	:73	"?
+D	IeEA	!	40	2	:74	"@
+E	IeEA	!	40	2	:75	"A
+F	IeEA	!	40	7	:76	"B
+G	IeEA	!	41	2	:77	"C
+H	IeEA	!	41	2	:78	"D
+I	IeEA	!	41	2	:79	"E
+J	IeEA	!	41	2	:80	"F
+K	IeEA	!	41	2	:81	"G
+L	IeEA	!	41	2	:82	"H
+M	IeEA	!	41	7	:83	"I
+N	IeEA	!	42	2	:84	"J
+O	IeEA	!	42	2	:85	"K
+P	IeEA	!	42	2	:86	"L
+Q	IeEA	!	42	2	:87	"M
+R	IeEA	!	42	7	:88	"N
+S	IeEA	!	43	2	:89	"O
+T	IeEA	!	43	2	:90	"P
+U	IeEA	!	43	2	:91	"Q
+V	IeEA	!	43	2	:92	"R
+W	IeEA	!	43	2	:93	"S
+X	IeEA	!	43	7	:94	"T
+Y	IeEA	!	44	2	:95	"U
+Z	IeEA	!	44	2	:96	"V
+[	IeEA	!	44	2	:97	"W
+\	IeEA	!	44	2	:98	"X
+]	IeEA	!	44	2	:99	"Y
+^	L8ef	!	3	4	10	b	d	e	f	g	h	i	j	k	c	in0	r
+_	L8ef	!	3	4	10	b	d	e	f	g	h	i	j	k	c	in1	q
+`	L8ef	!	3	4	10	b	d	e	f	g	h	i	j	k	c	in2	p
+a	L8ef	!	3	4	10	b	d	e	f	g	h	i	j	k	c	in3	o
+b	IeE[	!	33	19	out1	|
+c	IeE[	!	33	19	out10	s
+d	IeE[	!	33	19	out2	{
+e	IeE[	!	33	19	out3	z
+f	IeE[	!	33	19	out4	y
+g	IeE[	!	33	19	out5	x
+h	IeE[	!	33	19	out6	w
+i	IeE[	!	33	19	out7	v
+j	IeE[	!	33	19	out8	u
+k	IeE[	!	33	19	out9	t

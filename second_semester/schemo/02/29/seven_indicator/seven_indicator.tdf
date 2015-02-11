@@ -1,0 +1,46 @@
+SUBDESIGN seven_indicator
+(
+	in[3..0]: input;
+	out[10..1]: output;
+)
+begin
+%
+	b[1]= vcc and (!a[2] or a[1] or !a[0]) and (!a[2] or !a[1] or a[0]);
+	b[2]= vcc and (a[2] or !a[1] or a[0]);
+	b[3]= vcc and (a[2] or a[1] or !a[0]) and (!a[2] or a[1] or a[0]) and (a[2] or a[1] or a[0]);
+	b[4]= (!a[2] and !a[1] and !a[0]) or (a[2] and !a[1] and a[0]) or (!a[2] and !a[1] and a[0]);
+	b[5]= vcc and (a[2] or a[1] or !a[0]) and (a[2] or !a[1] or a[0]) and (a[2] or !a[1] or !a[0]) and (!a[2] or !a[1] or !a[0]);
+	b[6]= vcc and (a[2] or a[1] or !a[0]) and (!a[2] or a[1] or a[0]);
+	b[7]= vcc and (!a[2] or !a[1] or !a[0]) and (a[2] or a[1] or !a[0]) and (!a[2] or !a[1] or !a[0]);
+%
+%
+	table in[] => out[];
+	0 => b"0111111";
+	1 => b"0000110";
+	2 => b"1011011";
+	3 => b"1001111";
+	4 => b"1100110";
+	5 => b"1101101";
+	6 => b"1111101";
+	7 => b"0000111";
+	8 => b"1111111";
+	end table;
+%
+	defaults
+	out[]=b"0000000000";
+	end defaults;
+
+	table in[] => out[];
+	0 => b"0000000000";
+	1 => b"0000000001";
+	2 => b"0000000010";
+	3 => b"0000000100";
+	4 => b"0000001000";
+	5 => b"0000010000";
+	6 => b"0000100000";
+	7 => b"0001000000";
+	8 => b"0010000000";
+	9 => b"0100000000";
+	10 => b"1000000000";
+	end table;
+end;
