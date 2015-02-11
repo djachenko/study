@@ -1,0 +1,14 @@
+12
+12
+AAAA....BBBB
+A..A....B..B
+A..A....B..B
+A..CCCCCCC.B
+A..C....BC.B
+AAAC....BC.B
+...C....BC.B
+...C....BCBB
+...C.....C..
+...CCCCCCC..
+............
+............
