@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="PrisonerDilemma" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/PrisonerDilemma" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/PrisonerDilemma" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="AngryStrategy.cpp" />
+		<Unit filename="AngryStrategy.h" />
+		<Unit filename="Factory.h" />
+		<Unit filename="History.cpp" />
+		<Unit filename="History.h" />
+		<Unit filename="Judge.cpp" />
+		<Unit filename="Judge.h" />
+		<Unit filename="KindStrategy.cpp" />
+		<Unit filename="KindStrategy.h" />
+		<Unit filename="Prisoner.cpp" />
+		<Unit filename="Prisoner.h" />
+		<Unit filename="PrisonerDilemma.cpp" />
+		<Unit filename="RandomStrategy.cpp" />
+		<Unit filename="RandomStrategy.h" />
+		<Unit filename="Strategy.cpp" />
+		<Unit filename="Strategy.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
