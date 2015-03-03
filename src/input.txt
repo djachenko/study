@@ -1,0 +1,5 @@
+INIT = ru.nsu.djachenko.logoworld.commands.Init
+MOVE = ru.nsu.djachenko.logoworld.commands.Move
+DRAW = ru.nsu.djachenko.logoworld.commands.Draw
+WARD = ru.nsu.djachenko.logoworld.commands.Ward
+TELEPORT = ru.nsu.djachenko.logoworld.commands.Teleport
