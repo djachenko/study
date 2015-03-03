@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#PBS -V
+#PBS -q fitq
+#PBS -l select=1:ncpus=8
+#PBS -l walltime=00:30:00
+
+########### Task name #########
+
+#PBS -N output
+
+########### Put output to $HOME #########
+
+##PBS -k oe
+
+#########################################
+
+#PBS -j oe
+
+date
+
+cd $PBS_O_WORKDIR
+
+pwd
+
+for ((a = 1; a <= 8; a++))
+do
+	echo $a;
+	mpirun -np $a ./grid1.out;
+	echo;
+done;
+
+for ((a = 1; a <= 8; a++))
+do
+	echo $a;
+	mpirun -np $a ./grid2.out;
+	echo;
+done;
+
+for ((a = 1; a <= 8; a++))
+do
+	echo $a;
+	mpirun -np $a ./grid3.out;
+	echo;
+done;
+
+date
