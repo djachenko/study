@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+PreMain-Class: ru.nsu.fit.djachenko.javaperfomance.lab7.Lab7Agent
+
