@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Setting>
+    <Direction>Up</Direction>
+    <Key>Up</Key>
+  </Setting>
+  <Setting>
+    <Direction>Right</Direction>
+    <Key>Right</Key>
+  </Setting>
+  <Setting>
+    <Direction>Down</Direction>
+    <Key>Down</Key>
+  </Setting>
+  <Setting>
+    <Direction>Left</Direction>
+    <Key>Left</Key>
+  </Setting>
+</Settings>

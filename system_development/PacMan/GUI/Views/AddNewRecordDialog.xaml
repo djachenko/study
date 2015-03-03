@@ -1,0 +1,56 @@
+﻿<Window x:Class="GUI.Views.AddNewRecordDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModels="clr-namespace:GUI.ViewModels"
+        xmlns:converters="clr-namespace:GUI.Converters"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d" 
+        d:DataContext="{d:DesignInstance viewModels:AddNewRecordDialogViewModel}"
+        Title="Add Record" 
+        Height="200"
+        Width="300"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <converters:ButtonEnableConverter x:Key="NegateConverter"/>
+        <converters:IncrementConverter x:Key="IncrementConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1.5*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Text}" 
+                   TextWrapping="Wrap"  
+                   TextAlignment="Center"
+                   Margin="5"
+                   Grid.Row="0" />
+        <TextBox Name="Name"
+                 Width="150"
+                 MaxLength="{Binding Source={x:Static viewModels:AddNewRecordDialogViewModel.NameMaxLength}, Converter={StaticResource IncrementConverter}}"
+                 Grid.Row="1"
+                 Margin="5"
+                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Loaded="OnLoaded">
+        </TextBox>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Name="OkButton" 
+                    IsDefault="True" 
+                    Grid.Column="0" 
+                    IsEnabled="{Binding ElementName=Name, Path=(Text), Converter={StaticResource NegateConverter}}"
+                    Margin="5">
+                OK
+            </Button>
+            <Button IsCancel="True" 
+                    Grid.Column="1"
+                    Margin="5">
+                Cancel
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
