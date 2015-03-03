@@ -1,0 +1,19 @@
+********************************************************************************
+***                  Micro-Cap 10.0.9.1 Evaluation Version                   ***
+***                                   fit                                    ***
+***                                   nsu                                    ***
+***                      Transient Analysis of circuit1                      ***
+***                           13.02.2014 13:43:46                            ***
+********************************************************************************
+Limits
+======
+Time Range           10
+Maximum Time Step    0
+Number of Points     51
+Temperature          Linear 27
+Retrace Runs         1
+Run Options          Normal
+State Variables      Zero
+Operating Point      Off
+Operating Point Only Off
+

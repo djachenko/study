@@ -1,0 +1,111 @@
+********************************************************************************
+***                   Micro-Cap 9.0.2.0 Evaluation Version                   ***
+***                                                                          ***
+***                                                                          ***
+***                       Transient Analysis of diode                        ***
+********************************************************************************
+Limits
+======
+Time Range           100000u
+Maximum Time Step    10u
+Number of Points     51
+Temperature          Linear 27
+Run Options          Normal
+State Variables      Zero
+Operating Point      On
+Operating Point Only Off
+
+
+*****************************************************
+***                Temperature=27                 ***
+*****************************************************
+
+Temperature=27 
+
+Model parameters for devices of type Diode
+==========================================
+Instance:                D1   
+Using model:         1S2776   
+LEVEL                     1(*)
+AF                   1.000 (*)
+BV                 300.000    
+CJO                  5.303p   
+EG                   1.110 (*)
+FC                 500.000m(*)
+IBV                100.000p(*)
+IBVL                 0.000 (*)
+IKF                  0.000 (*)
+IS               2.923E-020   
+ISR                  0.000 (*)
+KF                   0.000 (*)
+M                  500.000m(*)
+N                    1.000 (*)
+NBV                  1.000 (*)
+NBVL                 1.000 (*)
+NR                   2.000 (*)
+RL                   1.000G   
+RS                  65.751m   
+T_ABS             UNDEFINED(*)
+T_MEASURED        UNDEFINED(*)
+T_REL_GLOBAL      UNDEFINED(*)
+T_REL_LOCAL       UNDEFINED(*)
+TBV1                 0.000 (*)
+TBV2                 0.000 (*)
+TIKF                 0.000 (*)
+TRS1                 0.000 (*)
+TRS2                 0.000 (*)
+TT                   1.443u   
+VJ                 800.000m   
+XTI                  3.000 (*)
+(*) Default Parameter
+
+
+
+DC Operating Point Voltages
+===========================
+Node         Voltage  Node         Voltage 
+1             0.000   2         1.128E-034 
+
+
+Operating point for devices of type Diode
+=========================================
+Instance:                   D1
+Using model:            1S2776
+ID                  3.097E-021
+VD                 -1.128E-034
+REQ                 999.001MEG
+CAP                     5.303p
+
+DC Power Terms:
+PD                  9.582E-033
+PS                      0.000 
+
+DC Pin Currents:
+Id                  3.097E-021
+
+Condition:
+State                      OFF
+
+
+
+Operating point for devices of type Resistor
+============================================
+Instance:                    R1
+DC Power Terms:
+PD                   1.273E-070
+
+DC Pin Currents:
+Ir                  -1.128E-036
+
+
+
+Operating point for devices of type SPICE Source
+================================================
+Instance:                   V1
+DC Power Terms:
+PG                      0.000 
+
+DC Pin Currents:
+ISource            -1.128E-036
+
+
