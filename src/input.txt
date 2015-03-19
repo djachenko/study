@@ -1,0 +1,8 @@
+> = ru.nsu.fit.djachenko.brainfuck.commands.Increment
+< = ru.nsu.fit.djachenko.brainfuck.commands.Decrement
++ = ru.nsu.fit.djachenko.brainfuck.commands.IncrementData
+- = ru.nsu.fit.djachenko.brainfuck.commands.DecrementData
+. = ru.nsu.fit.djachenko.brainfuck.commands.Output
+, = ru.nsu.fit.djachenko.brainfuck.commands.Input
+[ = ru.nsu.fit.djachenko.brainfuck.commands.StartLoop
+] = ru.nsu.fit.djachenko.brainfuck.commands.EndLoop
