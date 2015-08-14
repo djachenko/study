@@ -1,0 +1,18 @@
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Inly.dll
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Inly.pdb
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\obj\Debug\Inly.dll
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\obj\Debug\Inly.pdb
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\obj\Debug\Inky.csprojResolveAssemblyReference.cache
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map3.txt
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map2.txt
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map1.txt
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Champions\Champions.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Champions\Champions.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map3.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map2.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map1.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Inly.dll
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Inly.pdb
+C:\Users\justin\Desktop\WpfApplicationPacMan\Inly\obj\Debug\Inky.csprojResolveAssemblyReference.cache
+C:\Users\justin\Desktop\WpfApplicationPacMan\Inly\obj\Debug\Inly.dll
+C:\Users\justin\Desktop\WpfApplicationPacMan\Inly\obj\Debug\Inly.pdb

@@ -1,0 +1,18 @@
+﻿<Window x:Class="WpfApplicationPacMan.View.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="329" Width="300" KeyDown="OnKeyDown">
+    <Grid Background="CornflowerBlue">
+        <Label Content="Up:" HorizontalAlignment="Left" Margin="58,45,0,0" VerticalAlignment="Top"/>
+        <Label Content="Down:" HorizontalAlignment="Left" Margin="58,87,0,0" VerticalAlignment="Top"/>
+        <Label Content="Left:" HorizontalAlignment="Left" Margin="58,128,0,0" VerticalAlignment="Top"/>
+        <Button Name="UpButton" Content="Up"      Click="UpButton_OnClick" HorizontalAlignment="Left" Margin="106,51,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Name="DownButton" Content="Down"  Click="DownButton_OnClick" HorizontalAlignment="Left" Margin="106,93,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Name="LeftButton" Content="Left"  Click="LeftButton_OnClick" HorizontalAlignment="Left" Margin="106,131,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Name="RightButton" Content="Right" Click="RightButton_OnClick" HorizontalAlignment="Left" Margin="106,175,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Name="PauseButton" Content="Pause" Click="PauseButton_OnClick" HorizontalAlignment="Left" Margin="106,218,0,0" VerticalAlignment="Top" Width="75"/>
+        
+        <Label Content="Right:" HorizontalAlignment="Left" Margin="58,175,0,0" VerticalAlignment="Top"/>
+        <Label Content="Pause:" HorizontalAlignment="Left" Margin="58,220,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

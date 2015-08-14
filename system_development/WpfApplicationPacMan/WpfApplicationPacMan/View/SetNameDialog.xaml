@@ -1,0 +1,10 @@
+﻿<Window x:Class="WpfApplicationPacMan.View.SetNameDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="New record!" Height="300" Width="300">
+    <Grid>
+        <Label Content="Enter your name:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="69,76,74,0" Height="25" Width="149"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="69,122,0,0" TextWrapping="Wrap" Text="{Binding Name}" MaxLength="12" VerticalAlignment="Top" Width="149"/>
+        <Button Content="Save" Command="{Binding SaveRecordCommand}" Click="ButtonBase_Onclick"  HorizontalAlignment="Left" Margin="107,177,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>
