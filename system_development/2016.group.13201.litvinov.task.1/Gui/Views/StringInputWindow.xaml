@@ -1,0 +1,23 @@
+﻿<Window x:Class="Gui.Views.StringInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="" SizeToContent="Height" Height="Auto" Width="300" x:ClassModifier="internal"
+        ResizeMode="NoResize">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=UserInput}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <TextBlock Margin="3,3,3,3"  x:Name="Description" Text="" Height="Auto" TextWrapping="Wrap" Grid.Row="0" />
+        <TextBox Margin="3,3,3,3"  x:Name="UserInput" Grid.Row="1" />
+        <Grid Grid.Row="2" Margin="3,3,3,3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="OK" Click="Ok_Click" IsDefault="True" Width="100" />
+            <Button Grid.Column="1" Content="Отмена" Click="Cancel_Click"  IsCancel="True" Width="100" />
+        </Grid>
+    </Grid>
+</Window>

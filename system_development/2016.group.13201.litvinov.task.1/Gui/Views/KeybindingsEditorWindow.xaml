@@ -1,0 +1,25 @@
+﻿<Window x:Class="Gui.Views.KeybindingsEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gui.Views"
+        mc:Ignorable="d"
+        Title="Редактор привязок клавиш" Height="Auto" Width="200"
+        KeyDown="KeybindingsEditor_OnKeyDown"
+        SizeToContent="Height"
+        xmlns:vm="clr-namespace:Gui.ViewModels"
+        d:DataContext="{d:DesignInstance vm:KeybindingsEditorWindowViewModel}" x:ClassModifier="internal">
+    <ItemsControl ItemsSource="{Binding KeybindingViewModels}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <local:KeybindingEditView DataContext="{Binding Path=.}" />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</Window>

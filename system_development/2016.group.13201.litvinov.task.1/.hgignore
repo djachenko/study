@@ -1,0 +1,17 @@
+Gui/bin/*
+Gui/obj/*
+GameCore/bin/*
+GameCore/obj/*
+GhostA/bin/*
+GhostA/obj/*
+GhostB/bin/*
+GhostB/obj/*
+GhostC/bin/*
+GhostC/obj/*
+
+.vs/*
+./*.user
+Task1.sln.DotSettings
+
+syntax: glob
+packages/**
