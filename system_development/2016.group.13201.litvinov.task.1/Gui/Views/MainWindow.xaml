@@ -1,0 +1,64 @@
+﻿<Window x:Class="Gui.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gui.Views"
+        xmlns:viewmodels="clr-namespace:Gui.ViewModels"
+        mc:Ignorable="d"
+        Title="Игра 'Пакман'" Height="600" Width="800"
+        Icon="/Resources/pacman.png"
+        xmlns:vm="clr-namespace:Gui.ViewModels"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}" x:ClassModifier="internal" Loaded="MainWindow_OnLoaded">
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.InputBindings>
+        <KeyBinding Key="{Binding PacmanControlKeys.MoveLeftKey}" Command="{Binding ElementName=CampaignView, Path=DataContext.ActiveGame.PacmanGoLeftCommand}" />
+        <KeyBinding Key="{Binding PacmanControlKeys.MoveRightKey}" Command="{Binding ElementName=CampaignView, Path=DataContext.ActiveGame.PacmanGoRightCommand}" />
+        <KeyBinding Key="{Binding PacmanControlKeys.MoveUpKey}" Command="{Binding ElementName=CampaignView, Path=DataContext.ActiveGame.PacmanGoUpCommand}" />
+        <KeyBinding Key="{Binding PacmanControlKeys.MoveDownKey}" Command="{Binding ElementName=CampaignView, Path=DataContext.ActiveGame.PacmanGoDownCommand}" />
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding ElementName=MenuCampaignItem, Path=Command}"/>
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding ElementName=MenuOpenItem, Path=Command}"/>
+        <KeyBinding Key="P" Modifiers="Control" Command="{Binding ElementName=MenuPauseItem, Path=Command}"/>
+        <KeyBinding Key="R" Modifiers="Control" Command="{Binding ElementName=MenuHiscoreItem, Path=Command}"/>
+        <KeyBinding Key="K" Modifiers="Control" Command="{Binding ElementName=MenuKeysettingsItem, Path=Command}"/>
+    </Window.InputBindings>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Игра">
+                <MenuItem Header="Играть в предустановленную _кампанию" x:Name="MenuCampaignItem" Command ="{Binding StartEmbeddedCampaign}" InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/menu_campaign.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Играть в _одиночный уровень из файла" x:Name="MenuOpenItem"  Command="{Binding StartGameFromFile}"  InputGestureText="Ctrl+O">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/menu_open.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Вкл/выкл _паузу" x:Name="MenuPauseItem" Command="{Binding ElementName=CampaignView, Path=DataContext.ActiveGame.TogglePause}" InputGestureText="Ctrl+P">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/menu_togglepause.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Просмотреть лучшие _результаты" x:Name="MenuHiscoreItem"  Command="{Binding ShowHiscores}"  InputGestureText="Ctrl+R">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/menu_hiscores.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Настройки">
+                <MenuItem Header="_Привязка клавиш" x:Name="MenuKeysettingsItem" InputGestureText="Ctrl+K" Command="{Binding EditKeybindings}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/menu_keysettings.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <local:CampaignView x:Name="CampaignView" DataContext="{Binding CampaignViewModel}"/>
+    </DockPanel>
+</Window>
