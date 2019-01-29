@@ -1,4 +1,4 @@
-(ns ru.nsu.fit.djachenko.dev_tech.task5
+(ns ru.nsu.fit.djachenko.dev_tech.task5.task5
   (:gen-class))
 
 (import '(java.lang Math))
