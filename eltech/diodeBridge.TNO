@@ -1,0 +1,111 @@
+********************************************************************************
+***                   Micro-Cap 9.0.2.0 Evaluation Version                   ***
+***                                                                          ***
+***                                                                          ***
+***                    Transient Analysis of diodeBridge                     ***
+********************************************************************************
+Limits
+======
+Time Range           100000u
+Maximum Time Step    1u
+Number of Points     51
+Temperature          Linear 27
+Run Options          Normal
+State Variables      Zero
+Operating Point      On
+Operating Point Only Off
+
+
+*****************************************************
+***                Temperature=27                 ***
+*****************************************************
+
+Temperature=27 
+
+Model parameters for devices of type Diode
+==========================================
+Instance:                D1                D2                D3                D4   
+Using model:         1S2776            1S2776            1S2776            1S2776   
+LEVEL                     1(*)              1(*)              1(*)              1(*)
+AF                   1.000 (*)         1.000 (*)         1.000 (*)         1.000 (*)
+BV                 300.000           300.000           300.000           300.000    
+CJO                  5.303p            5.303p            5.303p            5.303p   
+EG                   1.110 (*)         1.110 (*)         1.110 (*)         1.110 (*)
+FC                 500.000m(*)       500.000m(*)       500.000m(*)       500.000m(*)
+IBV                100.000p(*)       100.000p(*)       100.000p(*)       100.000p(*)
+IBVL                 0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+IKF                  0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+IS               2.923E-020        2.923E-020        2.923E-020        2.923E-020   
+ISR                  0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+KF                   0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+M                  500.000m(*)       500.000m(*)       500.000m(*)       500.000m(*)
+N                    1.000 (*)         1.000 (*)         1.000 (*)         1.000 (*)
+NBV                  1.000 (*)         1.000 (*)         1.000 (*)         1.000 (*)
+NBVL                 1.000 (*)         1.000 (*)         1.000 (*)         1.000 (*)
+NR                   2.000 (*)         2.000 (*)         2.000 (*)         2.000 (*)
+RL                   1.000G            1.000G            1.000G            1.000G   
+RS                  65.751m           65.751m           65.751m           65.751m   
+T_ABS             UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)
+T_MEASURED        UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)
+T_REL_GLOBAL      UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)
+T_REL_LOCAL       UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)      UNDEFINED(*)
+TBV1                 0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+TBV2                 0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+TIKF                 0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+TRS1                 0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+TRS2                 0.000 (*)         0.000 (*)         0.000 (*)         0.000 (*)
+TT                   1.443u            1.443u            1.443u            1.443u   
+VJ                 800.000m          800.000m          800.000m          800.000m   
+XTI                  3.000 (*)         3.000 (*)         3.000 (*)         3.000 (*)
+(*) Default Parameter
+
+
+
+DC Operating Point Voltages
+===========================
+Node         Voltage  Node         Voltage  Node         Voltage 
+1         2.012E-028  2         2.012E-028  3        -3.453E-035 
+
+
+Operating point for devices of type Diode
+=========================================
+Instance:                   D1                D2                D3                D4
+Using model:            1S2776            1S2776            1S2776            1S2776
+ID                 -1.524E-027       -1.524E-027        1.707E-027        1.707E-027
+VD                 -2.012E-028       -2.012E-028        2.012E-028        2.012E-028
+REQ                 999.001MEG        999.001MEG        999.001MEG        999.001MEG
+CAP                     5.303p            5.303p            5.303p            5.303p
+
+DC Power Terms:
+PD                  2.319E-045        2.319E-045        2.913E-045        2.913E-045
+PS                      0.000             0.000             0.000             0.000 
+
+DC Pin Currents:
+Id                 -1.524E-027       -1.524E-027        1.707E-027        1.707E-027
+
+Condition:
+State                      OFF               OFF               OFF               OFF
+
+
+
+Operating point for devices of type Resistor
+============================================
+Instance:                    R1
+DC Power Terms:
+PD                   1.192E-070
+
+DC Pin Currents:
+Ir                   3.453E-036
+
+
+
+Operating point for devices of type SPICE Source
+================================================
+Instance:                   V1
+DC Power Terms:
+PG                      0.000 
+
+DC Pin Currents:
+ISource            -3.139E-053
+
+

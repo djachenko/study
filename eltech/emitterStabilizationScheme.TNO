@@ -1,0 +1,17 @@
+********************************************************************************
+***                   Micro-Cap 9.0.2.0 Evaluation Version                   ***
+***                                                                          ***
+***                                                                          ***
+***             Transient Analysis of emitterStabilizationScheme             ***
+********************************************************************************
+Limits
+======
+Time Range           100m
+Maximum Time Step    1u
+Number of Points     51
+Temperature          Linear 27
+Run Options          Normal
+State Variables      Zero
+Operating Point      Off
+Operating Point Only Off
+

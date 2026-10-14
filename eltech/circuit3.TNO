@@ -1,0 +1,59 @@
+********************************************************************************
+***                  Micro-Cap 10.0.9.1 Evaluation Version                   ***
+***                                   fit                                    ***
+***                                   nsu                                    ***
+***                      Transient Analysis of circuit3                      ***
+***                           12.02.2014 16:58:06                            ***
+********************************************************************************
+Limits
+======
+Time Range           1u
+Maximum Time Step    0
+Number of Points     1000
+Temperature          Linear 27
+Retrace Runs         1
+Run Options          Normal
+State Variables      Zero
+Operating Point      On
+Operating Point Only Off
+
+
+*****************************************************
+***                Temperature=27                 ***
+*****************************************************
+
+Temperature=27 
+
+DC Operating Point Voltages
+===========================
+Node         Voltage  Node         Voltage 
+1            10.000   2             1.000  
+
+
+Operating Point for Devices of Type Resistor
+============================================
+Instance:                R1            R2
+V                   -1.000         9.000 
+Power DC Terms:
+PD                   1.000m        9.000m
+
+DC Pin Currents:
+Ir                  -1.000m        1.000m
+
+Device Variables:
+tc1                  0.000         0.000 
+tc2                  0.000         0.000 
+
+
+
+Operating Point for Devices of Type SPICE Source
+================================================
+Instance:               V1
+V                  10.000 
+Power DC Terms:
+PG                 10.000m
+
+DC Pin Currents:
+ISource            -1.000m
+
+
