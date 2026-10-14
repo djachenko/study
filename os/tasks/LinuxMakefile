@@ -1,0 +1,14 @@
+SRCS = $(wildcard *.cpp)
+
+BINS = $(SRCS:.cpp=.out)
+
+CXXFLAGS += -Wall
+LDFLAGS += -lpthread -lrt
+
+all: $(BINS)
+
+%.out: %.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+
+clean:
+	rm *.out

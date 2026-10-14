@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+	        android:baselineAligned="false">
+	    <LinearLayout
+	            android:layout_width="0dp"
+	            android:orientation="vertical"
+	            android:layout_height="wrap_content"
+		        android:layout_gravity="left"
+		        android:layout_weight="0.5"
+		    >
+	        <TextView
+	                android:id="@+id/my_nickname"
+	                android:layout_width="100dp"
+	                android:layout_height="wrap_content"
+	                android:text="@string/my_nickname"
+	                android:layout_gravity="left"/>
+	        <ImageView
+	                android:id="@+id/my_avatar"
+	                android:layout_width="80dp"
+	                android:layout_height="80dp"
+	                android:src="@drawable/man"
+		            android:layout_gravity="left|center_vertical"
+		        android:contentDescription="@string/my_avatar_description" />
+	    </LinearLayout>
+
+	    <LinearLayout
+	                android:layout_width="0dp"
+	                android:orientation="vertical"
+	                android:layout_height="wrap_content"
+		            android:layout_gravity="right"
+		            android:layout_weight="0.5"
+		    >
+	        <TextView
+	                android:id="@+id/comp_nickname"
+	                android:layout_width="105dp"
+	                android:layout_height="wrap_content"
+	                android:text="@string/default_companion_nickname"
+	                android:layout_gravity="center_horizontal|right"/>
+	        <ImageView
+	                android:id="@+id/comp_avatar"
+	                android:layout_width="80dp"
+	                android:layout_height="80dp"
+	                android:src="@drawable/man"
+		            android:layout_gravity="center_vertical|right"
+		            android:contentDescription="@string/companion_avatar_description" />
+	    </LinearLayout>
+    </LinearLayout>
+    <ListView android:id="@+id/in"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        android:layout_weight="1"
+    />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <EditText android:id="@+id/edit_text_out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+	        android:inputType="text"
+	        />
+        <Button android:id="@+id/button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send"
+            android:onClick="sendButtonHandler"
+            />
+        <ImageButton android:id="@+id/button_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/send"
+                android:src="@drawable/mic"
+	            android:onClick="startVoiceRecognitionActivity"
+                android:contentDescription="@string/mic"
+	        />
+    </LinearLayout>
+</LinearLayout>
