@@ -1,0 +1,125 @@
+In file included from tester.cpp:3:
+LinkedList.h:97: error: 'value_type' was not declared in this scope
+LinkedList.h:97: error: template argument 1 is invalid
+LinkedList.h:97: error: 'Iterator' has not been declared
+LinkedList.h: In function 'int Iterator()':
+LinkedList.h:98: error: only constructors take base initializers
+LinkedList.h: At global scope:
+LinkedList.h:102: error: 'value_type' was not declared in this scope
+LinkedList.h:102: error: template argument 1 is invalid
+LinkedList.h:102: error: 'Iterator' is not a class or namespace
+LinkedList.h:102: error: expected ',' or '...' before '&' token
+LinkedList.h:102: error: ISO C++ forbids declaration of 'Iterator' with no type
+LinkedList.h: In function 'int Iterator(int)':
+LinkedList.h:103: error: only constructors take base initializers
+LinkedList.h:103: error: 'other' was not declared in this scope
+LinkedList.h: At global scope:
+LinkedList.h:107: error: 'value_type' was not declared in this scope
+LinkedList.h:107: error: template argument 1 is invalid
+LinkedList.h:107: error: expected initializer before '::' token
+LinkedList.h:111: error: 'value_type' was not declared in this scope
+LinkedList.h:111: error: template argument 1 is invalid
+LinkedList.h:111: error: expected initializer before '&' token
+LinkedList.h:118: error: 'value_type' was not declared in this scope
+LinkedList.h:118: error: template argument 1 is invalid
+LinkedList.h:118: error: expected initializer before '&' token
+LinkedList.h:125: error: 'value_type' was not declared in this scope
+LinkedList.h:125: error: template argument 1 is invalid
+LinkedList.h:125: error: '<expression error>::Iterator' has not been declared
+LinkedList.h:125: error: expected ',' or '...' before '&' token
+LinkedList.h:125: error: ISO C++ forbids declaration of 'Iterator' with no type
+LinkedList.h:125: error: non-member function 'bool operator!=(int)' cannot have cv-qualifier
+LinkedList.h:125: error: 'bool operator!=(int)' must have an argument of class or enumerated type
+LinkedList.h:130: error: 'value_type' was not declared in this scope
+LinkedList.h:130: error: template argument 1 is invalid
+LinkedList.h:130: error: '<expression error>::Iterator' has not been declared
+LinkedList.h:130: error: expected ',' or '...' before '&' token
+LinkedList.h:130: error: ISO C++ forbids declaration of 'Iterator' with no type
+LinkedList.h:130: error: non-member function 'bool operator==(int)' cannot have cv-qualifier
+LinkedList.h:130: error: 'bool operator==(int)' must have an argument of class or enumerated type
+LinkedList.h:135: error: expected constructor, destructor, or type conversion before '&' token
+LinkedList.h:140: error: expected constructor, destructor, or type conversion before '*' token
+LinkedList.h:145: error: 'value_type' was not declared in this scope
+LinkedList.h:145: error: template argument 1 is invalid
+LinkedList.h:145: error: expected initializer before 'LinkedList'
+LinkedList.h:154: error: 'value_type' was not declared in this scope
+LinkedList.h:154: error: template argument 1 is invalid
+LinkedList.h:154: error: expected initializer before '&' token
+LinkedList.h:161: error: 'value_type' was not declared in this scope
+LinkedList.h:161: error: template argument 1 is invalid
+LinkedList.h:161: error: expected initializer before 'LinkedList'
+LinkedList.h:170: error: 'value_type' was not declared in this scope
+LinkedList.h:170: error: template argument 1 is invalid
+LinkedList.h:170: error: expected initializer before '&' token
+LinkedList.h:177: error: 'value_type' was not declared in this scope
+LinkedList.h:177: error: template argument 1 is invalid
+LinkedList.h:177: error: '<expression error>::Iterator' has not been declared
+LinkedList.h: In function 'void print()':
+LinkedList.h:179: error: invalid use of 'this' in non-member function
+LinkedList.h:180: error: invalid use of 'this' in non-member function
+LinkedList.h:181: error: invalid use of 'this' in non-member function
+LinkedList.h:182: error: invalid use of 'this' in non-member function
+LinkedList.h: At global scope:
+LinkedList.h:237: error: expected constructor, destructor, or type conversion before 'LinkedList'
+LinkedList.h:243: error: expected constructor, destructor, or type conversion before 'LinkedList'
+LinkedList.h: In member function 'bool LinkedList<value_type>::contains(const value_type&) const':
+LinkedList.h:251: error: expected `;' before 'i'
+LinkedList.h:251: error: 'i' was not declared in this scope
+LinkedList.h: In member function 'int LinkedList<value_type>::count(const value_type&) const':
+LinkedList.h:267: error: expected `;' before 'i'
+LinkedList.h:267: error: 'i' was not declared in this scope
+LinkedList.h: In member function 'int LinkedList<value_type>::size() const':
+LinkedList.h:283: error: expected `;' before 'i'
+LinkedList.h:283: error: 'i' was not declared in this scope
+LinkedList.h: At global scope:
+LinkedList.h:298: error: expected constructor, destructor, or type conversion before 'LinkedList'
+LinkedList.h:329: error: expected constructor, destructor, or type conversion before 'LinkedList'
+LinkedList.h: In member function 'int LinkedList<value_type>::removeAll(const value_type&)':
+LinkedList.h:350: error: expected `;' before 'i'
+LinkedList.h:350: error: 'i' was not declared in this scope
+LinkedList.h: In member function 'bool LinkedList<value_type>::removeOne(const value_type&)':
+LinkedList.h:370: error: expected `;' before 'i'
+LinkedList.h:370: error: 'i' was not declared in this scope
+LinkedList.h: At global scope:
+LinkedList.h:498: error: expected constructor, destructor, or type conversion before 'LinkedList'
+LinkedList.h: In member function 'bool LinkedList<value_type>::operator!=(const LinkedList<value_type>&) const':
+LinkedList.h:525: error: expected `;' before 'i'
+LinkedList.h:526: error: expected `;' before 'j'
+LinkedList.h:528: error: 'i' was not declared in this scope
+LinkedList.h:528: error: 'j' was not declared in this scope
+LinkedList.h: In member function 'LinkedList<value_type>& LinkedList<value_type>::operator+=(const LinkedList<value_type>&)':
+LinkedList.h:559: error: expected `;' before 'i'
+LinkedList.h:559: error: 'i' was not declared in this scope
+LinkedList.h: At global scope:
+LinkedList.h:568: error: expected constructor, destructor, or type conversion before '&' token
+tester.cpp: In function 'int main()':
+tester.cpp:22: error: 'template<class value_type> class LinkedList' used without template parameters
+tester.cpp:22: error: expected `;' before 'i'
+tester.cpp:22: error: 'i' was not declared in this scope
+tester.cpp:45: error: 'template<class value_type> class LinkedList' used without template parameters
+tester.cpp:45: error: expected `;' before 'i'
+tester.cpp:45: error: 'i' was not declared in this scope
+tester.cpp:50: error: 'template<class value_type> class LinkedList' used without template parameters
+tester.cpp:50: error: expected `;' before 'i'
+tester.cpp:50: error: 'i' was not declared in this scope
+tester.cpp:63: error: 'template<class value_type> class LinkedList' used without template parameters
+tester.cpp:63: error: expected `;' before 'i'
+tester.cpp:63: error: 'i' was not declared in this scope
+tester.cpp:70: error: 'template<class value_type> class LinkedList' used without template parameters
+tester.cpp:70: error: expected `;' before 'x'
+tester.cpp:74: error: 'template<class value_type> class LinkedList' used without template parameters
+tester.cpp:74: error: expected `;' before 'i'
+tester.cpp:74: error: 'i' was not declared in this scope
+LinkedList.h: In member function 'bool LinkedList<value_type>::contains(const value_type&) const [with value_type = int]':
+tester.cpp:34:   instantiated from here
+LinkedList.h:251: error: dependent-name 'LinkedList::Iterator' is parsed as a non-type, but instantiation yields a type
+LinkedList.h:251: note: say 'typename LinkedList::Iterator' if a type is meant
+LinkedList.h: In member function 'int LinkedList<value_type>::count(const value_type&) const [with value_type = int]':
+tester.cpp:38:   instantiated from here
+LinkedList.h:267: error: dependent-name 'LinkedList::Iterator' is parsed as a non-type, but instantiation yields a type
+LinkedList.h:267: note: say 'typename LinkedList::Iterator' if a type is meant
+LinkedList.h: In member function 'int LinkedList<value_type>::size() const [with value_type = int]':
+tester.cpp:42:   instantiated from here
+LinkedList.h:283: error: dependent-name 'LinkedList::Iterator' is parsed as a non-type, but instantiation yields a type
+LinkedList.h:283: note: say 'typename LinkedList::Iterator' if a type is meant
+make: *** [tester.o] Ô€…¬À¡ 1

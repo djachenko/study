@@ -1,0 +1,1314 @@
+1. Исполнитель: Дьяченко И.С., гр. 1201
+2. Результаты тестов:
+					Время одной итерации	Время работы вне цикла	Общее время работы
+Обычный без векторизации:			9.39			28.71			122.61
+Обычный с векторизацией компилятором:		9.202			28.88			120.9
+С ручной векторизацией:				0.512			1.51			6.63
+С использованием BLAS: 				1.968			5.12			24.8
+
+3. Исходные коды:
+
+Обычная версия:
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <sys/times.h>
+#include <unistd.h>
+
+#include "size.h"
+
+using namespace std;
+
+class FMatrix
+{
+	private:
+		float * table;
+		int sizeX;
+		int sizeY;
+	public:
+		FMatrix();
+		FMatrix(int x, int y);
+		FMatrix(const FMatrix & other);
+		~FMatrix();
+
+		float * operator[](int i);
+		const float * operator[](int i) const;
+
+		int width() const;
+		int height() const;
+
+		FMatrix transpose() const;
+
+		double l() const;
+		double w() const;
+
+		FMatrix & operator+=( const FMatrix & other );
+		FMatrix operator+( const FMatrix & other ) const;
+
+		FMatrix & operator-=( const FMatrix & other );
+		FMatrix operator-( const FMatrix & other ) const;
+
+		FMatrix & operator*=( const FMatrix & other );
+		FMatrix operator*( const FMatrix & other ) const;
+
+		FMatrix & operator*=( const double & a);
+		FMatrix operator*( const double & a) const;
+
+		FMatrix operator/( const double & a ) const;
+		FMatrix & operator/=( const double & a );
+
+		FMatrix & operator=( const FMatrix & other );
+
+		void print() const;
+};
+
+FMatrix::FMatrix()
+:table(NULL), sizeX(0), sizeY(0)
+{
+}
+
+FMatrix::FMatrix(int x, int y)
+:table( new float[x*y] ), sizeX(x), sizeY(y)
+{
+	for (int i = 0; i < sizeY; i++)
+	{
+		for (int j = 0; j < sizeX; j++)
+		{
+			table[i*x+j] = 0;
+		}
+	}
+}
+
+FMatrix::FMatrix(const FMatrix & other)
+:table( new float[other.sizeY * other.sizeX] ), sizeX(other.sizeX), sizeY(other.sizeY)
+{
+	for (int i = 0; i < sizeY; i++)
+	{
+		for (int j = 0; j < sizeX; j++)
+		{
+			this->table[i*sizeX+j] = other.table[i*other.sizeX+j];
+		}
+	}
+}
+
+FMatrix::~FMatrix()
+{
+	delete[] table;
+}
+
+float * FMatrix::operator[](int i)
+{
+	return &table[i*sizeX];
+}
+
+const float * FMatrix::operator[](int i) const
+{
+	return &table[i*sizeX];
+}
+
+int FMatrix::width() const
+{
+	return sizeX;
+}
+
+int FMatrix::height() const
+{
+	return sizeY;
+}
+
+FMatrix FMatrix::transpose() const
+{
+	FMatrix result( height(), width() );
+
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			result[j][i] = (*this)[i][j];
+		}
+	}
+
+	return result;
+}
+
+double FMatrix::l() const
+{
+	double max = 0;
+
+	for (int i = 0; i < height(); i++)
+	{
+		max += (*this)[i][0];
+	}
+
+	double sum;
+
+	for (int j = 1; j < width(); j++)
+	{
+		sum = 0;
+
+		for (int i = 0; i < height(); i++)
+		{
+			sum += (*this)[i][j];
+		}
+
+		if ( sum > max )
+		{
+			max = sum;
+		}
+	}
+
+	return max;
+}
+
+double FMatrix::w() const
+{
+	double max = 0;
+
+	for (int j = 0; j < width(); j++)
+	{
+		max += (*this)[0][j];
+	}
+
+	double sum;
+
+	for (int i = 1; i < height(); i++)
+	{
+		sum =0;
+
+		for (int j = 0; j < width(); j++)
+		{
+			sum += (*this)[i][j];
+		}
+
+		if ( sum > max )
+		{
+			max = sum;
+		}
+	}
+
+	return max;
+}
+
+FMatrix & FMatrix::operator*=(const FMatrix & other)
+{
+	FMatrix result( this->height(), other.width() );
+
+	for (int i = 0; i < result.height(); i++)
+	{
+		for (int j = 0; j < result.width(); j++)
+		{
+			for (int k = 0; k < this->width(); k++)
+			{
+				result[i][j] += (*this)[i][k] * other[k][j];
+			}
+		}
+	}
+
+	*this = result;
+
+	return *this;
+}
+
+FMatrix FMatrix::operator*(const FMatrix & other) const
+{
+	FMatrix result = E( this->height() );
+
+	result *= (*this);
+	result *= other;
+
+	return result;
+}
+
+FMatrix & FMatrix::operator*=( const double & a )
+{
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			(*this)[i][j] *= a;
+		}
+	}
+
+	return *this;
+}
+
+FMatrix FMatrix::operator*( const double & a ) const
+{
+	FMatrix result(*this);
+
+	result *= a;
+
+	return result;
+}
+
+FMatrix & FMatrix::operator+=(const FMatrix & other)
+{
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			(*this)[i][j] += other[i][j];
+		}
+	}
+
+	return *this;
+}
+
+FMatrix FMatrix::operator+(const FMatrix & other) const
+{
+	FMatrix result(*this);
+
+	result += other;
+
+	return result;
+}
+
+FMatrix & FMatrix::operator-=(const FMatrix & other)
+{
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			(*this)[i][j] -= other[i][j];
+		}
+	}
+
+	return *this;
+}
+
+FMatrix FMatrix::operator-(const FMatrix & other) const
+{
+	FMatrix result(*this);
+
+	result -= other;
+
+	return result;
+}
+
+FMatrix & FMatrix::operator=(const FMatrix & other)
+{
+	delete[] table;
+
+	sizeX = other.sizeX;
+	sizeY = other.sizeY;
+
+	table = new float[ width() * height() ];
+
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			(*this)[i][j] = other[i][j];
+		}
+	}
+
+	return *this;
+}
+
+FMatrix FMatrix::operator/( const double & a) const
+{
+	FMatrix result(*this);
+
+	result /= a;
+
+	return result;
+}
+
+FMatrix & FMatrix::operator/=( const double & a)
+{
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			(*this)[i][j] /= a;
+		}
+	}
+
+	return *this;
+}
+
+void FMatrix::print() const
+{
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			cout << setw(12) << (*this)[i][j] << ' ';
+		}
+
+		cout << endl;
+	}
+}
+
+istream& operator>>(istream & in, FMatrix & matrix)
+{
+	for (int i = 0; i < matrix.height(); i++)
+	{
+		for (int j = 0; j < matrix.width(); j++)
+		{
+			in >> matrix[i][j];
+		}
+	}
+
+	return in;
+}
+
+FMatrix E(int size)
+{
+	FMatrix e(size, size);
+
+	for (int i=0; i < size; i++)
+	{
+		e[i][i] = 1;
+	}
+
+	return e;
+}
+
+FMatrix B(const FMatrix & A)
+{
+	return A.transpose() / (A.l() * A.w());
+}
+
+FMatrix R(FMatrix & A)
+{
+	return E(A.width()) - (B(A)*A);
+}
+
+int main()
+{
+	ifstream input;
+
+	input.open("lab5.txt");
+
+	FMatrix A(size, size);
+
+	input >> A;
+
+	input.close();
+
+	struct tms start;
+	struct tms end;
+	struct tms loopStart;
+	struct tms loopEnd;
+
+	long clocksPerSec = sysconf(_SC_CLK_TCK);
+
+	times(&start);
+
+	FMatrix result(size, size);
+
+	FMatrix r = E( A.height() );
+	FMatrix matR = R(A);
+	FMatrix matB = B(A);
+//start
+
+	times(&loopStart);
+
+	for (int i = 0; i < N; i++)
+	{
+		result += r;
+
+		r *= matR;
+	}
+
+	times(&loopEnd);
+
+	result *= matB;
+//finish
+
+	times(&end);
+
+	double loop = (double)(loopEnd.tms_utime - loopStart.tms_utime) / clocksPerSec;
+	double whole = (double)(end.tms_utime - start.tms_utime) / clocksPerSec;
+
+	cout << loop/N << '	' << whole - loop << '	' << whole << endl;
+
+	return 0;
+}
+
+С использованием SSE:
+
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <sys/times.h>
+#include <unistd.h>
+#include <xmmintrin.h>
+
+#include "size.h"
+
+using namespace std;
+
+class SSEMatrix
+{
+	private:
+		float * table;
+		int sizeX;
+		int sizeY;
+	public:
+		SSEMatrix();
+		SSEMatrix(int x, int y);
+		SSEMatrix(const SSEMatrix & other);
+		~SSEMatrix();
+
+		float * operator[](int i);
+		const float * operator[](int i) const;
+
+		int width() const;
+		int height() const;
+
+		SSEMatrix transpose() const;
+
+		double l() const;
+		double w() const;
+
+		SSEMatrix & operator+=( const SSEMatrix & other );
+		SSEMatrix operator+( const SSEMatrix & other ) const;
+
+		SSEMatrix & operator-=( const SSEMatrix & other );
+		SSEMatrix operator-( const SSEMatrix & other ) const;
+
+		SSEMatrix & operator*=( const SSEMatrix & other );
+		SSEMatrix operator*( const SSEMatrix & other ) const;
+
+		SSEMatrix & operator*=( const double & a);
+		SSEMatrix operator*( const double & a) const;
+
+		SSEMatrix operator/( const double & a ) const;
+		SSEMatrix & operator/=( const double & a );
+
+		SSEMatrix & operator=( const SSEMatrix & other );
+
+		void print() const;
+};
+
+SSEMatrix::SSEMatrix()
+:table(NULL), sizeX(0), sizeY(0)
+{
+}
+
+SSEMatrix::SSEMatrix(int x, int y)
+:table( new float[x*y] ), sizeX(x), sizeY(y)
+{
+	__m128 * t;
+
+	for (int i = 0; i < sizeY; i++)
+	{
+		t = (__m128 *)(&table[i*x]);
+
+		for (int j = 0; j < sizeX/4; j++)
+		{
+			t[j] = _mm_set_ps1(0);
+		}
+	}
+}
+
+SSEMatrix::SSEMatrix(const SSEMatrix & other)
+:table( new float[other.sizeX * other.sizeY] ), sizeX(other.sizeX), sizeY(other.sizeY)
+{
+	__m128 * x;
+
+	for (int i = 0; i < sizeY; i++)
+	{
+		x = (__m128 *)other[i];
+
+		for (int j = 0; j < sizeX/4; j++)
+		{
+			_mm_prefetch((char *)&x[i+4],_MM_HINT_NTA);
+			_mm_storeu_ps( &(this->table[i*sizeX+j*4]), x[j]);
+		}
+	}
+}
+
+SSEMatrix::~SSEMatrix()
+{
+	delete[] table;
+}
+
+float * SSEMatrix::operator[](int i)
+{
+	return table + i * sizeX;
+}
+
+const float * SSEMatrix::operator[](int i) const
+{
+	return table + i * sizeX;
+}
+
+int SSEMatrix::width() const
+{
+	return sizeX;
+}
+
+int SSEMatrix::height() const
+{
+	return sizeY;
+}
+
+SSEMatrix SSEMatrix::transpose() const
+{
+	SSEMatrix result( height(), width() );
+
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			result[j][i] = (*this)[i][j];
+		}
+	}
+
+	return result;
+}
+
+double SSEMatrix::l() const
+{
+	double max = 0;
+
+	for (int i = 0; i < height(); i++)
+	{
+		max += (*this)[i][0];
+	}
+
+	double sum;
+
+	for (int j = 1; j < width(); j++)
+	{
+		sum = 0;
+
+		for (int i = 0; i < height(); i++)
+		{
+			sum += (*this)[i][j];
+		}
+
+		if ( sum > max )
+		{
+			max = sum;
+		}
+	}
+
+	return max;
+}
+
+double SSEMatrix::w() const
+{
+	double max = 0;
+
+	for (int j = 0; j < width(); j++)
+	{
+		max += (*this)[0][j];
+	}
+
+	double sum;
+
+	for (int i = 1; i < height(); i++)
+	{
+		sum =0;
+
+		for (int j = 0; j < width(); j++)
+		{
+			sum += (*this)[i][j];
+		}
+
+		if ( sum > max )
+		{
+			max = sum;
+		}
+	}
+
+	return max;
+}
+
+SSEMatrix & SSEMatrix::operator*=(const SSEMatrix & other)
+{
+	SSEMatrix result( this->height(), other.width() );
+
+	SSEMatrix that = other.transpose();
+
+	__m128 * x;
+	__m128 * y;
+
+	__m128 p;
+	__m128 s;
+
+	for (int i = 0; i < result.height(); i++)
+	{
+		x = (__m128 *)(*this)[i];
+
+		for (int j = 0; j < result.width(); j++)
+		{
+			y = (__m128 *)that[j];
+
+			s = _mm_set_ps1(0);
+
+			for (int k = 0; k < this->width()/4; k++)
+			{
+				_mm_prefetch((char *)&x[i+4],_MM_HINT_NTA);
+				_mm_prefetch((char *)&y[i+4],_MM_HINT_NTA);
+
+				p = _mm_mul_ps( x[k], y[k] );
+				s = _mm_add_ps( s, p );
+			}
+
+			p=_mm_movehl_ps(p, s); // перемещение двух старших значений s в младшие p
+			s=_mm_add_ps(s, p);    // векторное сложение
+			p=_mm_shuffle_ps(s, s, 1); //перемещение второго значения в s в младшую позицию в p
+			s=_mm_add_ss(s, p);    // скалярное сложение
+			_mm_store_ss(&result[i][j], s); // запись младшего значения в память
+		}
+	}
+
+	*this = result;
+
+	return *this;
+}
+
+SSEMatrix SSEMatrix::operator*(const SSEMatrix & other) const
+{
+	SSEMatrix result = E( this->height() );
+
+	result *= (*this);
+	result *= other;
+
+	return result;
+}
+
+SSEMatrix & SSEMatrix::operator*=( const double & a )
+{
+	__m128 x = _mm_set_ps1(a);
+	__m128 * y;
+
+	for (int i = 0; i < height(); i++)
+	{
+		y = (__m128 *)(*this)[i];
+
+		for (int j = 0; j < width()/4; j++)
+		{
+			_mm_prefetch((char *)&y[i+4],_MM_HINT_NTA);
+
+			y[j] = _mm_mul_ps( y[j], x);
+		}
+	}
+
+	return *this;
+}
+
+SSEMatrix SSEMatrix::operator*( const double & a ) const
+{
+	SSEMatrix result(*this);
+
+	result *= a;
+
+	return result;
+}
+
+SSEMatrix & SSEMatrix::operator+=(const SSEMatrix & other)
+{
+	__m128 * x;
+	__m128 * y;
+
+	for (int i = 0; i < height(); i++)
+	{
+		x = (__m128 *)(*this)[i];
+		y = (__m128 *)other[i];
+
+		for (int j = 0; j < width()/4; j++)
+		{
+			_mm_prefetch((char *)&x[i+4],_MM_HINT_NTA);
+			_mm_prefetch((char *)&y[i+4],_MM_HINT_NTA);
+
+			x[j] = _mm_add_ps(x[j], y[j]);
+		}
+	}
+
+	return *this;
+}
+
+SSEMatrix SSEMatrix::operator+(const SSEMatrix & other) const
+{
+	SSEMatrix result(*this);
+
+	result += other;
+
+	return result;
+}
+
+SSEMatrix & SSEMatrix::operator-=(const SSEMatrix & other)
+{
+	__m128 * x;
+	__m128 * y;
+
+	for (int i = 0; i < height(); i++)
+	{
+		x = (__m128 *)(*this)[i];
+		y = (__m128 *)other[i];
+
+		for (int j = 0; j < width()/4; j++)
+		{
+			_mm_prefetch((char *)&x[i+4],_MM_HINT_NTA);
+			_mm_prefetch((char *)&y[i+4],_MM_HINT_NTA);
+
+			x[j] = _mm_sub_ps(x[j], y[j]);
+		}
+	}
+
+	return *this;
+}
+
+SSEMatrix SSEMatrix::operator-(const SSEMatrix & other) const
+{
+	SSEMatrix result(*this);
+
+	result -= other;
+
+	return result;
+}
+
+SSEMatrix & SSEMatrix::operator=(const SSEMatrix & other)
+{
+	delete[] table;
+
+	sizeX = other.sizeX;
+	sizeY = other.sizeY;
+
+	table = new float[ width() * height() ];
+
+	__m128 * x;
+
+	for (int i = 0; i < height(); i++)
+	{
+		x = (__m128 *)other[i];
+
+		for (int j = 0; j < width()/4; j++)
+		{
+			_mm_prefetch((char *)&x[i+4],_MM_HINT_NTA);
+
+			_mm_storeu_ps( table + i * sizeX + j * 4, x[j]);
+		}
+	}
+
+	return *this;
+}
+
+SSEMatrix SSEMatrix::operator/( const double & a) const
+{
+	SSEMatrix result(*this);
+
+	result /= a;
+
+	return result;
+}
+
+SSEMatrix & SSEMatrix::operator/=( const double & a)
+{
+	__m128 x = _mm_set_ps1(a);
+	__m128 * y;
+
+	for (int i = 0; i < height(); i++)
+	{
+		y = (__m128 *)(*this)[i];
+
+		for (int j = 0; j < width()/4; j++)
+		{
+			_mm_prefetch((char *)&y[i+4],_MM_HINT_NTA);
+
+			y[j] = _mm_div_ps( y[j], x);
+		}
+	}
+
+	return *this;
+}
+
+void SSEMatrix::print() const
+{
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			cout << setw(12) << (*this)[i][j] << ' ';
+		}
+
+		cout << endl;
+	}
+}
+
+istream& operator>>(istream & in, SSEMatrix & matrix)
+{
+	for (int i = 0; i < matrix.height(); i++)
+	{
+		for (int j = 0; j < matrix.width(); j++)
+		{
+			in >> matrix[i][j];
+		}
+	}
+
+	return in;
+}
+
+SSEMatrix E(int size)
+{
+	SSEMatrix e(size, size);
+
+	for (int i=0; i < size; i++)
+	{
+		e[i][i] = 1;
+	}
+
+	return e;
+}
+
+SSEMatrix B(const SSEMatrix & A)
+{
+	return A.transpose() / (A.l() * A.w());
+}
+
+SSEMatrix R(SSEMatrix & A)
+{
+	return E(A.width()) - (B(A)*A);
+}
+
+
+int main()
+{
+	ifstream input;
+
+	input.open("lab5.txt");
+
+	SSEMatrix A(size, size);
+
+	input >> A;
+
+	input.close();
+
+	struct tms start;
+	struct tms end;
+	struct tms loopStart;
+	struct tms loopEnd;
+
+	long clocksPerSec = sysconf(_SC_CLK_TCK);
+
+	times(&start);
+
+	SSEMatrix result(size, size);
+
+	SSEMatrix r = E( A.height() );
+	SSEMatrix matR = R(A);
+	SSEMatrix matB = B(A);
+//start
+
+	times(&loopStart);
+
+	for (int i = 0; i < 10; i++)
+	{
+		result += r;
+
+		r *= matR;
+	}
+
+	times(&loopEnd);
+
+	result *= matB;
+//finish
+
+	times(&end);
+
+	double loop = (double)(loopEnd.tms_utime - loopStart.tms_utime) / clocksPerSec;
+	double whole = (double)(end.tms_utime - start.tms_utime) / clocksPerSec;
+
+	cout << loop/N << '	' << whole - loop << '	' << whole << endl;
+
+	return 0;
+}
+С использование Blas:
+
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <cblas.h>
+#include <sys/times.h>
+#include <unistd.h>
+
+#include "size.h"
+
+using namespace std;
+
+class BlasMatrix
+{
+	private:
+		float * table;
+		int sizeX;
+		int sizeY;
+	public:
+		BlasMatrix();
+		BlasMatrix(int x, int y);
+		BlasMatrix(const BlasMatrix & other);
+		~BlasMatrix();
+
+		float * operator[](int i);
+		const float * operator[](int i) const;
+
+		int width() const;
+		int height() const;
+
+		BlasMatrix transpose() const;
+
+		double l() const;
+		double w() const;
+
+		BlasMatrix & operator+=( const BlasMatrix & other );
+		BlasMatrix operator+( const BlasMatrix & other ) const;
+
+		BlasMatrix & operator-=( const BlasMatrix & other );
+		BlasMatrix operator-( const BlasMatrix & other ) const;
+
+		BlasMatrix & operator*=( const BlasMatrix & other );
+		BlasMatrix operator*( const BlasMatrix & other ) const;
+
+		BlasMatrix & operator*=( const double & a);
+		BlasMatrix operator*( const double & a) const;
+
+		BlasMatrix operator/( const double & a ) const;
+		BlasMatrix & operator/=( const double & a );
+
+		BlasMatrix & operator=( const BlasMatrix & other );
+
+		void print() const;
+};
+
+BlasMatrix::BlasMatrix()
+:table(NULL), sizeX(0), sizeY(0)
+{
+}
+
+BlasMatrix::BlasMatrix(int x, int y)
+:table( new float[x*y] ), sizeX(x), sizeY(y)
+{
+	for (int i = 0; i < sizeY; i++)
+	{
+		for (int j = 0; j < sizeX; j++)
+		{
+			table[i*x+j] = 0;
+		}
+	}
+}
+
+BlasMatrix::BlasMatrix(const BlasMatrix & other)
+:table( new float[other.sizeY * other.sizeX] ), sizeX(other.sizeX), sizeY(other.sizeY)
+{
+	for (int i = 0; i < sizeY; i++)
+	{
+		for (int j = 0; j < sizeX; j++)
+		{
+			this->table[i*sizeX+j] = other.table[i*other.sizeX+j];
+		}
+	}
+}
+
+BlasMatrix::~BlasMatrix()
+{
+	delete[] table;
+}
+
+float * BlasMatrix::operator[](int i)
+{
+	return &table[ i * width() ];
+}
+
+const float * BlasMatrix::operator[](int i) const
+{
+	return &table[ i * width() ];
+}
+
+int BlasMatrix::width() const
+{
+	return sizeX;
+}
+
+int BlasMatrix::height() const
+{
+	return sizeY;
+}
+
+BlasMatrix BlasMatrix::transpose() const
+{
+	BlasMatrix result( height(), width() );
+
+	/*for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			result[j][i] = (*this)[i][j];
+		}
+	}*/
+
+	cblas_sgemm(CblasRowMajor, CblasTrans, CblasNoTrans, this->height(), this->width(), this->width(), 1.0, &((*this)[0][0]), this->height(), &( ( E(this->width()) )[0][0]), this->width(), 0.0, &(result[0][0]), result.height());
+	
+	return result;
+}
+
+double BlasMatrix::l() const
+{
+	double max = 0;
+
+	for (int i = 0; i < height(); i++)
+	{
+		max += (*this)[i][0];
+	}
+
+	double sum;
+
+	for (int j = 1; j < width(); j++)
+	{
+		sum = 0;
+
+		for (int i = 0; i < height(); i++)
+		{
+			sum += (*this)[i][j];
+		}
+
+		if ( sum > max )
+		{
+			max = sum;
+		}
+	}
+
+	return max;
+}
+
+double BlasMatrix::w() const
+{
+	double max = 0;
+
+	for (int j = 0; j < width(); j++)
+	{
+		max += (*this)[0][j];
+	}
+
+	double sum;
+
+	for (int i = 1; i < height(); i++)
+	{
+		sum =0;
+
+		for (int j = 0; j < width(); j++)
+		{
+			sum += (*this)[i][j];
+		}
+
+		if ( sum > max )
+		{
+			max = sum;
+		}
+	}
+
+	return max;
+}
+
+BlasMatrix & BlasMatrix::operator*=(const BlasMatrix & other)
+{
+	BlasMatrix result( this->height(), other.width() );
+
+	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, this->height(), other.width(), this->width(), 1.0, &((*this)[0][0]), this->height(), &(other[0][0]), other.height(), 0.0, &(result[0][0]), result.height());
+
+	*this = result;
+
+	return *this;
+}
+
+BlasMatrix BlasMatrix::operator*(const BlasMatrix & other) const
+{
+	BlasMatrix result = E( this->height() );
+
+	result *= (*this);
+	result *= other;
+
+	return result;
+}
+
+BlasMatrix & BlasMatrix::operator*=( const double & a )
+{
+	BlasMatrix other = E(this->width());
+	BlasMatrix result = E(this->width());
+
+	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, this->height(), other.width(), this->width(), a, &((*this)[0][0]), this->height(), &(other[0][0]), other.height(), 0.0, &(result[0][0]), result.height());
+
+	*this = result;
+
+	return *this;
+}
+
+BlasMatrix BlasMatrix::operator*( const double & a ) const
+{
+	BlasMatrix result(*this);
+
+	result *= a;
+
+	return result;
+}
+
+BlasMatrix & BlasMatrix::operator+=(const BlasMatrix & other)
+{
+	BlasMatrix result = other;
+
+	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, this->height(), this->width(), this->width(), 1.0, &((*this)[0][0]), this->height(), &( ( E(this->width()) )[0][0]), this->width(), 1.0, &(result[0][0]), result.height());
+
+	*this = result;
+
+	return *this;
+}
+
+BlasMatrix BlasMatrix::operator+(const BlasMatrix & other) const
+{
+	BlasMatrix result(*this);
+
+	result += other;
+
+	return result;
+}
+
+BlasMatrix & BlasMatrix::operator-=(const BlasMatrix & other)
+{
+	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, this->height(), this->width(), this->width(), 1.0, &((*this)[0][0]), this->height(), &( ( E(this->width()) )[0][0]), this->width(), -1.0, &(result[0][0]), result.height());
+
+	return *this;
+}
+
+BlasMatrix BlasMatrix::operator-(const BlasMatrix & other) const
+{
+	BlasMatrix result(*this);
+
+	result -= other;
+
+	return result;
+}
+
+BlasMatrix & BlasMatrix::operator=(const BlasMatrix & other)
+{
+	sizeX = other.sizeX;
+	sizeY = other.sizeY;
+
+	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, other.height(), other.width(), other.width(), 1.0, &(other[0][0]), other.height(), &((E(other.width()))[0][0]), other.width(), 0.0, &((*this)[0][0]), this->height());
+
+	return *this;
+}
+
+BlasMatrix BlasMatrix::operator/( const double & a) const
+{
+	BlasMatrix result(*this);
+
+	result /= a;
+
+	return result;
+}
+
+BlasMatrix & BlasMatrix::operator/=( const double & a)
+{
+	(*this)*=(1.0/a);
+
+	return *this;
+}
+
+void BlasMatrix::print() const
+{
+	for (int i = 0; i < height(); i++)
+	{
+		for (int j = 0; j < width(); j++)
+		{
+			cout << setw(12) << (*this)[i][j] << ' ';
+		}
+
+		cout << endl;
+	}
+}
+
+istream& operator>>(istream & in, BlasMatrix & matrix)
+{
+	for (int i = 0; i < matrix.height(); i++)
+	{
+		for (int j = 0; j < matrix.width(); j++)
+		{
+			in >> matrix[i][j];
+		}
+	}
+
+	return in;
+}
+
+BlasMatrix E(int size)
+{
+	BlasMatrix e(size, size);
+
+	for (int i=0; i < size; i++)
+	{
+		e[i][i] = 1;
+	}
+
+	return e;
+}
+
+BlasMatrix B(const BlasMatrix & A)
+{
+	return A.transpose() / (A.l() * A.w());
+}
+
+BlasMatrix R(BlasMatrix & A)
+{
+	return E(A.width()) - (B(A)*A);
+}
+
+
+int main()
+{
+	ifstream input;
+
+	input.open("lab5.txt");
+
+	BlasMatrix A(size, size);
+
+	input >> A;
+
+	input.close();
+
+	struct tms start;
+	struct tms end;
+	struct tms loopStart;
+	struct tms loopEnd;
+
+	long clocksPerSec = sysconf(_SC_CLK_TCK);
+
+	times(&start);
+
+	BlasMatrix result(size, size);
+
+	BlasMatrix r = E( A.height() );
+	BlasMatrix matR = R(A);
+	BlasMatrix matB = B(A);
+//start
+
+	times(&loopStart);
+
+	for (int i = 0; i < 10; i++)
+	{
+		result += r;
+
+		r *= matR;
+	}
+
+	times(&loopEnd);
+
+	result *= matB;
+//finish
+
+	times(&end);
+
+	double loop = (double)(loopEnd.tms_utime - loopStart.tms_utime) / clocksPerSec;
+	double whole = (double)(end.tms_utime - start.tms_utime) / clocksPerSec;
+
+	cout << loop/N << '	' << whole - loop << '	' << whole << endl;
+
+	return 0;
+}
+
+size.h:
+#define size 1024 
+#define N 10

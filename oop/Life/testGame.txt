@@ -1,0 +1,4 @@
+#Life 1.06
+#N testGame
+#R B12345678/S
+1 1

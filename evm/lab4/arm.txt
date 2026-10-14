@@ -1,0 +1,6 @@
+host: ssd1.sscc.ru
+port: 9322
+login: nsulal
+pass: #NSU$lab*12
+
+ssh nsulab@ssd1.sscc.ru -p 9322
