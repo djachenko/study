@@ -1,0 +1,303 @@
+start
+-2^-2
+(-2)^(-2)
+-2^0.3
+0.3^2
+0.3^-2
+0/0
+1/0
+1/0 - 1/0
+a=2+sin(3)
+sin(pi/2)
+cos(pi/3)
+b=sin(pi/4)/cos(pi/4)
+b=sin(pi/3)/cos(pi/3)
+b*b
+a=a+b
+(((a))+(b+(((0)))))
+a+b
+sin(pi/3)^cos(pi/3)
+start
+
+a=a+2
+2^-2
+c=sin(pi/3)+cos(pi/3)
+c*c
+exit
+stop
+start
+a=b+c
+c+3
+sin(x)
+stop
+start
+b+c
+c=b+d
+e=3
+e=3
+
+e=3
+r=3
+stop
+start
+a=b*2
+d=4
+r=6
+g=gf+8
+stop
+start
+2+2
+stop
+start
+2
+stop
+start
+stop
+start
+2
+stop
+start
+a=2
+stop
+start
+2
+stop
+start
+start
+stop
+start
+2
+stop
+start
+2+2
+stop
+start
+2+2
+2+2
+stop
+start
+2+2
+2
+stop
+start
+start
+stop
+start
+2
+start
+2
+start
+2
+start
+start
+2
+start
+2
+start
+2
+start
+2
+start
+2
+start
+2
+start
+2
+start
+2
+stop
+start
+2
+stop
+start
+2
+stop
+start
+2
+stop
+start
+2
+stop
+start
+2+2
+stop
+start
+2+2+
+start
+2+2+
+start
+2+2+
+start
+2+2+
+start
+2
+2+2
+2^5
+sin(pi)
+2+2+
+sin(pi))
+sin(sin(x))
+cos(cos(x))
+cos(x)
+cos(1)
+cos(pi)
+cos(pi/pi)
+cos(2
+cos(2)
+start
+cos(2/pi)
+start
+cos(1)
+start
+cos(1)
+stop
+start
+cos(1)
+start
+cos(1)
+stop
+start
+cos(1)
+stop
+start
+2+2+
+stop
+start
+2+2+
+start
+2+2
+stop
+start
+2+2+
+stop
+start
+2+2+
+stop
+start
+> 2+2
+< 4.000000
+> stop
+start
+> 2+2
+< 4.000000
+> stop
+start
+> 2+2
+< 4.000000
+> stop
+start
+> t=2
+< 2.000000
+> stop
+start
+> t=2
+< 2.000000
+> t^13
+< 8192.000000
+> t^13/26
+< 315.076923
+> t
+< 2.000000
+> t=t^13-1
+< 8191.000000
+> t/26
+< 315.038462
+> t-315*26
+< 1.000000
+> stop
+start
+> 12-11*4-2*4^2+4^3
+< 0.000000
+> 12-11*-3-2*(-3)^2+(-3)^2
+< 36.000000
+> 12+33-18-27
+< 0.000000
+> 12-11*-3
+< 45.000000
+> 2*(-3)^2
+< 36.000000
+> 2*-3^2
+< 18.000000
+> 12-11*-3-2*-3^2+-3^3
+< 0.000000
+> stop
+start
+> 1280/1024
+< 1.250000
+> 800/600
+< 1.333333
+> 900/1.25
+< 720.000000
+> 600*(900/800)
+< 675.000000
+> stop
+start
+> log(-1)
+< nan
+> dtop
+< 0.000000
+> stop
+start
+> stop
+start
+> a=5
+< 5.000000
+> d=3
+< 3.000000
+> sin=4
+> six=4
+< 4.000000
+> d/six
+< 0.750000
+> 2^2-2
+< 2.000000
+> 5^3^2
+< 15625.000000
+> 5^(3^2)
+< 1953125.000000
+> 10^10^10
+< 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104.000000
+> -10^-10
+< 0.000000
+> -2^-2
+< 0.250000
+> cos(a)*cos(a)+sin(a)*sin(a)
+< 1.000000
+> stop
+start
+> a=2+dsfkjl
+< 2.000000
+> b=5
+< 5.000000
+> ab=20
+< 20.000000
+> ab
+< 20.000000
+> dfsg45yr54rt45y**
+> stop
+start
+> sqr(3)
+< 9.000000
+> stop
+start
+> V1=40
+< 40.000000
+> V1
+< 40.000000
+> P1=15*10^6
+< 15000000.000000
+> T1=27+273
+< 300.000000
+> h=20
+< 20.000000
+> t2=7+273
+< 280.000000
+> T2=t2
+< 280.000000
+> P0=0.1*10^6
+< 100000.000000
+> p=1000
+< 1000.000000
+> V2=((P1*T2)/((p*9.8*h+P0)*T1)-1)*V1
+< 1851.891892
+> stop

@@ -1,0 +1,48 @@
+NDB006
+The number of symbol table entries is: 1
+The length of the symbol table is: 13
+
+Index Hierarchy Path
+----- --------------
+!	&null_hpath&
+
+The number of name info structs is : 36
+
+InsOrder BitField SymTableIndex NextSyn SynParent Loc ChainType NextChain ChainParent FanOut DirExp ParExp ShareExp NodeName
+-------- -------- ------------- ------- --------- --- --------- --------- ----------- ------ ------ ------ -------- --------
+"	IeEA	!	16	18	:44	""
+#	IeEA	!	7	10	:45	"#
+$	IeEA	!	7	10	:46	"$
+%	IeEA	!	7	10	:47	"%
+&	IeEA	!	7	10	:48	"&
+'	IeEA	!	7	10	:49	"'
+(	IeEA	!	18	28	:50	"(
+)	IeEA	!	7	10	:51	")
+*	IeEA	!	7	10	:52	"*
++	IeEA	!	19	22	:53	"+
+,	IeEA	!	7	10	:54	",
+-	IeEA	!	7	10	:55	"-
+.	IeEA	!	8	17	:56	".
+/	IeEA	!	8	17	:57	"/
+0	IeEA	!	8	23	:58	"0
+1	IeEA	!	8	23	:59	"1
+2	IeEA	!	8	3	:60	"2
+3	IeEA	!	8	3	:61	"3
+4	IeEA	!	8	7	:62	"4
+5	IeEA	!	8	7	:63	"5
+6	IeEA	!	8	31	:64	"6
+7	IeEA	!	8	31	:65	"7
+8	(@\6H	!	3	2	3	:	;	<	clk	o
+9	IeE1	!	7	10	fsm	"!
+:	L7lo	!	7	10	5	:	;	<	A	D	fsm~1	"^
+;	L7lo	!	7	10	6	:	;	<	=	A	D	fsm~2	"`
+<	L7lo	!	7	10	5	:	;	<	=	D	fsm~3	"b
+=	IeE[	!	14	21	G	r
+>	IeEA	!	8	17	green	y
+?	IeEA	!	8	23	greenbl	{
+@	IeEZ	!	3	7	greenclk	p
+A	IeE[	!	14	13	R	q
+B	IeEA	!	8	3	red	u
+C	IeEA	!	8	7	redyellow	w
+D	IeE[	!	14	17	Y	s
+E	IeEA	!	8	31	yellow	}

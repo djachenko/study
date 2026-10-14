@@ -1,0 +1,22 @@
+constant n=3;
+constant limit=5;
+
+subdesign counter
+(
+	in: input;
+	out[n..1]: output;
+)
+
+variable d[n..1]:dff;
+
+begin
+
+d[].clk=in;
+
+d[].d=d[].q+1;
+d[].clrn=d[].q <= limit;
+d[].prn=vcc;
+
+out[]=d[].q;
+
+end;

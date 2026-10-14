@@ -1,0 +1,13 @@
+subdesign trigger
+(
+	set, reset: input;
+	q,qn: output;
+)
+
+begin
+
+	q=set nand qn;
+	qn=reset nand q;
+
+end;
+

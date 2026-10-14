@@ -1,0 +1,11 @@
+subdesign dtrigger
+(
+	di,clki,clrni,prni: input;
+	qi: output;
+)
+
+begin
+
+	qi=dff(di,clki,clrni,prni);
+
+end;
