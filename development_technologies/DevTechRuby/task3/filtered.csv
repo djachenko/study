@@ -1,0 +1,4 @@
+C:\Users\justin\projects\DevTechnologies\log.evtx,1,2016-02-06 00:38:35,2016-02-06 00:38:35,6009,4,Information event,0,None,EventLog,,MINWINPC,,Microsoft (R) Windows (R) 10.00. 10586 Multiprocessor Free. ,
+C:\Users\justin\projects\DevTechnologies\log.evtx,2,2016-02-06 00:38:35,2016-02-06 00:38:35,6005,4,Information event,0,None,EventLog,,MINWINPC,,The Event log service was started. ,
+C:\Users\justin\projects\DevTechnologies\log.evtx,30,2016-02-06 00:38:35,2016-02-06 00:38:35,7023,1,Error event,0,None,Service Control Manager,,MINWINPC,,The netprofm service terminated with the following error: %%21 ,
+C:\Users\justin\projects\DevTechnologies\log.evtx,31,2016-02-06 00:38:35,2016-02-06 00:38:35,7026,4,Information event,0,None,Service Control Manager,,MINWINPC,,The following boot-start or system-start driver(s) did not load: cdrom CSC dam ,
