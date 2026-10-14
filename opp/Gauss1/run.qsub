@@ -1,0 +1,45 @@
+#!/bin/bash
+
+#PBS -V
+
+#PBS -q fitq
+
+#PBS -l select=6:ncpus=8
+
+#PBS -l walltime=00:30:00
+
+########### Task name #########
+
+#PBS -N output
+
+########### Put output to $HOME #########
+
+##PBS -k oe
+
+#########################################
+
+#PBS -j oe
+
+ 
+
+date
+
+cd $PBS_O_WORKDIR
+
+pwd
+
+mpicxx -o gauss1.out gauss1.cpp;
+
+for ((a = 1; a <= 48; a++))
+do
+	echo $a;
+	mpirun -np $a ./gauss1.out;
+	echo;
+done;
+
+rm gauss1.out;
+make;
+
+mpirun -np 8 ./gauss1.out;
+
+date
