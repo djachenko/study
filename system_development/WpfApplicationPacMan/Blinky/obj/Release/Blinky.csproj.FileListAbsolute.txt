@@ -1,0 +1,7 @@
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\bin\Release\Blinky.dll
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\bin\Release\Blinky.pdb
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\bin\Release\WpfApplicationPacMan.exe
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\bin\Release\WpfApplicationPacMan.pdb
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\obj\Release\Blinky.csprojResolveAssemblyReference.cache
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\obj\Release\Blinky.dll
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\obj\Release\Blinky.pdb

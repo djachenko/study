@@ -1,0 +1,18 @@
+c:\users\nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Blinky.dll
+c:\users\nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Blinky.pdb
+c:\users\nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\obj\Debug\Blinky.csprojResolveAssemblyReference.cache
+c:\users\nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\obj\Debug\Blinky.dll
+c:\users\nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Blinky\obj\Debug\Blinky.pdb
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map3.txt
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map2.txt
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map1.txt
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Champions\Champions.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Champions\Champions.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map3.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map2.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Resources\Maps\Map1.txt
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Blinky.dll
+C:\Users\justin\Desktop\WpfApplicationPacMan\WpfApplicationPacMan\bin\Debug\Blinky.pdb
+C:\Users\justin\Desktop\WpfApplicationPacMan\Blinky\obj\Debug\Blinky.csprojResolveAssemblyReference.cache
+C:\Users\justin\Desktop\WpfApplicationPacMan\Blinky\obj\Debug\Blinky.dll
+C:\Users\justin\Desktop\WpfApplicationPacMan\Blinky\obj\Debug\Blinky.pdb

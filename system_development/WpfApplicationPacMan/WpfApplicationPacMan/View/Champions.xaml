@@ -1,0 +1,17 @@
+﻿<Window x:Class="WpfApplicationPacMan.View.Champions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Champions" SizeToContent="WidthAndHeight">
+    <Grid>
+        <ListView Name="ChampionsListView" Height="300" Width="200" HorizontalAlignment="Center"
+                  ItemsSource="{Binding ChampionsList}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding Key, Mode=OneWay}"></GridViewColumn>
+                    <GridViewColumn Width="100" Header="Score" DisplayMemberBinding="{Binding Value, Mode=OneWay}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>

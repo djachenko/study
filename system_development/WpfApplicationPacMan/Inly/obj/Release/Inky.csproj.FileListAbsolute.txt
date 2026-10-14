@@ -1,0 +1,6 @@
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\bin\Release\Inly.dll
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\bin\Release\Inly.pdb
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\bin\Release\WpfApplicationPacMan.exe
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\bin\Release\WpfApplicationPacMan.pdb
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\obj\Release\Inly.dll
+C:\Users\Nero\documents\visual studio 2013\Projects\WpfApplicationPacMan\Inly\obj\Release\Inly.pdb

@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="GUI.Views.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:gui="clr-namespace:GUI"
+             xmlns:views="clr-namespace:GUI.Views"
+             xmlns:viewModels="clr-namespace:GUI.ViewModels"
+             xmlns:converters="clr-namespace:GUI.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300"
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance viewModels:GameViewModel}"
+             Loaded="OnLoaded">
+    <UserControl.Resources>
+        <converters:ConcatConverter x:Key="ConcatConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <views:FieldView Grid.Column="0" 
+                         DataContext="{Binding Field}"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource BorderStyle}"
+                    Grid.Row="1">
+                <Viewbox>
+                <TextBlock TextAlignment="Center"
+                           VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource ConcatConverter}">
+                                <Binding Source="Lives: "/>
+                                <Binding Path="Lives"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Viewbox>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}"
+                    Grid.Row="2">
+                <Viewbox>
+                    <TextBlock TextAlignment="Center"
+                               VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource ConcatConverter}">
+                                <Binding Source="Total: "/>
+                                <Binding Path="Total"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Viewbox>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}"
+                    Grid.Row="3">
+                <Viewbox>
+                    <TextBlock TextAlignment="Center"
+                               VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource ConcatConverter}">
+                                <Binding Source="Points: "/>
+                                <Binding Path="Points"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Viewbox>
+            </Border>
+            <Border Style="{StaticResource BorderStyle}"
+                    Grid.Row="4">
+                <Viewbox>
+                    <TextBlock TextAlignment="Center"
+                               VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource ConcatConverter}">
+                                <Binding Source="Level: "/>
+                                <Binding Path="Level"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Viewbox>
+            </Border>
+            <Button Style="{StaticResource ButtonStyle}"
+                    Click="StartStop"
+                    Grid.Row="5">
+                <Button.Content>
+                    <Viewbox>
+                        <TextBlock Text="{Binding Text, Mode=OneWay}" />
+                    </Viewbox>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}"
+                    Click="RestartCampaign"
+                    Grid.Row="6">
+                <Button.Content>
+                    <Viewbox>
+                        <TextBlock Text="Restart game" />
+                    </Viewbox>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}"
+                    Click="RestartLevel"
+                    Grid.Row="7">
+                <Button.Content>
+                    <Viewbox>
+                        <TextBlock Text="Restart level" />
+                    </Viewbox>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}"
+                    Click="OnRecordTableButtonOnClick"
+                    Grid.Row="8">
+                <Button.Content>
+                    <Viewbox>
+                        <TextBlock Text="Record table"
+                                   TextWrapping="Wrap"/>
+                    </Viewbox>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}"
+                    Click="OnSettingsButtonClick"
+                    Grid.Row="9">
+                <Button.Content>
+                    <Viewbox>
+                        <TextBlock Text="Settings" />
+                    </Viewbox>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource ButtonStyle}"
+                    Click="OnAboutButtonClick"
+                    Grid.Row="9">
+                <Button.Content>
+                    <Viewbox>
+                        <TextBlock Text="About" />
+                    </Viewbox>
+                </Button.Content>
+            </Button>
+            <ItemsControl Grid.Row="10"
+                          ItemsSource="{Binding MoveButtons}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid gui:GridHelpers.ColumnCount="{Binding MoveButtons.Count}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:MoveButtonViewModel}">
+                        <views:MoveButton Margin="2">
+                            <Button.Content>
+                                <Viewbox>
+                                    <TextBlock Text="{Binding Name}"
+                                               TextWrapping="Wrap"/>
+                                </Viewbox>
+                            </Button.Content>
+                        </views:MoveButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Grid.Column" Value="{Binding Index}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        </Grid>
+    </Grid>
+</UserControl>
